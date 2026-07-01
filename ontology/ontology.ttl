@@ -1,0 +1,720 @@
+@prefix ppdoc: <https://example.org/rc-progress-payment#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ppdoc:Ontology
+    a rdfs:Resource ;
+    dcterms:title "철근콘크리트 공종 기성서류 RDF/RDFS 온톨로지"@ko ;
+    dcterms:description "철근콘크리트 공종 기성서류의 문서 계층, 제출 흐름, 산정 근거, 증빙, 검측 관계를 표현하기 위한 RDFS 스키마 초안."@ko .
+
+#################################################################
+# Classes
+#################################################################
+
+ppdoc:ProgressPaymentEntity
+    a rdfs:Class ;
+    rdfs:label "기성서류 온톨로지 개체"@ko ;
+    rdfs:comment "본 온톨로지에서 다루는 모든 행위자, 문서, 절차, 내역, 산출 항목의 최상위 클래스."@ko .
+
+ppdoc:Actor
+    a rdfs:Class ;
+    rdfs:label "행위자"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "기성서류를 작성, 제출, 송부, 검토, 검사, 승인하는 주체."@ko .
+
+ppdoc:Contractor
+    a rdfs:Class ;
+    rdfs:label "시공사"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:SiteOffice
+    a rdfs:Class ;
+    rdfs:label "현장"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:SupervisionHeadOffice
+    a rdfs:Class ;
+    rdfs:label "감리본사"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:HeadOffice
+    a rdfs:Class ;
+    rdfs:label "본사"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:Owner
+    a rdfs:Class ;
+    rdfs:label "발주처"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:Inspector
+    a rdfs:Class ;
+    rdfs:label "검사자"@ko ;
+    rdfs:subClassOf ppdoc:Actor .
+
+ppdoc:DocumentResource
+    a rdfs:Class ;
+    rdfs:label "문서 자원"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서군과 개별 문서를 포괄하는 상위 클래스."@ko .
+
+ppdoc:DocumentGroup
+    a rdfs:Class ;
+    rdfs:label "문서군"@ko ;
+    rdfs:subClassOf ppdoc:DocumentResource ;
+    rdfs:comment "여러 문서 또는 하위 문서군을 묶는 단위."@ko .
+
+ppdoc:Document
+    a rdfs:Class ;
+    rdfs:label "문서"@ko ;
+    rdfs:subClassOf ppdoc:DocumentResource ;
+    rdfs:comment "실제로 제출, 첨부, 검토되는 개별 문서."@ko .
+
+ppdoc:Procedure
+    a rdfs:Class ;
+    rdfs:label "절차"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "기성서류 처리 과정의 업무 단계."@ko .
+
+ppdoc:ContractorProgressPaymentPackage
+    a rdfs:Class ;
+    rdfs:label "시공사 기성서류"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:AttachmentBundle
+    a rdfs:Class ;
+    rdfs:label "첨부서류"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:StatementDocument
+    a rdfs:Class ;
+    rdfs:label "내역서"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:ProgressPaymentStatement
+    a rdfs:Class ;
+    rdfs:label "공사기성부분 내역서"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:MaterialReceiptAndInspectionLedger
+    a rdfs:Class ;
+    rdfs:label "주요자재 검수 및 수불부"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:InspectionAndPhotoDocumentGroup
+    a rdfs:Class ;
+    rdfs:label "검측서류 및 사진대지"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:SiteToSupervisionSubmissionPackage
+    a rdfs:Class ;
+    rdfs:label "현장-감리본사 공문발송 문서군"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:HeadOfficeToOwnerSubmissionPackage
+    a rdfs:Class ;
+    rdfs:label "본사-발주처 공문발송 문서군"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:InspectionResultReportPackage
+    a rdfs:Class ;
+    rdfs:label "기성검사 결과 보고"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup .
+
+ppdoc:OfficialLetter
+    a rdfs:Class ;
+    rdfs:label "공문"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:ProgressPaymentInspectionRequest
+    a rdfs:Class ;
+    rdfs:label "기성부분 검사원"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:ProgressPaymentClaimSummary
+    a rdfs:Class ;
+    rdfs:label "청구기성 요약"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:AdvancePaymentDeductionStatement
+    a rdfs:Class ;
+    rdfs:label "선금공제 내역"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:CostCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "원가계산서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:WorkTypeSummarySheet
+    a rdfs:Class ;
+    rdfs:label "공종별집계표"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:WorkTypeDetailSheet
+    a rdfs:Class ;
+    rdfs:label "공종별내역서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:QuantityCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "수량산출서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:MaterialEvidenceDocument
+    a rdfs:Class ;
+    rdfs:label "자재 증빙 문서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:InspectionDocument
+    a rdfs:Class ;
+    rdfs:label "검측 문서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:PhotoSheet
+    a rdfs:Class ;
+    rdfs:label "사진대지"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:SupervisionProgressPaymentReport
+    a rdfs:Class ;
+    rdfs:label "기성부분 감리조서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:InspectionExecutionPlan
+    a rdfs:Class ;
+    rdfs:label "공사 기성검사 수행계획서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:DetailedExecutionPlan
+    a rdfs:Class ;
+    rdfs:label "세부 수행계획서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:PriorReviewOpinion
+    a rdfs:Class ;
+    rdfs:label "사전검토 의견서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:InspectorAppointmentNotice
+    a rdfs:Class ;
+    rdfs:label "검사자 임명 및 검사일자 통보"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:ProgressPaymentInspectionRecord
+    a rdfs:Class ;
+    rdfs:label "기성검사 조서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:ProgressPaymentReviewOpinion
+    a rdfs:Class ;
+    rdfs:label "기성검토의견서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:ConstructionManagerAttendanceConfirmation
+    a rdfs:Class ;
+    rdfs:label "공사관리관 입회확인서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:SafetyCostEvidenceDocument
+    a rdfs:Class ;
+    rdfs:label "안전관리비 사용내역 및 증빙"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:InsurancePaymentCertificate
+    a rdfs:Class ;
+    rdfs:label "보험료 납입 증명서"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:OwnerRequestedDocument
+    a rdfs:Class ;
+    rdfs:label "기타 발주처 요청 서류"@ko ;
+    rdfs:subClassOf ppdoc:Document .
+
+ppdoc:WorkDetailGroup
+    a rdfs:Class ;
+    rdfs:label "내역 그룹"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:RebarWorkDetailGroup
+    a rdfs:Class ;
+    rdfs:label "철근공사 내역"@ko ;
+    rdfs:subClassOf ppdoc:WorkDetailGroup .
+
+ppdoc:ConcreteWorkDetailGroup
+    a rdfs:Class ;
+    rdfs:label "콘크리트공사 내역"@ko ;
+    rdfs:subClassOf ppdoc:WorkDetailGroup .
+
+ppdoc:FormworkDetailGroup
+    a rdfs:Class ;
+    rdfs:label "거푸집공사 내역"@ko ;
+    rdfs:subClassOf ppdoc:WorkDetailGroup .
+
+ppdoc:WorkType
+    a rdfs:Class ;
+    rdfs:label "공종"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:RebarWork
+    a rdfs:Class ;
+    rdfs:label "철근공사"@ko ;
+    rdfs:subClassOf ppdoc:WorkType .
+
+ppdoc:ConcreteWork
+    a rdfs:Class ;
+    rdfs:label "콘크리트공사"@ko ;
+    rdfs:subClassOf ppdoc:WorkType .
+
+ppdoc:Formwork
+    a rdfs:Class ;
+    rdfs:label "거푸집공사"@ko ;
+    rdfs:subClassOf ppdoc:WorkType .
+
+ppdoc:SummaryAmount
+    a rdfs:Class ;
+    rdfs:label "집계금액"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:QuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:RebarQuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "철근 수량산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationItem .
+
+ppdoc:ConcreteQuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "콘크리트 수량산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationItem .
+
+ppdoc:FormworkQuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "거푸집 수량산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationItem .
+
+ppdoc:InformationField
+    a rdfs:Class ;
+    rdfs:label "정보 필드"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:InspectionItem
+    a rdfs:Class ;
+    rdfs:label "검측 항목"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+
+ppdoc:ProgressPaymentInspection
+    a rdfs:Class ;
+    rdfs:label "기성검사"@ko ;
+    rdfs:subClassOf ppdoc:Procedure .
+
+ppdoc:DocumentInspection
+    a rdfs:Class ;
+    rdfs:label "서류검사"@ko ;
+    rdfs:subClassOf ppdoc:Procedure .
+
+ppdoc:SiteInspection
+    a rdfs:Class ;
+    rdfs:label "현장검사"@ko ;
+    rdfs:subClassOf ppdoc:Procedure .
+
+ppdoc:OwnerApproval
+    a rdfs:Class ;
+    rdfs:label "발주처 승인"@ko ;
+    rdfs:subClassOf ppdoc:Procedure .
+
+ppdoc:BoundStatementSubmission
+    a rdfs:Class ;
+    rdfs:label "제본 제출"@ko ;
+    rdfs:subClassOf ppdoc:Procedure .
+
+#################################################################
+# Object properties
+#################################################################
+
+ppdoc:creates
+    a rdf:Property ;
+    rdfs:label "작성한다"@ko ;
+    rdfs:domain ppdoc:Actor ;
+    rdfs:range ppdoc:DocumentResource .
+
+ppdoc:createdBy
+    a rdf:Property ;
+    rdfs:label "작성자이다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:hasPart
+    a rdf:Property ;
+    rdfs:label "포함한다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:isPartOf
+    a rdf:Property ;
+    rdfs:label "포함된다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:attaches
+    a rdf:Property ;
+    rdfs:label "첨부한다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:DocumentResource .
+
+ppdoc:conditionallyIncludes
+    a rdf:Property ;
+    rdfs:label "조건부 포함"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:DocumentResource .
+
+ppdoc:submittedTo
+    a rdf:Property ;
+    rdfs:label "제출한다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:submittedBy
+    a rdf:Property ;
+    rdfs:label "제출자이다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:forwardedTo
+    a rdf:Property ;
+    rdfs:label "송부한다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:forwardedBy
+    a rdf:Property ;
+    rdfs:label "송부자이다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:reviewedBy
+    a rdf:Property ;
+    rdfs:label "검토한다"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:inspectedBy
+    a rdf:Property ;
+    rdfs:label "검사한다"@ko ;
+    rdfs:domain ppdoc:Procedure ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:approvedBy
+    a rdf:Property ;
+    rdfs:label "승인한다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:Actor .
+
+ppdoc:precedes
+    a rdf:Property ;
+    rdfs:label "후속 단계로 이어진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:follows
+    a rdf:Property ;
+    rdfs:label "이전 단계이다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:aggregatesTo
+    a rdf:Property ;
+    rdfs:label "집계된다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:aggregates
+    a rdf:Property ;
+    rdfs:label "집계한다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:isQuantityBasisFor
+    a rdf:Property ;
+    rdfs:label "산출 근거가 된다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:WorkDetailGroup .
+
+ppdoc:hasQuantityBasis
+    a rdf:Property ;
+    rdfs:label "산출 근거를 가진다"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:evidences
+    a rdf:Property ;
+    rdfs:label "증빙한다"@ko ;
+    rdfs:domain ppdoc:MaterialEvidenceDocument ;
+    rdfs:range ppdoc:WorkDetailGroup .
+
+ppdoc:hasEvidence
+    a rdf:Property ;
+    rdfs:label "증빙자료를 가진다"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range ppdoc:MaterialEvidenceDocument .
+
+ppdoc:isInspectionBasisFor
+    a rdf:Property ;
+    rdfs:label "검측 근거가 된다"@ko ;
+    rdfs:domain ppdoc:InspectionDocument ;
+    rdfs:range ppdoc:WorkDetailGroup .
+
+ppdoc:hasInspectionBasis
+    a rdf:Property ;
+    rdfs:label "검측 근거를 가진다"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range ppdoc:InspectionDocument .
+
+ppdoc:isPhotoEvidenceFor
+    a rdf:Property ;
+    rdfs:label "사진 근거가 된다"@ko ;
+    rdfs:domain ppdoc:PhotoSheet ;
+    rdfs:range ppdoc:ProgressPaymentEntity .
+
+ppdoc:hasPhotoEvidence
+    a rdf:Property ;
+    rdfs:label "사진 근거를 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:PhotoSheet .
+
+ppdoc:hasInformationField
+    a rdf:Property ;
+    rdfs:label "정보 필드를 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:InformationField .
+
+ppdoc:hasInspectionItem
+    a rdf:Property ;
+    rdfs:label "검측 항목을 가진다"@ko ;
+    rdfs:domain ppdoc:InspectionDocument ;
+    rdfs:range ppdoc:InspectionItem .
+
+ppdoc:hasWorkType
+    a rdf:Property ;
+    rdfs:label "공종을 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:WorkType .
+
+ppdoc:hasRelatedDocument
+    a rdf:Property ;
+    rdfs:label "관련 문서를 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:DocumentResource .
+
+ppdoc:hasSourceDocument
+    a rdf:Property ;
+    rdfs:label "출처 문서를 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:DocumentResource .
+
+#################################################################
+# Datatype properties
+#################################################################
+
+ppdoc:hasDocumentTitle
+    a rdf:Property ;
+    rdfs:label "문서명"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range xsd:string .
+
+ppdoc:hasDocumentIdentifier
+    a rdf:Property ;
+    rdfs:label "문서 식별자"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCreationDate
+    a rdf:Property ;
+    rdfs:label "작성일"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range xsd:date .
+
+ppdoc:hasSubmissionDate
+    a rdf:Property ;
+    rdfs:label "제출일"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range xsd:date .
+
+ppdoc:hasSourceFileName
+    a rdf:Property ;
+    rdfs:label "원본 파일명"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSourcePage
+    a rdf:Property ;
+    rdfs:label "원본 페이지"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSourceSheetName
+    a rdf:Property ;
+    rdfs:label "원본 시트명"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSourceCellAddress
+    a rdf:Property ;
+    rdfs:label "원본 셀 주소"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasItemName
+    a rdf:Property ;
+    rdfs:label "품명"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSpecification
+    a rdf:Property ;
+    rdfs:label "규격"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:string .
+
+ppdoc:hasQuantityUnit
+    a rdf:Property ;
+    rdfs:label "단위"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:string .
+
+ppdoc:hasContractQuantity
+    a rdf:Property ;
+    rdfs:label "계약수량"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasPreviousQuantity
+    a rdf:Property ;
+    rdfs:label "전회수량"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCurrentQuantity
+    a rdf:Property ;
+    rdfs:label "금회수량"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCumulativeQuantity
+    a rdf:Property ;
+    rdfs:label "누계수량"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasUnitPrice
+    a rdf:Property ;
+    rdfs:label "단가"@ko ;
+    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasAmount
+    a rdf:Property ;
+    rdfs:label "금액"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCurrency
+    a rdf:Property ;
+    rdfs:label "통화"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasLocation
+    a rdf:Property ;
+    rdfs:label "위치"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasMemberName
+    a rdf:Property ;
+    rdfs:label "부재명"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasRebarSpecification
+    a rdf:Property ;
+    rdfs:label "철근 규격"@ko ;
+    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasRebarDiameter
+    a rdf:Property ;
+    rdfs:label "철근 직경"@ko ;
+    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasLength
+    a rdf:Property ;
+    rdfs:label "길이"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasWidth
+    a rdf:Property ;
+    rdfs:label "폭"@ko ;
+    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasHeight
+    a rdf:Property ;
+    rdfs:label "높이"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCount
+    a rdf:Property ;
+    rdfs:label "개수"@ko ;
+    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:range xsd:integer .
+
+ppdoc:hasUnitWeight
+    a rdf:Property ;
+    rdfs:label "단위중량"@ko ;
+    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCalculatedWeight
+    a rdf:Property ;
+    rdfs:label "산출중량"@ko ;
+    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasConcreteStrength
+    a rdf:Property ;
+    rdfs:label "콘크리트 강도"@ko ;
+    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCalculatedVolume
+    a rdf:Property ;
+    rdfs:label "산출체적"@ko ;
+    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasFormworkType
+    a rdf:Property ;
+    rdfs:label "거푸집 종류"@ko ;
+    rdfs:domain ppdoc:FormworkQuantityCalculationItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCalculatedArea
+    a rdf:Property ;
+    rdfs:label "산출면적"@ko ;
+    rdfs:domain ppdoc:FormworkQuantityCalculationItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasUnitSymbol
+    a rdf:Property ;
+    rdfs:label "단위 기호"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .

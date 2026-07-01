@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>기성서류 RDF/RDFS D3 그래프</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d5dbe5;
+      --accent: #0f766e;
+      --actor: #dbeafe;
+      --actor-border: #2563eb;
+      --group: #dcfce7;
+      --group-border: #16a34a;
+      --document: #fef3c7;
+      --document-border: #d97706;
+      --detail: #ede9fe;
+      --detail-border: #7c3aed;
+      --quantity: #e0f2fe;
+      --quantity-border: #0284c7;
+      --evidence: #ffe4e6;
+      --evidence-border: #e11d48;
+      --inspection: #f3e8ff;
+      --inspection-border: #9333ea;
+      --procedure: #e5e7eb;
+      --procedure-border: #4b5563;
+      --amount: #ccfbf1;
+      --amount-border: #0f766e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 22px 12px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 12px 22px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    button,
+    input {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    button {
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    button.active {
+      border-color: var(--accent);
+      background: #ccfbf1;
+      color: #0b4f49;
+      font-weight: 700;
+    }
+
+    input {
+      width: min(340px, 100%);
+      padding: 0 10px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      height: calc(100vh - 112px);
+      min-height: 620px;
+    }
+
+    .graph-panel {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #fbfcfe;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    svg:active {
+      cursor: grabbing;
+    }
+
+    .side {
+      border-left: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .side h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    .side dl {
+      margin: 0;
+    }
+
+    .side dt {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .side dd {
+      margin: 4px 0 0;
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 10px;
+      margin-top: 18px;
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 2px solid currentColor;
+      flex: 0 0 auto;
+    }
+
+    .node circle {
+      stroke-width: 2.2;
+      filter: drop-shadow(0 2px 3px rgba(15, 23, 42, 0.13));
+    }
+
+    .node text {
+      pointer-events: none;
+      fill: #172033;
+      font-size: 12px;
+      font-weight: 700;
+      paint-order: stroke;
+      stroke: #fff;
+      stroke-width: 4px;
+      stroke-linejoin: round;
+      text-anchor: middle;
+    }
+
+    .link {
+      fill: none;
+      stroke-width: 1.8;
+      opacity: 0.78;
+    }
+
+    .link-label {
+      fill: #475569;
+      font-size: 10.5px;
+      paint-order: stroke;
+      stroke: #fff;
+      stroke-width: 4px;
+      stroke-linejoin: round;
+      text-anchor: middle;
+    }
+
+    .dim {
+      opacity: 0.12;
+    }
+
+    .focus circle {
+      stroke-width: 4px;
+    }
+
+    .empty-state {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #f59e0b;
+      border-radius: 7px;
+      background: #fffbeb;
+      color: #78350f;
+      font-size: 13px;
+      display: none;
+      z-index: 2;
+    }
+
+    @media (max-width: 960px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .meta {
+        text-align: left;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .graph-panel {
+        height: 72vh;
+        min-height: 560px;
+      }
+
+      .side {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>철근콘크리트 공종 기성서류 RDF/RDFS 그래프</h1>
+    <div class="meta">D3.js force graph</div>
+  </header>
+
+  <div class="toolbar">
+    <button type="button" data-filter="all" class="active">전체</button>
+    <button type="button" data-filter="workflow">문서 흐름</button>
+    <button type="button" data-filter="statement">내역/집계</button>
+    <button type="button" data-filter="basis">산출 근거</button>
+    <button type="button" data-filter="evidence">증빙</button>
+    <button type="button" data-filter="inspection">검측/사진</button>
+    <button type="button" id="reset">초기화</button>
+    <input id="search" type="search" placeholder="검색: 철근, 발주처, 수량산출">
+  </div>
+
+  <main class="layout">
+    <section class="graph-panel">
+      <div class="empty-state" id="load-error">D3.js를 불러오지 못했습니다. 인터넷 연결 또는 CDN 접근을 확인하세요.</div>
+      <svg id="graph" role="img" aria-label="기성서류 RDF/RDFS 그래프"></svg>
+    </section>
+    <aside class="side" id="details">
+      <h2>선택 노드</h2>
+      <dl>
+        <dt>라벨</dt>
+        <dd>노드를 선택하면 RDF/RDFS 정보가 표시됩니다.</dd>
+      </dl>
+      <div class="legend" id="legend"></div>
+    </aside>
+  </main>
+
+  <script>
+    const typeMeta = {
+      actor: { label: "행위자", fill: "#dbeafe", stroke: "#2563eb", radius: 29 },
+      group: { label: "문서군", fill: "#dcfce7", stroke: "#16a34a", radius: 31 },
+      document: { label: "문서", fill: "#fef3c7", stroke: "#d97706", radius: 27 },
+      detail: { label: "내역", fill: "#ede9fe", stroke: "#7c3aed", radius: 30 },
+      quantity: { label: "산출", fill: "#e0f2fe", stroke: "#0284c7", radius: 28 },
+      evidence: { label: "증빙", fill: "#ffe4e6", stroke: "#e11d48", radius: 28 },
+      inspection: { label: "검측", fill: "#f3e8ff", stroke: "#9333ea", radius: 28 },
+      procedure: { label: "절차", fill: "#e5e7eb", stroke: "#4b5563", radius: 28 },
+      amount: { label: "집계", fill: "#ccfbf1", stroke: "#0f766e", radius: 28 }
+    };
+
+    const relationMeta = {
+      creates: { label: "creates", color: "#2563eb", groups: ["workflow"] },
+      hasPart: { label: "hasPart", color: "#475569", groups: ["workflow", "statement", "inspection"] },
+      attaches: { label: "attaches", color: "#0f766e", groups: ["workflow"] },
+      submittedTo: { label: "submittedTo", color: "#2563eb", groups: ["workflow"] },
+      forwardedTo: { label: "forwardedTo", color: "#2563eb", groups: ["workflow"] },
+      reviewedBy: { label: "reviewedBy", color: "#64748b", groups: ["workflow"] },
+      inspectedBy: { label: "inspectedBy", color: "#64748b", groups: ["inspection"] },
+      approvedBy: { label: "approvedBy", color: "#059669", groups: ["workflow", "inspection"] },
+      precedes: { label: "precedes", color: "#334155", groups: ["workflow"] },
+      aggregatesTo: { label: "aggregatesTo", color: "#0f766e", groups: ["statement"] },
+      isQuantityBasisFor: { label: "isQuantityBasisFor", color: "#0284c7", groups: ["basis"] },
+      evidences: { label: "evidences", color: "#e11d48", groups: ["evidence"] },
+      isInspectionBasisFor: { label: "isInspectionBasisFor", color: "#9333ea", groups: ["inspection"] },
+      isPhotoEvidenceFor: { label: "isPhotoEvidenceFor", color: "#7c3aed", groups: ["inspection"] }
+    };
+
+    const nodes = [
+      { id: "contractor", label: "시공사", type: "actor", cls: "ppdoc:Contractor", fxGroup: "workflow" },
+      { id: "site", label: "현장", type: "actor", cls: "ppdoc:SiteOffice", fxGroup: "workflow" },
+      { id: "supervision", label: "감리본사", type: "actor", cls: "ppdoc:SupervisionHeadOffice", fxGroup: "workflow" },
+      { id: "headOffice", label: "본사", type: "actor", cls: "ppdoc:HeadOffice", fxGroup: "workflow" },
+      { id: "owner", label: "발주처", type: "actor", cls: "ppdoc:Owner", fxGroup: "workflow" },
+      { id: "inspector", label: "기성검사자", type: "actor", cls: "ppdoc:Inspector", fxGroup: "inspection" },
+
+      { id: "package13", label: "제13회 시공사 기성서류", type: "group", cls: "ppdoc:ContractorProgressPaymentPackage", fxGroup: "workflow" },
+      { id: "officialLetter", label: "공문", type: "document", cls: "ppdoc:OfficialLetter", fxGroup: "workflow" },
+      { id: "attachments", label: "첨부서류", type: "group", cls: "ppdoc:AttachmentBundle", fxGroup: "workflow" },
+      { id: "inspectionRequest", label: "기성부분 검사원", type: "document", cls: "ppdoc:ProgressPaymentInspectionRequest", fxGroup: "workflow" },
+
+      { id: "statement", label: "내역서", type: "group", cls: "ppdoc:StatementDocument", fxGroup: "statement" },
+      { id: "claimSummary", label: "청구기성 요약", type: "document", cls: "ppdoc:ProgressPaymentClaimSummary", fxGroup: "statement" },
+      { id: "progressStatement", label: "공사기성부분 내역서", type: "group", cls: "ppdoc:ProgressPaymentStatement", fxGroup: "statement" },
+      { id: "costSheet", label: "원가계산서", type: "document", cls: "ppdoc:CostCalculationSheet", fxGroup: "statement" },
+      { id: "summarySheet", label: "공종별집계표", type: "document", cls: "ppdoc:WorkTypeSummarySheet", fxGroup: "statement" },
+      { id: "detailSheet", label: "공종별내역서", type: "document", cls: "ppdoc:WorkTypeDetailSheet", fxGroup: "statement" },
+      { id: "quantitySheet", label: "수량산출서", type: "document", cls: "ppdoc:QuantityCalculationSheet", fxGroup: "basis" },
+
+      { id: "rebarDetail", label: "철근공사 내역", type: "detail", cls: "ppdoc:RebarWorkDetailGroup", fxGroup: "statement" },
+      { id: "concreteDetail", label: "콘크리트공사 내역", type: "detail", cls: "ppdoc:ConcreteWorkDetailGroup", fxGroup: "statement" },
+      { id: "formworkDetail", label: "거푸집공사 내역", type: "detail", cls: "ppdoc:FormworkDetailGroup", fxGroup: "statement" },
+
+      { id: "rebarSummary", label: "철근공사 집계금액", type: "amount", cls: "ppdoc:SummaryAmount", fxGroup: "statement" },
+      { id: "concreteSummary", label: "콘크리트공사 집계금액", type: "amount", cls: "ppdoc:SummaryAmount", fxGroup: "statement" },
+      { id: "formworkSummary", label: "거푸집공사 집계금액", type: "amount", cls: "ppdoc:SummaryAmount", fxGroup: "statement" },
+      { id: "rcSummary", label: "철근콘크리트공사 집계금액", type: "amount", cls: "ppdoc:SummaryAmount", fxGroup: "statement" },
+
+      { id: "rebarQuantity", label: "철근 수량산출 항목", type: "quantity", cls: "ppdoc:RebarQuantityCalculationItem", fxGroup: "basis" },
+      { id: "concreteQuantity", label: "콘크리트 수량산출 항목", type: "quantity", cls: "ppdoc:ConcreteQuantityCalculationItem", fxGroup: "basis" },
+      { id: "formworkQuantity", label: "거푸집 수량산출 항목", type: "quantity", cls: "ppdoc:FormworkQuantityCalculationItem", fxGroup: "basis" },
+
+      { id: "materialLedger", label: "주요자재 검수 및 수불부", type: "group", cls: "ppdoc:MaterialReceiptAndInspectionLedger", fxGroup: "evidence" },
+      { id: "rebarEvidence", label: "철근 시험성적서", type: "evidence", cls: "ppdoc:MaterialEvidenceDocument", fxGroup: "evidence" },
+      { id: "concreteEvidence", label: "레미콘 납품서", type: "evidence", cls: "ppdoc:MaterialEvidenceDocument", fxGroup: "evidence" },
+      { id: "formworkEvidence", label: "거푸집 검수자료", type: "evidence", cls: "ppdoc:MaterialEvidenceDocument", fxGroup: "evidence" },
+
+      { id: "inspectionGroup", label: "검측서류 및 사진대지", type: "group", cls: "ppdoc:InspectionAndPhotoDocumentGroup", fxGroup: "inspection" },
+      { id: "rebarChecklist", label: "철근 배근 검측체크리스트", type: "inspection", cls: "ppdoc:InspectionDocument", fxGroup: "inspection" },
+      { id: "concreteDaily", label: "콘크리트 타설일보", type: "inspection", cls: "ppdoc:InspectionDocument", fxGroup: "inspection" },
+      { id: "formworkChecklist", label: "거푸집 설치 검측체크리스트", type: "inspection", cls: "ppdoc:InspectionDocument", fxGroup: "inspection" },
+      { id: "rebarPhoto", label: "철근 배근 사진대지", type: "document", cls: "ppdoc:PhotoSheet", fxGroup: "inspection" },
+      { id: "concretePhoto", label: "콘크리트 타설 사진대지", type: "document", cls: "ppdoc:PhotoSheet", fxGroup: "inspection" },
+      { id: "formworkPhoto", label: "거푸집 설치 사진대지", type: "document", cls: "ppdoc:PhotoSheet", fxGroup: "inspection" },
+
+      { id: "siteSubmission", label: "현장-감리본사 공문발송 문서군", type: "group", cls: "ppdoc:SiteToSupervisionSubmissionPackage", fxGroup: "workflow" },
+      { id: "supervisionReport", label: "기성부분 감리조서", type: "document", cls: "ppdoc:SupervisionProgressPaymentReport", fxGroup: "workflow" },
+      { id: "inspectionPlan", label: "공사 기성검사 수행계획서", type: "document", cls: "ppdoc:InspectionExecutionPlan", fxGroup: "workflow" },
+      { id: "ownerSubmission", label: "본사-발주처 공문발송 문서군", type: "group", cls: "ppdoc:HeadOfficeToOwnerSubmissionPackage", fxGroup: "workflow" },
+      { id: "appointment", label: "검사자 임명 및 검사일자 통보", type: "document", cls: "ppdoc:InspectorAppointmentNotice", fxGroup: "workflow" },
+
+      { id: "inspection", label: "제13회 기성검사", type: "procedure", cls: "ppdoc:ProgressPaymentInspection", fxGroup: "inspection" },
+      { id: "documentInspection", label: "서류검사", type: "procedure", cls: "ppdoc:DocumentInspection", fxGroup: "inspection" },
+      { id: "siteInspection", label: "현장검사", type: "procedure", cls: "ppdoc:SiteInspection", fxGroup: "inspection" },
+      { id: "inspectionPhoto", label: "검사사진 대지", type: "document", cls: "ppdoc:PhotoSheet", fxGroup: "inspection" },
+      { id: "resultReport", label: "기성검사 결과 보고", type: "group", cls: "ppdoc:InspectionResultReportPackage", fxGroup: "workflow" },
+      { id: "inspectionRecord", label: "기성검사 조서", type: "document", cls: "ppdoc:ProgressPaymentInspectionRecord", fxGroup: "workflow" },
+      { id: "reviewOpinion", label: "기성검토의견서", type: "document", cls: "ppdoc:ProgressPaymentReviewOpinion", fxGroup: "workflow" },
+      { id: "attendance", label: "공사관리관 입회확인서", type: "document", cls: "ppdoc:ConstructionManagerAttendanceConfirmation", fxGroup: "workflow" },
+      { id: "ownerApproval", label: "발주처 승인", type: "procedure", cls: "ppdoc:OwnerApproval", fxGroup: "workflow" },
+      { id: "boundSubmission", label: "기성서류 내역서 제본 제출", type: "procedure", cls: "ppdoc:BoundStatementSubmission", fxGroup: "workflow" }
+    ];
+
+    const links = [
+      { source: "contractor", target: "package13", relation: "creates" },
+      { source: "package13", target: "officialLetter", relation: "hasPart" },
+      { source: "package13", target: "attachments", relation: "hasPart" },
+      { source: "attachments", target: "inspectionRequest", relation: "attaches" },
+      { source: "attachments", target: "statement", relation: "attaches" },
+      { source: "attachments", target: "materialLedger", relation: "attaches" },
+      { source: "attachments", target: "inspectionGroup", relation: "attaches" },
+      { source: "package13", target: "site", relation: "submittedTo" },
+      { source: "site", target: "supervision", relation: "forwardedTo" },
+
+      { source: "statement", target: "claimSummary", relation: "hasPart" },
+      { source: "statement", target: "progressStatement", relation: "hasPart" },
+      { source: "progressStatement", target: "costSheet", relation: "hasPart" },
+      { source: "progressStatement", target: "summarySheet", relation: "hasPart" },
+      { source: "progressStatement", target: "detailSheet", relation: "hasPart" },
+      { source: "progressStatement", target: "quantitySheet", relation: "hasPart" },
+      { source: "detailSheet", target: "rebarDetail", relation: "hasPart" },
+      { source: "detailSheet", target: "concreteDetail", relation: "hasPart" },
+      { source: "detailSheet", target: "formworkDetail", relation: "hasPart" },
+      { source: "summarySheet", target: "rebarSummary", relation: "hasPart" },
+      { source: "summarySheet", target: "concreteSummary", relation: "hasPart" },
+      { source: "summarySheet", target: "formworkSummary", relation: "hasPart" },
+      { source: "summarySheet", target: "rcSummary", relation: "hasPart" },
+      { source: "rebarDetail", target: "rebarSummary", relation: "aggregatesTo" },
+      { source: "concreteDetail", target: "concreteSummary", relation: "aggregatesTo" },
+      { source: "formworkDetail", target: "formworkSummary", relation: "aggregatesTo" },
+      { source: "rebarSummary", target: "rcSummary", relation: "aggregatesTo" },
+      { source: "concreteSummary", target: "rcSummary", relation: "aggregatesTo" },
+      { source: "formworkSummary", target: "rcSummary", relation: "aggregatesTo" },
+
+      { source: "quantitySheet", target: "rebarQuantity", relation: "hasPart" },
+      { source: "quantitySheet", target: "concreteQuantity", relation: "hasPart" },
+      { source: "quantitySheet", target: "formworkQuantity", relation: "hasPart" },
+      { source: "rebarQuantity", target: "rebarDetail", relation: "isQuantityBasisFor" },
+      { source: "concreteQuantity", target: "concreteDetail", relation: "isQuantityBasisFor" },
+      { source: "formworkQuantity", target: "formworkDetail", relation: "isQuantityBasisFor" },
+
+      { source: "materialLedger", target: "rebarEvidence", relation: "hasPart" },
+      { source: "materialLedger", target: "concreteEvidence", relation: "hasPart" },
+      { source: "materialLedger", target: "formworkEvidence", relation: "hasPart" },
+      { source: "rebarEvidence", target: "rebarDetail", relation: "evidences" },
+      { source: "concreteEvidence", target: "concreteDetail", relation: "evidences" },
+      { source: "formworkEvidence", target: "formworkDetail", relation: "evidences" },
+
+      { source: "inspectionGroup", target: "rebarChecklist", relation: "hasPart" },
+      { source: "inspectionGroup", target: "concreteDaily", relation: "hasPart" },
+      { source: "inspectionGroup", target: "formworkChecklist", relation: "hasPart" },
+      { source: "inspectionGroup", target: "rebarPhoto", relation: "hasPart" },
+      { source: "inspectionGroup", target: "concretePhoto", relation: "hasPart" },
+      { source: "inspectionGroup", target: "formworkPhoto", relation: "hasPart" },
+      { source: "rebarChecklist", target: "rebarDetail", relation: "isInspectionBasisFor" },
+      { source: "concreteDaily", target: "concreteDetail", relation: "isInspectionBasisFor" },
+      { source: "formworkChecklist", target: "formworkDetail", relation: "isInspectionBasisFor" },
+      { source: "rebarPhoto", target: "rebarChecklist", relation: "isPhotoEvidenceFor" },
+      { source: "concretePhoto", target: "concreteDaily", relation: "isPhotoEvidenceFor" },
+      { source: "formworkPhoto", target: "formworkChecklist", relation: "isPhotoEvidenceFor" },
+
+      { source: "siteSubmission", target: "supervision", relation: "forwardedTo" },
+      { source: "siteSubmission", target: "supervisionReport", relation: "hasPart" },
+      { source: "siteSubmission", target: "inspectionPlan", relation: "hasPart" },
+      { source: "supervisionReport", target: "supervision", relation: "reviewedBy" },
+      { source: "ownerSubmission", target: "owner", relation: "submittedTo" },
+      { source: "ownerSubmission", target: "appointment", relation: "hasPart" },
+      { source: "ownerSubmission", target: "siteSubmission", relation: "attaches" },
+      { source: "owner", target: "inspection", relation: "precedes" },
+      { source: "inspection", target: "inspector", relation: "inspectedBy" },
+      { source: "inspection", target: "documentInspection", relation: "hasPart" },
+      { source: "inspection", target: "siteInspection", relation: "hasPart" },
+      { source: "inspection", target: "inspectionPhoto", relation: "hasPart" },
+      { source: "inspection", target: "resultReport", relation: "precedes" },
+      { source: "resultReport", target: "inspectionRecord", relation: "hasPart" },
+      { source: "resultReport", target: "reviewOpinion", relation: "hasPart" },
+      { source: "resultReport", target: "attendance", relation: "hasPart" },
+      { source: "resultReport", target: "owner", relation: "submittedTo" },
+      { source: "resultReport", target: "ownerApproval", relation: "precedes" },
+      { source: "ownerApproval", target: "owner", relation: "approvedBy" },
+      { source: "ownerApproval", target: "boundSubmission", relation: "precedes" }
+    ];
+
+    if (!window.d3) {
+      document.getElementById("load-error").style.display = "block";
+    } else {
+      initGraph();
+    }
+
+    function initGraph() {
+      const svg = d3.select("#graph");
+      const details = document.getElementById("details");
+      const search = document.getElementById("search");
+      const resetButton = document.getElementById("reset");
+      const nodeById = new Map(nodes.map((node) => [node.id, node]));
+      let activeFilter = "all";
+      let selectedId = null;
+
+      const linkData = links.map((link) => ({
+        ...link,
+        source: nodeById.get(link.source),
+        target: nodeById.get(link.target)
+      }));
+
+      const root = svg.append("g");
+      const linkLayer = root.append("g").attr("class", "links");
+      const labelLayer = root.append("g").attr("class", "link-labels");
+      const nodeLayer = root.append("g").attr("class", "nodes");
+
+      svg.append("defs")
+        .selectAll("marker")
+        .data(Object.entries(relationMeta))
+        .join("marker")
+        .attr("id", ([key]) => `arrow-${key}`)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 20)
+        .attr("refY", 0)
+        .attr("markerWidth", 7)
+        .attr("markerHeight", 7)
+        .attr("orient", "auto")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("fill", ([, meta]) => meta.color);
+
+      const zoom = d3.zoom()
+        .scaleExtent([0.25, 2.8])
+        .on("zoom", (event) => root.attr("transform", event.transform));
+
+      svg.call(zoom);
+
+      const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(linkData).id((node) => node.id).distance((link) => link.relation === "hasPart" ? 82 : 130).strength(0.72))
+        .force("charge", d3.forceManyBody().strength(-520))
+        .force("collide", d3.forceCollide().radius((node) => typeMeta[node.type].radius + 18).iterations(2))
+        .force("x", d3.forceX((node) => groupX(node.fxGroup)).strength(0.10))
+        .force("y", d3.forceY((node) => groupY(node.fxGroup)).strength(0.10))
+        .on("tick", ticked);
+
+      const link = linkLayer.selectAll("path")
+        .data(linkData)
+        .join("path")
+        .attr("class", "link")
+        .attr("stroke", (link) => relationMeta[link.relation].color)
+        .attr("marker-end", (link) => `url(#arrow-${link.relation})`);
+
+      const linkLabel = labelLayer.selectAll("text")
+        .data(linkData)
+        .join("text")
+        .attr("class", "link-label")
+        .text((link) => relationMeta[link.relation].label);
+
+      const node = nodeLayer.selectAll("g")
+        .data(nodes)
+        .join("g")
+        .attr("class", "node")
+        .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+      node.append("circle")
+        .attr("r", (node) => typeMeta[node.type].radius)
+        .attr("fill", (node) => typeMeta[node.type].fill)
+        .attr("stroke", (node) => typeMeta[node.type].stroke);
+
+      node.append("text")
+        .selectAll("tspan")
+        .data((node) => wrapLabel(node.label).map((line, index, lines) => ({ line, index, lines })))
+        .join("tspan")
+        .attr("x", 0)
+        .attr("dy", (datum) => datum.index === 0 ? `${-(datum.lines.length - 1) * 0.55}em` : "1.1em")
+        .text((datum) => datum.line);
+
+      node.on("click", (event, datum) => {
+        event.stopPropagation();
+        selectedId = datum.id;
+        updateDetails(datum);
+        applyVisibility();
+      });
+
+      svg.on("click", () => {
+        selectedId = null;
+        updateDetails(null);
+        applyVisibility();
+      });
+
+      document.querySelectorAll("button[data-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("button[data-filter]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          activeFilter = button.dataset.filter;
+          applyVisibility();
+          simulation.alpha(0.35).restart();
+        });
+      });
+
+      resetButton.addEventListener("click", () => {
+        selectedId = null;
+        search.value = "";
+        activeFilter = "all";
+        document.querySelectorAll("button[data-filter]").forEach((item) => item.classList.toggle("active", item.dataset.filter === "all"));
+        nodes.forEach((node) => {
+          node.fx = null;
+          node.fy = null;
+        });
+        updateDetails(null);
+        applyVisibility();
+        fitGraph();
+        simulation.alpha(0.75).restart();
+      });
+
+      search.addEventListener("input", applyVisibility);
+      renderLegend();
+      updateDetails(null);
+      applyVisibility();
+      setTimeout(fitGraph, 450);
+
+      function groupX(group) {
+        const width = svg.node().clientWidth || 1100;
+        const map = {
+          workflow: width * 0.30,
+          statement: width * 0.48,
+          basis: width * 0.48,
+          evidence: width * 0.63,
+          inspection: width * 0.72
+        };
+        return map[group] || width * 0.5;
+      }
+
+      function groupY(group) {
+        const height = svg.node().clientHeight || 700;
+        const map = {
+          workflow: height * 0.34,
+          statement: height * 0.42,
+          basis: height * 0.68,
+          evidence: height * 0.78,
+          inspection: height * 0.55
+        };
+        return map[group] || height * 0.5;
+      }
+
+      function filteredLink(link) {
+        if (activeFilter === "all") return true;
+        return relationMeta[link.relation].groups.includes(activeFilter);
+      }
+
+      function matchesSearch(node) {
+        const term = search.value.trim().toLowerCase();
+        if (!term) return true;
+        return `${node.label} ${node.cls} ${typeMeta[node.type].label}`.toLowerCase().includes(term);
+      }
+
+      function applyVisibility() {
+        const visibleLinkIds = new Set();
+        linkData.forEach((linkDatum, index) => {
+          if (filteredLink(linkDatum)) {
+            visibleLinkIds.add(index);
+          }
+        });
+
+        const related = new Set();
+        linkData.forEach((linkDatum, index) => {
+          if (visibleLinkIds.has(index)) {
+            related.add(linkDatum.source.id);
+            related.add(linkDatum.target.id);
+          }
+        });
+
+        const selectedNeighbors = new Set();
+        if (selectedId) {
+          selectedNeighbors.add(selectedId);
+          linkData.forEach((linkDatum) => {
+            if (linkDatum.source.id === selectedId) selectedNeighbors.add(linkDatum.target.id);
+            if (linkDatum.target.id === selectedId) selectedNeighbors.add(linkDatum.source.id);
+          });
+        }
+
+        node.classed("dim", (nodeDatum) => {
+          const filterDim = activeFilter !== "all" && !related.has(nodeDatum.id);
+          const searchDim = !matchesSearch(nodeDatum);
+          const selectedDim = selectedId && !selectedNeighbors.has(nodeDatum.id);
+          return filterDim || searchDim || selectedDim;
+        }).classed("focus", (nodeDatum) => nodeDatum.id === selectedId);
+
+        link.classed("dim", (linkDatum, index) => {
+          const filterDim = !visibleLinkIds.has(index);
+          const searchDim = !matchesSearch(linkDatum.source) && !matchesSearch(linkDatum.target);
+          const selectedDim = selectedId && linkDatum.source.id !== selectedId && linkDatum.target.id !== selectedId;
+          return filterDim || searchDim || selectedDim;
+        });
+
+        linkLabel.classed("dim", (linkDatum, index) => {
+          const filterDim = !visibleLinkIds.has(index);
+          const searchDim = !matchesSearch(linkDatum.source) && !matchesSearch(linkDatum.target);
+          const selectedDim = selectedId && linkDatum.source.id !== selectedId && linkDatum.target.id !== selectedId;
+          return filterDim || searchDim || selectedDim;
+        });
+      }
+
+      function ticked() {
+        link.attr("d", (linkDatum) => {
+          const sx = linkDatum.source.x;
+          const sy = linkDatum.source.y;
+          const tx = linkDatum.target.x;
+          const ty = linkDatum.target.y;
+          const dx = tx - sx;
+          const dy = ty - sy;
+          const dr = Math.sqrt(dx * dx + dy * dy) * 1.18;
+          return `M${sx},${sy}A${dr},${dr} 0 0,1 ${tx},${ty}`;
+        });
+
+        linkLabel
+          .attr("x", (linkDatum) => (linkDatum.source.x + linkDatum.target.x) / 2)
+          .attr("y", (linkDatum) => (linkDatum.source.y + linkDatum.target.y) / 2);
+
+        node.attr("transform", (nodeDatum) => `translate(${nodeDatum.x},${nodeDatum.y})`);
+      }
+
+      function dragstarted(event, datum) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        datum.fx = datum.x;
+        datum.fy = datum.y;
+      }
+
+      function dragged(event, datum) {
+        datum.fx = event.x;
+        datum.fy = event.y;
+      }
+
+      function dragended(event, datum) {
+        if (!event.active) simulation.alphaTarget(0);
+        datum.fx = event.x;
+        datum.fy = event.y;
+      }
+
+      function fitGraph() {
+        const bounds = root.node().getBBox();
+        const fullWidth = svg.node().clientWidth;
+        const fullHeight = svg.node().clientHeight;
+        if (!bounds.width || !bounds.height || !fullWidth || !fullHeight) return;
+        const scale = Math.min(1.25, 0.88 / Math.max(bounds.width / fullWidth, bounds.height / fullHeight));
+        const tx = fullWidth / 2 - scale * (bounds.x + bounds.width / 2);
+        const ty = fullHeight / 2 - scale * (bounds.y + bounds.height / 2);
+        svg.transition().duration(420).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+      }
+
+      function updateDetails(datum) {
+        const dl = details.querySelector("dl");
+        if (!datum) {
+          dl.innerHTML = `
+            <dt>라벨</dt>
+            <dd>노드를 선택하면 RDF/RDFS 정보가 표시됩니다.</dd>
+          `;
+          return;
+        }
+        const inbound = linkData.filter((linkDatum) => linkDatum.target.id === datum.id);
+        const outbound = linkData.filter((linkDatum) => linkDatum.source.id === datum.id);
+        dl.innerHTML = `
+          <dt>라벨</dt><dd>${datum.label}</dd>
+          <dt>RDFS 클래스</dt><dd>${datum.cls}</dd>
+          <dt>유형</dt><dd>${typeMeta[datum.type].label}</dd>
+          <dt>나가는 관계</dt><dd>${outbound.length ? outbound.map(formatOutboundLink).join("<br>") : "없음"}</dd>
+          <dt>들어오는 관계</dt><dd>${inbound.length ? inbound.map(formatInboundLink).join("<br>") : "없음"}</dd>
+        `;
+      }
+
+      function formatOutboundLink(linkDatum) {
+        return `${relationMeta[linkDatum.relation].label} → ${linkDatum.target.label}`;
+      }
+
+      function formatInboundLink(linkDatum) {
+        return `${linkDatum.source.label} → ${relationMeta[linkDatum.relation].label}`;
+      }
+
+      function renderLegend() {
+        document.getElementById("legend").innerHTML = Object.entries(typeMeta).map(([, meta]) => `
+          <div class="legend-item">
+            <span class="swatch" style="background:${meta.fill}; color:${meta.stroke}"></span>
+            <span>${meta.label}</span>
+          </div>
+        `).join("");
+      }
+    }
+
+    function wrapLabel(label) {
+      const max = 9;
+      if (label.length <= max) return [label];
+      const words = label.split(" ");
+      if (words.length > 1) {
+        const lines = [];
+        let current = "";
+        words.forEach((word) => {
+          const next = current ? `${current} ${word}` : word;
+          if (next.length > max && current) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = next;
+          }
+        });
+        if (current) lines.push(current);
+        return lines.slice(0, 3);
+      }
+      return [
+        label.slice(0, max),
+        label.slice(max, max * 2),
+        label.slice(max * 2, max * 3)
+      ].filter(Boolean);
+    }
+  </script>
+</body>
+</html>

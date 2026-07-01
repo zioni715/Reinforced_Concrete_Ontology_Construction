@@ -1,4 +1,5 @@
 # Reinforced Concrete Ontology Construction
+- Comparative Evaluation of RDF-Based Ontology Representation Methods for Semantic Structuring of Progress Payment Documents in Reinforced Concrete Work
 
 ## Install
 
@@ -9,3 +10,6 @@ conda install -y pip
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+## Visualization
+http://127.0.0.1:3000/visualization/ontology_graph.html?vscode-livepreview=true
