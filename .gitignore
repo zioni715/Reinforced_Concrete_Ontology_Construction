@@ -1,2 +1,7 @@
 # Local reference documents
 /【♣LH기성검사 결과보고 샘플】/
+
+# Markdown documents
+*.md
+!README.md
+!Progress_Payment_Structure.md

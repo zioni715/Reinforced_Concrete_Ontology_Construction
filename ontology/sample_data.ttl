@@ -132,6 +132,15 @@ ppdoc:work-type-detail-sheet-13
     ppdoc:hasPart ppdoc:rebar-detail-13-001 ,
         ppdoc:concrete-detail-13-001 ,
         ppdoc:formwork-detail-13-001 ;
+    ppdoc:hasInformationField ppdoc:field-item-name ,
+        ppdoc:field-specification ,
+        ppdoc:field-quantity-unit ,
+        ppdoc:field-contract-quantity ,
+        ppdoc:field-previous-quantity ,
+        ppdoc:field-current-quantity ,
+        ppdoc:field-cumulative-quantity ,
+        ppdoc:field-unit-price ,
+        ppdoc:field-amount ;
     ppdoc:aggregatesTo ppdoc:work-type-summary-sheet-13 .
 
 ppdoc:summary-rc-work-13
@@ -177,6 +186,15 @@ ppdoc:rebar-detail-13-001
     ppdoc:hasUnitPrice "800000"^^xsd:decimal ;
     ppdoc:hasAmount "12000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasInformationField ppdoc:field-item-name ,
+        ppdoc:field-specification ,
+        ppdoc:field-quantity-unit ,
+        ppdoc:field-contract-quantity ,
+        ppdoc:field-previous-quantity ,
+        ppdoc:field-current-quantity ,
+        ppdoc:field-cumulative-quantity ,
+        ppdoc:field-unit-price ,
+        ppdoc:field-amount ;
     ppdoc:aggregatesTo ppdoc:summary-rebar-work-13 ;
     ppdoc:hasQuantityBasis ppdoc:rebar-quantity-item-13-001 ;
     ppdoc:hasEvidence ppdoc:rebar-test-report-13 ;
@@ -198,6 +216,15 @@ ppdoc:concrete-detail-13-001
     ppdoc:hasUnitPrice "110000"^^xsd:decimal ;
     ppdoc:hasAmount "5500000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasInformationField ppdoc:field-item-name ,
+        ppdoc:field-specification ,
+        ppdoc:field-quantity-unit ,
+        ppdoc:field-contract-quantity ,
+        ppdoc:field-previous-quantity ,
+        ppdoc:field-current-quantity ,
+        ppdoc:field-cumulative-quantity ,
+        ppdoc:field-unit-price ,
+        ppdoc:field-amount ;
     ppdoc:aggregatesTo ppdoc:summary-concrete-work-13 ;
     ppdoc:hasQuantityBasis ppdoc:concrete-quantity-item-13-001 ;
     ppdoc:hasEvidence ppdoc:ready-mixed-concrete-delivery-note-13 ;
@@ -219,6 +246,15 @@ ppdoc:formwork-detail-13-001
     ppdoc:hasUnitPrice "45000"^^xsd:decimal ;
     ppdoc:hasAmount "8100000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasInformationField ppdoc:field-item-name ,
+        ppdoc:field-specification ,
+        ppdoc:field-quantity-unit ,
+        ppdoc:field-contract-quantity ,
+        ppdoc:field-previous-quantity ,
+        ppdoc:field-current-quantity ,
+        ppdoc:field-cumulative-quantity ,
+        ppdoc:field-unit-price ,
+        ppdoc:field-amount ;
     ppdoc:aggregatesTo ppdoc:summary-formwork-13 ;
     ppdoc:hasQuantityBasis ppdoc:formwork-quantity-item-13-001 ;
     ppdoc:hasEvidence ppdoc:formwork-material-inspection-record-13 ;
@@ -237,19 +273,169 @@ ppdoc:formwork-type
     rdfs:label "거푸집공사"@ko .
 
 #################################################################
+# Information field definitions from Progress Payment Structure
+#################################################################
+
+ppdoc:field-item-name
+    a ppdoc:InformationField ;
+    rdfs:label "품명"@ko .
+
+ppdoc:field-specification
+    a ppdoc:InformationField ;
+    rdfs:label "규격"@ko .
+
+ppdoc:field-quantity-unit
+    a ppdoc:InformationField ;
+    rdfs:label "단위"@ko .
+
+ppdoc:field-contract-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "계약수량"@ko .
+
+ppdoc:field-previous-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "전회수량"@ko .
+
+ppdoc:field-current-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "금회수량"@ko .
+
+ppdoc:field-cumulative-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "누계수량"@ko .
+
+ppdoc:field-unit-price
+    a ppdoc:InformationField ;
+    rdfs:label "단가"@ko ;
+    ppdoc:hasUnitSymbol "KRW" .
+
+ppdoc:field-amount
+    a ppdoc:InformationField ;
+    rdfs:label "금액"@ko ;
+    ppdoc:hasUnitSymbol "KRW" .
+
+ppdoc:field-location
+    a ppdoc:InformationField ;
+    rdfs:label "위치"@ko .
+
+ppdoc:field-member-name
+    a ppdoc:InformationField ;
+    rdfs:label "부재명"@ko .
+
+ppdoc:field-rebar-specification
+    a ppdoc:InformationField ;
+    rdfs:label "철근 규격"@ko .
+
+ppdoc:field-rebar-diameter
+    a ppdoc:InformationField ;
+    rdfs:label "철근 직경"@ko ;
+    ppdoc:hasUnitSymbol "mm" .
+
+ppdoc:field-length
+    a ppdoc:InformationField ;
+    rdfs:label "길이"@ko ;
+    ppdoc:hasUnitSymbol "m" .
+
+ppdoc:field-count
+    a ppdoc:InformationField ;
+    rdfs:label "개수"@ko .
+
+ppdoc:field-unit-weight
+    a ppdoc:InformationField ;
+    rdfs:label "단위중량"@ko ;
+    ppdoc:hasUnitSymbol "kg/m" .
+
+ppdoc:field-calculated-weight
+    a ppdoc:InformationField ;
+    rdfs:label "산출중량"@ko ;
+    ppdoc:hasUnitSymbol "kg" .
+
+ppdoc:field-concrete-strength
+    a ppdoc:InformationField ;
+    rdfs:label "콘크리트 강도"@ko ;
+    ppdoc:hasUnitSymbol "MPa" .
+
+ppdoc:field-width
+    a ppdoc:InformationField ;
+    rdfs:label "폭"@ko ;
+    ppdoc:hasUnitSymbol "m" .
+
+ppdoc:field-height
+    a ppdoc:InformationField ;
+    rdfs:label "높이"@ko ;
+    ppdoc:hasUnitSymbol "m" .
+
+ppdoc:field-calculated-volume
+    a ppdoc:InformationField ;
+    rdfs:label "산출체적"@ko ;
+    ppdoc:hasUnitSymbol "m3" .
+
+ppdoc:field-formwork-type
+    a ppdoc:InformationField ;
+    rdfs:label "거푸집 종류"@ko .
+
+ppdoc:field-calculated-area
+    a ppdoc:InformationField ;
+    rdfs:label "산출면적"@ko ;
+    ppdoc:hasUnitSymbol "m2" .
+
+#################################################################
 # Quantity calculation basis
 #################################################################
 
 ppdoc:quantity-calculation-sheet-13
     a ppdoc:QuantityCalculationSheet ;
     rdfs:label "수량산출서"@ko ;
-    ppdoc:hasPart ppdoc:rebar-quantity-item-13-001 ,
-        ppdoc:concrete-quantity-item-13-001 ,
-        ppdoc:formwork-quantity-item-13-001 .
+    ppdoc:hasPart ppdoc:rebar-quantity-sheet-13 ,
+        ppdoc:concrete-quantity-sheet-13 ,
+        ppdoc:formwork-quantity-sheet-13 .
+
+ppdoc:rebar-quantity-sheet-13
+    a ppdoc:RebarQuantityCalculationSheet ;
+    rdfs:label "철근 수량산출서"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:hasInformationField ppdoc:field-location ,
+        ppdoc:field-member-name ,
+        ppdoc:field-rebar-specification ,
+        ppdoc:field-rebar-diameter ,
+        ppdoc:field-length ,
+        ppdoc:field-count ,
+        ppdoc:field-unit-weight ,
+        ppdoc:field-calculated-weight ;
+    ppdoc:hasPart ppdoc:rebar-quantity-item-13-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-13-001 .
+
+ppdoc:concrete-quantity-sheet-13
+    a ppdoc:ConcreteQuantityCalculationSheet ;
+    rdfs:label "콘크리트 수량산출서"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:hasInformationField ppdoc:field-location ,
+        ppdoc:field-member-name ,
+        ppdoc:field-concrete-strength ,
+        ppdoc:field-length ,
+        ppdoc:field-width ,
+        ppdoc:field-height ,
+        ppdoc:field-calculated-volume ;
+    ppdoc:hasPart ppdoc:concrete-quantity-item-13-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-13-001 .
+
+ppdoc:formwork-quantity-sheet-13
+    a ppdoc:FormworkQuantityCalculationSheet ;
+    rdfs:label "거푸집 수량산출서"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:hasInformationField ppdoc:field-location ,
+        ppdoc:field-member-name ,
+        ppdoc:field-formwork-type ,
+        ppdoc:field-length ,
+        ppdoc:field-height ,
+        ppdoc:field-calculated-area ;
+    ppdoc:hasPart ppdoc:formwork-quantity-item-13-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-13-001 .
 
 ppdoc:rebar-quantity-item-13-001
     a ppdoc:RebarQuantityCalculationItem ;
     rdfs:label "철근 수량산출 항목 001"@ko ;
+    ppdoc:isPartOf ppdoc:rebar-quantity-sheet-13 ;
     ppdoc:hasLocation "A동 3층 보" ;
     ppdoc:hasMemberName "보 B3-01" ;
     ppdoc:hasRebarSpecification "SD400" ;
@@ -264,6 +450,7 @@ ppdoc:rebar-quantity-item-13-001
 ppdoc:concrete-quantity-item-13-001
     a ppdoc:ConcreteQuantityCalculationItem ;
     rdfs:label "콘크리트 수량산출 항목 001"@ko ;
+    ppdoc:isPartOf ppdoc:concrete-quantity-sheet-13 ;
     ppdoc:hasLocation "A동 3층 슬래브" ;
     ppdoc:hasMemberName "슬래브 S3" ;
     ppdoc:hasConcreteStrength "24"^^xsd:decimal ;
@@ -277,6 +464,7 @@ ppdoc:concrete-quantity-item-13-001
 ppdoc:formwork-quantity-item-13-001
     a ppdoc:FormworkQuantityCalculationItem ;
     rdfs:label "거푸집 수량산출 항목 001"@ko ;
+    ppdoc:isPartOf ppdoc:formwork-quantity-sheet-13 ;
     ppdoc:hasLocation "A동 3층 보" ;
     ppdoc:hasMemberName "보 B3-01" ;
     ppdoc:hasFormworkType "유로폼" ;

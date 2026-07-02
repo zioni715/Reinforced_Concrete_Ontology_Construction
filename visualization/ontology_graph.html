@@ -181,12 +181,71 @@
       min-width: 0;
     }
 
+    .side-section-title {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
     .swatch {
       width: 14px;
       height: 14px;
       border-radius: 4px;
       border: 2px solid currentColor;
       flex: 0 0 auto;
+    }
+
+    .relation-glossary {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .relation-item {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+
+    .relation-dot {
+      width: 12px;
+      height: 3px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .relation-name {
+      font-weight: 700;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .relation-description {
+      margin-top: 2px;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .relation-list {
+      margin: 4px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .relation-list li {
+      margin-top: 2px;
+    }
+
+    .relation-detail {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
     }
 
     .node circle {
@@ -300,7 +359,10 @@
         <dt>라벨</dt>
         <dd>노드를 선택하면 RDF/RDFS 정보가 표시됩니다.</dd>
       </dl>
+      <h2 class="side-section-title">노드 유형</h2>
       <div class="legend" id="legend"></div>
+      <h2 class="side-section-title">관계 설명</h2>
+      <div class="relation-glossary" id="relation-glossary"></div>
     </aside>
   </main>
 
@@ -311,6 +373,7 @@
       document: { label: "문서", fill: "#fef3c7", stroke: "#d97706", radius: 27 },
       detail: { label: "내역", fill: "#ede9fe", stroke: "#7c3aed", radius: 30 },
       quantity: { label: "산출", fill: "#e0f2fe", stroke: "#0284c7", radius: 28 },
+      field: { label: "필드", fill: "#f8fafc", stroke: "#64748b", radius: 23 },
       evidence: { label: "증빙", fill: "#ffe4e6", stroke: "#e11d48", radius: 28 },
       inspection: { label: "검측", fill: "#f3e8ff", stroke: "#9333ea", radius: 28 },
       procedure: { label: "절차", fill: "#e5e7eb", stroke: "#4b5563", radius: 28 },
@@ -318,20 +381,21 @@
     };
 
     const relationMeta = {
-      creates: { label: "creates", color: "#2563eb", groups: ["workflow"] },
-      hasPart: { label: "hasPart", color: "#475569", groups: ["workflow", "statement", "inspection"] },
-      attaches: { label: "attaches", color: "#0f766e", groups: ["workflow"] },
-      submittedTo: { label: "submittedTo", color: "#2563eb", groups: ["workflow"] },
-      forwardedTo: { label: "forwardedTo", color: "#2563eb", groups: ["workflow"] },
-      reviewedBy: { label: "reviewedBy", color: "#64748b", groups: ["workflow"] },
-      inspectedBy: { label: "inspectedBy", color: "#64748b", groups: ["inspection"] },
-      approvedBy: { label: "approvedBy", color: "#059669", groups: ["workflow", "inspection"] },
-      precedes: { label: "precedes", color: "#334155", groups: ["workflow"] },
-      aggregatesTo: { label: "aggregatesTo", color: "#0f766e", groups: ["statement"] },
-      isQuantityBasisFor: { label: "isQuantityBasisFor", color: "#0284c7", groups: ["basis"] },
-      evidences: { label: "evidences", color: "#e11d48", groups: ["evidence"] },
-      isInspectionBasisFor: { label: "isInspectionBasisFor", color: "#9333ea", groups: ["inspection"] },
-      isPhotoEvidenceFor: { label: "isPhotoEvidenceFor", color: "#7c3aed", groups: ["inspection"] }
+      creates: { label: "creates", color: "#2563eb", groups: ["workflow"], description: ["행위자가 문서 또는 문서군 작성", "예: 시공사 -> 제13회 시공사 기성서류"] },
+      hasPart: { label: "hasPart", color: "#475569", groups: ["workflow", "statement", "inspection"], description: ["상위-하위 구성 관계", "예: 수량산출서 -> 철근 수량산출서"] },
+      attaches: { label: "attaches", color: "#0f766e", groups: ["workflow"], description: ["공문 또는 문서군에 첨부 문서 연결", "예: 첨부서류 -> 내역서"] },
+      submittedTo: { label: "submittedTo", color: "#2563eb", groups: ["workflow"], description: ["문서 또는 문서군의 제출 대상", "예: 시공사 기성서류 -> 현장"] },
+      forwardedTo: { label: "forwardedTo", color: "#2563eb", groups: ["workflow"], description: ["다음 검토 주체로 송부", "예: 현장 -> 감리본사"] },
+      reviewedBy: { label: "reviewedBy", color: "#64748b", groups: ["workflow"], description: ["문서 검토 주체 표시", "예: 기성부분 감리조서 -> 감리본사"] },
+      inspectedBy: { label: "inspectedBy", color: "#64748b", groups: ["inspection"], description: ["검사 절차 수행자 표시", "예: 제13회 기성검사 -> 기성검사자"] },
+      approvedBy: { label: "approvedBy", color: "#059669", groups: ["workflow", "inspection"], description: ["문서, 절차, 결과의 승인 주체", "예: 발주처 승인 -> 발주처"] },
+      precedes: { label: "precedes", color: "#334155", groups: ["workflow"], description: ["업무 흐름의 선후 관계", "예: 기성검사 -> 기성검사 결과 보고"] },
+      aggregatesTo: { label: "aggregatesTo", color: "#0f766e", groups: ["statement"], description: ["하위 내역을 상위 집계로 합산", "예: 철근공사 내역 -> 철근공사 집계금액"] },
+      isQuantityBasisFor: { label: "isQuantityBasisFor", color: "#0284c7", groups: ["basis"], description: ["수량산출서 또는 산출 항목의 산정 근거 관계", "예: 철근 수량산출 항목 -> 철근공사 내역"] },
+      hasInformationField: { label: "hasInformationField", color: "#64748b", groups: ["statement", "basis"], description: ["문서나 산출서의 정보 필드 정의", "예: 철근 수량산출서 -> 철근 직경"] },
+      evidences: { label: "evidences", color: "#e11d48", groups: ["evidence"], description: ["자재 증빙 문서와 공종 내역 연결", "예: 철근 시험성적서 -> 철근공사 내역"] },
+      isInspectionBasisFor: { label: "isInspectionBasisFor", color: "#9333ea", groups: ["inspection"], description: ["검측 문서와 공종 내역 연결", "예: 철근 배근 검측체크리스트 -> 철근공사 내역"] },
+      isPhotoEvidenceFor: { label: "isPhotoEvidenceFor", color: "#7c3aed", groups: ["inspection"], description: ["사진대지와 증빙 대상 연결", "예: 철근 배근 사진대지 -> 철근 배근 검측체크리스트"] }
     };
 
     const nodes = [
@@ -354,6 +418,9 @@
       { id: "summarySheet", label: "공종별집계표", type: "document", cls: "ppdoc:WorkTypeSummarySheet", fxGroup: "statement" },
       { id: "detailSheet", label: "공종별내역서", type: "document", cls: "ppdoc:WorkTypeDetailSheet", fxGroup: "statement" },
       { id: "quantitySheet", label: "수량산출서", type: "document", cls: "ppdoc:QuantityCalculationSheet", fxGroup: "basis" },
+      { id: "rebarQuantitySheet", label: "철근 수량산출서", type: "document", cls: "ppdoc:RebarQuantityCalculationSheet", fxGroup: "basis" },
+      { id: "concreteQuantitySheet", label: "콘크리트 수량산출서", type: "document", cls: "ppdoc:ConcreteQuantityCalculationSheet", fxGroup: "basis" },
+      { id: "formworkQuantitySheet", label: "거푸집 수량산출서", type: "document", cls: "ppdoc:FormworkQuantityCalculationSheet", fxGroup: "basis" },
 
       { id: "rebarDetail", label: "철근공사 내역", type: "detail", cls: "ppdoc:RebarWorkDetailGroup", fxGroup: "statement" },
       { id: "concreteDetail", label: "콘크리트공사 내역", type: "detail", cls: "ppdoc:ConcreteWorkDetailGroup", fxGroup: "statement" },
@@ -367,6 +434,31 @@
       { id: "rebarQuantity", label: "철근 수량산출 항목", type: "quantity", cls: "ppdoc:RebarQuantityCalculationItem", fxGroup: "basis" },
       { id: "concreteQuantity", label: "콘크리트 수량산출 항목", type: "quantity", cls: "ppdoc:ConcreteQuantityCalculationItem", fxGroup: "basis" },
       { id: "formworkQuantity", label: "거푸집 수량산출 항목", type: "quantity", cls: "ppdoc:FormworkQuantityCalculationItem", fxGroup: "basis" },
+
+      { id: "fieldItemName", label: "품명", type: "field", cls: "ppdoc:field-item-name", fxGroup: "statement" },
+      { id: "fieldSpecification", label: "규격", type: "field", cls: "ppdoc:field-specification", fxGroup: "statement" },
+      { id: "fieldQuantityUnit", label: "단위", type: "field", cls: "ppdoc:field-quantity-unit", fxGroup: "statement" },
+      { id: "fieldContractQuantity", label: "계약수량", type: "field", cls: "ppdoc:field-contract-quantity", fxGroup: "statement" },
+      { id: "fieldPreviousQuantity", label: "전회수량", type: "field", cls: "ppdoc:field-previous-quantity", fxGroup: "statement" },
+      { id: "fieldCurrentQuantity", label: "금회수량", type: "field", cls: "ppdoc:field-current-quantity", fxGroup: "statement" },
+      { id: "fieldCumulativeQuantity", label: "누계수량", type: "field", cls: "ppdoc:field-cumulative-quantity", fxGroup: "statement" },
+      { id: "fieldUnitPrice", label: "단가", type: "field", cls: "ppdoc:field-unit-price", fxGroup: "statement" },
+      { id: "fieldAmount", label: "금액", type: "field", cls: "ppdoc:field-amount", fxGroup: "statement" },
+
+      { id: "fieldLocation", label: "위치", type: "field", cls: "ppdoc:field-location", fxGroup: "basis" },
+      { id: "fieldMemberName", label: "부재명", type: "field", cls: "ppdoc:field-member-name", fxGroup: "basis" },
+      { id: "fieldRebarSpecification", label: "철근 규격 SD400", type: "field", cls: "ppdoc:field-rebar-specification", fxGroup: "basis" },
+      { id: "fieldRebarDiameter", label: "철근 직경 16 mm", type: "field", cls: "ppdoc:field-rebar-diameter / ppdoc:hasRebarDiameter", fxGroup: "basis" },
+      { id: "fieldLength", label: "길이", type: "field", cls: "ppdoc:field-length", fxGroup: "basis" },
+      { id: "fieldCount", label: "개수", type: "field", cls: "ppdoc:field-count", fxGroup: "basis" },
+      { id: "fieldUnitWeight", label: "단위중량", type: "field", cls: "ppdoc:field-unit-weight", fxGroup: "basis" },
+      { id: "fieldCalculatedWeight", label: "산출중량", type: "field", cls: "ppdoc:field-calculated-weight", fxGroup: "basis" },
+      { id: "fieldConcreteStrength", label: "콘크리트 강도", type: "field", cls: "ppdoc:field-concrete-strength", fxGroup: "basis" },
+      { id: "fieldWidth", label: "폭", type: "field", cls: "ppdoc:field-width", fxGroup: "basis" },
+      { id: "fieldHeight", label: "높이", type: "field", cls: "ppdoc:field-height", fxGroup: "basis" },
+      { id: "fieldCalculatedVolume", label: "산출체적", type: "field", cls: "ppdoc:field-calculated-volume", fxGroup: "basis" },
+      { id: "fieldFormworkType", label: "거푸집 종류", type: "field", cls: "ppdoc:field-formwork-type", fxGroup: "basis" },
+      { id: "fieldCalculatedArea", label: "산출면적", type: "field", cls: "ppdoc:field-calculated-area", fxGroup: "basis" },
 
       { id: "materialLedger", label: "주요자재 검수 및 수불부", type: "group", cls: "ppdoc:MaterialReceiptAndInspectionLedger", fxGroup: "evidence" },
       { id: "rebarEvidence", label: "철근 시험성적서", type: "evidence", cls: "ppdoc:MaterialEvidenceDocument", fxGroup: "evidence" },
@@ -419,6 +511,15 @@
       { source: "detailSheet", target: "rebarDetail", relation: "hasPart" },
       { source: "detailSheet", target: "concreteDetail", relation: "hasPart" },
       { source: "detailSheet", target: "formworkDetail", relation: "hasPart" },
+      { source: "detailSheet", target: "fieldItemName", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldSpecification", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldQuantityUnit", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldContractQuantity", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldPreviousQuantity", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldCurrentQuantity", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldCumulativeQuantity", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldUnitPrice", relation: "hasInformationField" },
+      { source: "detailSheet", target: "fieldAmount", relation: "hasInformationField" },
       { source: "summarySheet", target: "rebarSummary", relation: "hasPart" },
       { source: "summarySheet", target: "concreteSummary", relation: "hasPart" },
       { source: "summarySheet", target: "formworkSummary", relation: "hasPart" },
@@ -430,9 +531,33 @@
       { source: "concreteSummary", target: "rcSummary", relation: "aggregatesTo" },
       { source: "formworkSummary", target: "rcSummary", relation: "aggregatesTo" },
 
-      { source: "quantitySheet", target: "rebarQuantity", relation: "hasPart" },
-      { source: "quantitySheet", target: "concreteQuantity", relation: "hasPart" },
-      { source: "quantitySheet", target: "formworkQuantity", relation: "hasPart" },
+      { source: "quantitySheet", target: "rebarQuantitySheet", relation: "hasPart" },
+      { source: "quantitySheet", target: "concreteQuantitySheet", relation: "hasPart" },
+      { source: "quantitySheet", target: "formworkQuantitySheet", relation: "hasPart" },
+      { source: "rebarQuantitySheet", target: "rebarQuantity", relation: "hasPart" },
+      { source: "concreteQuantitySheet", target: "concreteQuantity", relation: "hasPart" },
+      { source: "formworkQuantitySheet", target: "formworkQuantity", relation: "hasPart" },
+      { source: "rebarQuantitySheet", target: "fieldLocation", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldMemberName", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldRebarSpecification", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldRebarDiameter", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldLength", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldCount", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldUnitWeight", relation: "hasInformationField" },
+      { source: "rebarQuantitySheet", target: "fieldCalculatedWeight", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldLocation", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldMemberName", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldConcreteStrength", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldLength", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldWidth", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldHeight", relation: "hasInformationField" },
+      { source: "concreteQuantitySheet", target: "fieldCalculatedVolume", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldLocation", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldMemberName", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldFormworkType", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldLength", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldHeight", relation: "hasInformationField" },
+      { source: "formworkQuantitySheet", target: "fieldCalculatedArea", relation: "hasInformationField" },
       { source: "rebarQuantity", target: "rebarDetail", relation: "isQuantityBasisFor" },
       { source: "concreteQuantity", target: "concreteDetail", relation: "isQuantityBasisFor" },
       { source: "formworkQuantity", target: "formworkDetail", relation: "isQuantityBasisFor" },
@@ -527,8 +652,8 @@
       svg.call(zoom);
 
       const simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(linkData).id((node) => node.id).distance((link) => link.relation === "hasPart" ? 82 : 130).strength(0.72))
-        .force("charge", d3.forceManyBody().strength(-520))
+        .force("link", d3.forceLink(linkData).id((node) => node.id).distance((link) => link.relation === "hasInformationField" ? 64 : link.relation === "hasPart" ? 82 : 130).strength(0.72))
+        .force("charge", d3.forceManyBody().strength(-600))
         .force("collide", d3.forceCollide().radius((node) => typeMeta[node.type].radius + 18).iterations(2))
         .force("x", d3.forceX((node) => groupX(node.fxGroup)).strength(0.10))
         .force("y", d3.forceY((node) => groupY(node.fxGroup)).strength(0.10))
@@ -609,6 +734,7 @@
 
       search.addEventListener("input", applyVisibility);
       renderLegend();
+      renderRelationGlossary();
       updateDetails(null);
       applyVisibility();
       setTimeout(fitGraph, 450);
@@ -763,11 +889,13 @@
       }
 
       function formatOutboundLink(linkDatum) {
-        return `${relationMeta[linkDatum.relation].label} → ${linkDatum.target.label}`;
+        const meta = relationMeta[linkDatum.relation];
+        return `${meta.label} → ${linkDatum.target.label}<span class="relation-detail">${formatRelationDetail(meta)}</span>`;
       }
 
       function formatInboundLink(linkDatum) {
-        return `${linkDatum.source.label} → ${relationMeta[linkDatum.relation].label}`;
+        const meta = relationMeta[linkDatum.relation];
+        return `${linkDatum.source.label} → ${meta.label}<span class="relation-detail">${formatRelationDetail(meta)}</span>`;
       }
 
       function renderLegend() {
@@ -777,6 +905,36 @@
             <span>${meta.label}</span>
           </div>
         `).join("");
+      }
+
+      function renderRelationGlossary() {
+        document.getElementById("relation-glossary").innerHTML = Object.entries(relationMeta).map(([, meta]) => `
+          <div class="relation-item">
+            <span class="relation-dot" style="color:${meta.color}"></span>
+            <div>
+              <div><span class="relation-name">${meta.label}</span></div>
+              <ul class="relation-list">
+                ${meta.description.map((item) => `<li>${item}</li>`).join("")}
+              </ul>
+              <div class="relation-description">필터: ${meta.groups.map(groupLabel).join(", ")}</div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      function formatRelationDetail(meta) {
+        return meta.description.map((item) => `- ${item}`).join("<br>");
+      }
+
+      function groupLabel(group) {
+        const labels = {
+          workflow: "문서 흐름",
+          statement: "내역/집계",
+          basis: "산출 근거",
+          evidence: "증빙",
+          inspection: "검측/사진"
+        };
+        return labels[group] || group;
       }
     }
 

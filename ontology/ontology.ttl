@@ -7,7 +7,9 @@
 ppdoc:Ontology
     a rdfs:Resource ;
     dcterms:title "철근콘크리트 공종 기성서류 RDF/RDFS 온톨로지"@ko ;
-    dcterms:description "철근콘크리트 공종 기성서류의 문서 계층, 제출 흐름, 산정 근거, 증빙, 검측 관계를 표현하기 위한 RDFS 스키마 초안."@ko .
+    dcterms:description "철근콘크리트 공종 기성서류의 문서 계층, 제출 흐름, 산정 근거, 증빙, 검측 관계를 표현하기 위한 RDFS 스키마 초안."@ko ;
+    dcterms:source "Ontology Development 101: A Guide to Creating Your First Ontology" ;
+    rdfs:comment "본 스키마의 ppdoc: 식별자는 https://example.org/rc-progress-payment# namespace IRI와 local name을 결합한 IRI이다."@ko .
 
 #################################################################
 # Classes
@@ -162,6 +164,24 @@ ppdoc:QuantityCalculationSheet
     a rdfs:Class ;
     rdfs:label "수량산출서"@ko ;
     rdfs:subClassOf ppdoc:Document .
+
+ppdoc:RebarQuantityCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "철근 수량산출서"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
+    rdfs:comment "철근공사 내역의 수량 근거가 되는 위치, 부재명, 철근 규격, 철근 직경, 길이, 개수, 단위중량, 산출중량을 포함하는 문서."@ko .
+
+ppdoc:ConcreteQuantityCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "콘크리트 수량산출서"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
+    rdfs:comment "콘크리트공사 내역의 수량 근거가 되는 위치, 부재명, 콘크리트 강도, 길이, 폭, 높이, 산출체적을 포함하는 문서."@ko .
+
+ppdoc:FormworkQuantityCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "거푸집 수량산출서"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
+    rdfs:comment "거푸집공사 내역의 수량 근거가 되는 위치, 부재명, 거푸집 종류, 길이, 높이, 산출면적을 포함하는 문서."@ko .
 
 ppdoc:MaterialEvidenceDocument
     a rdfs:Class ;
@@ -341,181 +361,211 @@ ppdoc:creates
     a rdf:Property ;
     rdfs:label "작성한다"@ko ;
     rdfs:domain ppdoc:Actor ;
-    rdfs:range ppdoc:DocumentResource .
+    rdfs:range ppdoc:DocumentResource ;
+    rdfs:comment "행위자가 기성서류 문서 또는 문서군을 작성하는 관계."@ko .
 
 ppdoc:createdBy
     a rdf:Property ;
     rdfs:label "작성자이다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서 또는 문서군의 작성 주체를 나타내는 관계."@ko .
 
 ppdoc:hasPart
     a rdf:Property ;
     rdfs:label "포함한다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "상위 문서, 문서군, 절차가 하위 문서, 하위 절차, 산출 항목을 포함하는 구성 관계."@ko .
 
 ppdoc:isPartOf
     a rdf:Property ;
     rdfs:label "포함된다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "하위 개체가 상위 문서, 문서군, 절차에 포함됨을 나타내는 관계."@ko .
 
 ppdoc:attaches
     a rdf:Property ;
     rdfs:label "첨부한다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:DocumentResource .
+    rdfs:range ppdoc:DocumentResource ;
+    rdfs:comment "공문 또는 문서군에 다른 문서 자원이 첨부되는 관계."@ko .
 
 ppdoc:conditionallyIncludes
     a rdf:Property ;
     rdfs:label "조건부 포함"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:DocumentResource .
+    rdfs:range ppdoc:DocumentResource ;
+    rdfs:comment "선금공제, 안전관리비, 보험료, 발주처 요청 서류처럼 조건에 따라 포함되는 문서 관계."@ko .
 
 ppdoc:submittedTo
     a rdf:Property ;
     rdfs:label "제출한다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서 또는 문서군이 제출되는 수신 주체를 나타내는 관계."@ko .
 
 ppdoc:submittedBy
     a rdf:Property ;
     rdfs:label "제출자이다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서 또는 문서군을 제출한 주체를 나타내는 관계."@ko .
 
 ppdoc:forwardedTo
     a rdf:Property ;
     rdfs:label "송부한다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "검토 또는 접수 후 문서가 다음 기관이나 주체로 송부되는 관계."@ko .
 
 ppdoc:forwardedBy
     a rdf:Property ;
     rdfs:label "송부자이다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서 또는 문서군을 송부한 주체를 나타내는 관계."@ko .
 
 ppdoc:reviewedBy
     a rdf:Property ;
     rdfs:label "검토한다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서가 특정 주체에 의해 검토됨을 나타내는 관계."@ko .
 
 ppdoc:inspectedBy
     a rdf:Property ;
     rdfs:label "검사한다"@ko ;
     rdfs:domain ppdoc:Procedure ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "검사 절차가 특정 검사자 또는 검사 주체에 의해 수행됨을 나타내는 관계."@ko .
 
 ppdoc:approvedBy
     a rdf:Property ;
     rdfs:label "승인한다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:Actor .
+    rdfs:range ppdoc:Actor ;
+    rdfs:comment "문서, 결과, 절차가 특정 행위자에게 승인됨을 나타내는 관계."@ko .
 
 ppdoc:precedes
     a rdf:Property ;
     rdfs:label "후속 단계로 이어진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서 흐름 또는 절차 흐름에서 현재 개체가 다음 개체보다 선행함을 나타내는 관계."@ko .
 
 ppdoc:follows
     a rdf:Property ;
     rdfs:label "이전 단계이다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서 흐름 또는 절차 흐름에서 현재 개체가 이전 개체를 따름을 나타내는 관계."@ko .
 
 ppdoc:aggregatesTo
     a rdf:Property ;
     rdfs:label "집계된다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "하위 공종 내역, 수량, 금액이 상위 집계 항목으로 합산되는 관계."@ko .
 
 ppdoc:aggregates
     a rdf:Property ;
     rdfs:label "집계한다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "상위 집계 개체가 하위 내역 또는 금액을 집계함을 나타내는 관계."@ko .
 
 ppdoc:isQuantityBasisFor
     a rdf:Property ;
     rdfs:label "산출 근거가 된다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:WorkDetailGroup .
+    rdfs:range ppdoc:WorkDetailGroup ;
+    rdfs:comment "수량산출서 또는 산출 항목이 공종별 내역의 수량 산정 근거가 됨을 나타내는 관계."@ko .
 
 ppdoc:hasQuantityBasis
     a rdf:Property ;
     rdfs:label "산출 근거를 가진다"@ko ;
     rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "공종별 내역이 수량산출서 또는 산출 항목을 산정 근거로 가짐을 나타내는 관계."@ko .
 
 ppdoc:evidences
     a rdf:Property ;
     rdfs:label "증빙한다"@ko ;
     rdfs:domain ppdoc:MaterialEvidenceDocument ;
-    rdfs:range ppdoc:WorkDetailGroup .
+    rdfs:range ppdoc:WorkDetailGroup ;
+    rdfs:comment "자재 증빙 문서가 특정 공종별 내역을 증빙함을 나타내는 관계."@ko .
 
 ppdoc:hasEvidence
     a rdf:Property ;
     rdfs:label "증빙자료를 가진다"@ko ;
     rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:MaterialEvidenceDocument .
+    rdfs:range ppdoc:MaterialEvidenceDocument ;
+    rdfs:comment "공종별 내역이 관련 자재 증빙 문서를 가짐을 나타내는 관계."@ko .
 
 ppdoc:isInspectionBasisFor
     a rdf:Property ;
     rdfs:label "검측 근거가 된다"@ko ;
     rdfs:domain ppdoc:InspectionDocument ;
-    rdfs:range ppdoc:WorkDetailGroup .
+    rdfs:range ppdoc:WorkDetailGroup ;
+    rdfs:comment "검측 문서가 특정 공종별 내역의 시공 확인 근거가 됨을 나타내는 관계."@ko .
 
 ppdoc:hasInspectionBasis
     a rdf:Property ;
     rdfs:label "검측 근거를 가진다"@ko ;
     rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:InspectionDocument .
+    rdfs:range ppdoc:InspectionDocument ;
+    rdfs:comment "공종별 내역이 관련 검측 문서를 근거로 가짐을 나타내는 관계."@ko .
 
 ppdoc:isPhotoEvidenceFor
     a rdf:Property ;
     rdfs:label "사진 근거가 된다"@ko ;
     rdfs:domain ppdoc:PhotoSheet ;
-    rdfs:range ppdoc:ProgressPaymentEntity .
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "사진대지가 문서, 검측 문서, 검사 절차의 사진 증빙이 됨을 나타내는 관계."@ko .
 
 ppdoc:hasPhotoEvidence
     a rdf:Property ;
     rdfs:label "사진 근거를 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:PhotoSheet .
+    rdfs:range ppdoc:PhotoSheet ;
+    rdfs:comment "문서, 검측 문서, 검사 절차가 사진대지를 증빙 자료로 가짐을 나타내는 관계."@ko .
 
 ppdoc:hasInformationField
     a rdf:Property ;
     rdfs:label "정보 필드를 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:InformationField .
+    rdfs:range ppdoc:InformationField ;
+    rdfs:comment "문서, 내역, 산출서가 포함해야 하는 정보 필드 정의를 연결하는 관계."@ko .
 
 ppdoc:hasInspectionItem
     a rdf:Property ;
     rdfs:label "검측 항목을 가진다"@ko ;
     rdfs:domain ppdoc:InspectionDocument ;
-    rdfs:range ppdoc:InspectionItem .
+    rdfs:range ppdoc:InspectionItem ;
+    rdfs:comment "검측 문서가 확인해야 하는 세부 검측 항목을 연결하는 관계."@ko .
 
 ppdoc:hasWorkType
     a rdf:Property ;
     rdfs:label "공종을 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:WorkType .
+    rdfs:range ppdoc:WorkType ;
+    rdfs:comment "내역, 산출 항목, 문서가 철근, 콘크리트, 거푸집 등 공종과 연결됨을 나타내는 관계."@ko .
 
 ppdoc:hasRelatedDocument
     a rdf:Property ;
     rdfs:label "관련 문서를 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:DocumentResource .
+    rdfs:range ppdoc:DocumentResource ;
+    rdfs:comment "개체와 의미적으로 관련된 문서 자원을 연결하는 보조 관계."@ko .
 
 ppdoc:hasSourceDocument
     a rdf:Property ;
     rdfs:label "출처 문서를 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:DocumentResource .
+    rdfs:range ppdoc:DocumentResource ;
+    rdfs:comment "추출값 또는 인스턴스의 원천 문서 자원을 연결하는 관계."@ko .
 
 #################################################################
 # Datatype properties
