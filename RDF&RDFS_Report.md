@@ -1,0 +1,888 @@
+# RDF&RDFS Report
+
+---
+
+# 철근콘크리트 공종 기성서류 RDF/RDFS 구축 보고서
+
+## 0. 작성 개요
+
+- 보고서 목적
+    - 철근콘크리트 공종 기성서류에 대한 RDF/RDFS 구축
+    - *철근콘크리트 공종 기성서류 온톨로지 구축 서류 구조화 작업* 문서 구조를 기준으로 클래스, 속성, domain/range, datatype, 단위, IRI 규칙, 샘플 RDF 인스턴스 생성
+- 구축 범위
+    - RDF/RDFS
+- 현재 RDF/RDFS 모델 규모
+    - 전체 triple 수: 959
+    - 클래스 수: 66
+    - 전체 property 수: 63
+    - Object Property 수: 30
+    - Datatype Property 수: 33
+    - 샘플 인스턴스 수: 99
+
+---
+
+## 1. 도메인 및 적용 범위 정의
+
+- 도메인
+    - 철근콘크리트 공종의 기성서류
+    - 기성금액 산정, 수량산출, 자재 증빙, 검측, 사진 증빙, 기성검사, 발주처 승인까지 이어지는 문서 체계
+- 연구 적용 범위
+    - 연구 과제명:
+        - *철근콘크리트 공종 기성서류의 의미적 구조화를 위한 RDF 기반 온톨로지 표현 방식 비교 평가*
+        - *Comparative Evaluation of RDF-Based Ontology Representation Methods for Semantic Structuring of Progress Payment Documents in Reinforced Concrete Work*
+- 포함 범위
+    - 시공사 기성서류
+        - 공문
+        - 첨부서류
+        - 기성부분 검사원
+        - 내역서
+        - 주요자재 검수 및 수불부
+        - 검측서류 및 사진대지
+        - 조건부 포함 문서
+    - 내역서 내부 구조
+        - 청구기성 요약
+        - 선금공제 내역
+        - 원가계산서
+        - 공종별집계표
+        - 공종별내역서
+        - 수량산출서
+    - 공종 범위 → 근거 KCS 14 20 00/11/12(국가건설기센터 표준시방서, 2026-06-30 17:08)(콘크리트공사/철근공사/거푸집 및 동바리)
+        - 철근공사
+        - 콘크리트공사
+        - 거푸집공사
+    - 산출 근거 범위
+        - 철근 수량산출서
+        - 콘크리트 수량산출서
+        - 거푸집 수량산출서
+    - 증빙 범위
+        - 철근 시험성적서
+        - 레미콘 납품서
+        - 거푸집 검수자료
+    - 검측 범위
+        - 철근 배근 검측체크리스트
+        - 콘크리트 타설일보
+        - 거푸집 설치 검측체크리스트
+        - 사진대지
+
+---
+
+## 2. 기성서류 문서 구조 분석
+
+- 시공사 기성서류
+    - 공문-대표이사 명의 사용인감계 제출 직인 날인본
+    - 첨부서류
+        - 기성부분 검사원
+        - 내역서
+            - 청구기성 요약
+            - 선금공제 내역(해당시)
+            - 공사기성부분 내역서
+                - 원가계산서
+                - 공종별집계표
+                    - 철근콘크리트공사 집계금액
+                    - 철근공사 집계금액
+                    - 콘크리트 공사 집계금액
+                    - 거푸집공사 집계금액
+                - 공종별내역서
+                    - 철근공사 내역
+                        - 품명
+                        - 규격
+                        - 단위
+                        - 계약수량
+                        - 전회수량
+                        - 금회수량
+                        - 누계수량
+                        - 단가
+                        - 금액
+                    - 콘크리트공사 내역
+                        - 품명
+                        - 규격
+                        - 단위
+                        - 계약수량
+                        - 전회수량
+                        - 금회수량
+                        - 누계수량
+                        - 단가
+                        - 금액
+                    - 거푸집공사 내역
+                        - 품명
+                        - 규격
+                        - 단위
+                        - 계약수량
+                        - 전회수량
+                        - 금회수량
+                        - 누계수량
+                        - 단가
+                        - 금액
+                    - 수량산출서(근거)
+                        - 철근 수량산출서
+                            - 위치
+                            - 부재명
+                            - 철근 규격
+                            - 철근 직경
+                            - 길이
+                            - 개수
+                            - 단위중량
+                            - 산출중량
+                        - 콘크리트 수량산출서
+                            - 위치
+                            - 부재명
+                            - 콘크리트 강도
+                            - 길이
+                            - 폭
+                            - 높이
+                            - 산출체적
+                        - 거푸집 수량산출서
+                            - 위치
+                            - 부재명
+                            - 거푸집 종류
+                            - 길이
+                            - 높이
+                            - 산출면적
+                        - 주요자재 검수 및 수불부
+                            - 철근 관련 증빙
+                                - 철근 반입대장
+                                - 철근 송장
+                                - 철근 시험성적서
+                                - 철근 검수조서
+                                - 철근 사용량 기록
+                            - 레미콘 관련 증빙
+                                - 레미콘 납품서
+                                - 레미콘 송장
+                                - 배합보고서
+                                - 슬럼프 시험기록
+                                - 공시체 제작 기록
+                                - 압축강도 시험성적서
+                            - 거푸집 관련 증빙
+                                - 거푸집 자재 반입대장
+                                - 동바리 자재 반입대장
+                                - 거푸집 검수자료
+                                - 동바리 검수자료
+                            - 검측서류(갑지) 및 사진대지
+                                - 철근공사 검측서류
+                                    - 철근 배근 검측요청서
+                                    - 철근 배근 검측체크리스트
+                                    - 철근 간격 확인
+                                    - 철근 직경 확인
+                                    - 정착길이 확인
+                                    - 이음길이 확인
+                                    - 철근 배근 사진대지
+                                - 거푸집공사 검측서류
+                                    - 거푸집 설치 검측요청서
+                                    - 거푸집 설치 검측체크리스트
+                                    - 거푸집 치수 확인
+                                    - 동바리 설치 확인
+                                    - 수직도 및 수평도 확인
+                                    - 거푸집 설치 사진대지
+                                - 콘크리트공사 검측서류
+                                    - 콘크리트 타설 전 검측서류
+                                    - 콘크리트 타설일보
+                                    - 타설 위치 확인
+                                    - 타설 물량 확인
+                                    - 양생 상태 확인
+                                    - 콘크리트 타설 사진대지
+                                - 안전관리비 사용내역 및 증빙
+                                - 보험료 납입 증명서
+                                - 기타 발주처요청 서류
+                            - 현장 → 감리본사 공문발송
+                                - 기성부분 감리조서
+                                - 공사 기성검사 수행계획서
+                                    - 세부 수행계획서
+                                    - 기성검사원에 대한 사전검토 의견서
+                                - 시공사 기성검사원 접수 서류
+                            - 본사 → 발주처 공문발송
+                                - 검사자 임명 및 검사일자 통보
+                                - 2항 서류 첨부
+                            - 발주처
+                            - 기성검사
+                                - 서류검사
+                                - 현장검사
+                                - 검사사진 대지
+                            - 감리본사 → 발주처(기성검사 결과 보고)
+                                - 기성검사 조서
+                                - 기성검토의견서
+                                - 공사관리간 입회확인서
+                                - 사진첨부
+                            - 발주처 승인
+                                - 기성서류(내역서) 제본 제출
+
+---
+
+## 3. 주요 용어 및 개념 후보 추출
+
+- 행위자
+    - 시공사
+    - 현장
+    - 감리본사
+    - 본사
+    - 발주처
+    - 검사자
+- 문서군
+    - 시공사 기성서류
+    - 첨부서류
+    - 내역서
+    - 공사기성부분 내역서
+    - 주요자재 검수 및 수불부
+    - 검측서류 및 사진대지
+    - 현장-감리본사 공문발송 문서군
+    - 본사-발주처 공문발송 문서군
+    - 기성검사 결과 보고
+- 개별 문서
+    - 공문
+    - 기성부분 검사원
+    - 청구기성 요약
+    - 선금공제 내역
+    - 원가계산서
+    - 공종별집계표
+    - 공종별내역서
+    - 수량산출서
+    - 자재 증빙 문서
+    - 검측 문서
+    - 사진대지
+    - 기성부분 감리조서
+    - 공사 기성검사 수행계획서
+    - 세부 수행계획서
+    - 사전검토 의견서
+    - 검사자 임명 및 검사일자 통보
+    - 기성검사 조서
+    - 기성검토의견서
+    - 공사관리관 입회확인서
+- 철근콘크리트 공종의 공사 상세 항목
+    - 철근공사
+    - 콘크리트공사
+    - 거푸집공사
+    - 철근콘크리트공사
+- 내역
+    - 철근공사 내역
+    - 콘크리트공사 내역
+    - 거푸집공사 내역
+    - 철근공사 집계금액
+    - 콘크리트공사 집계금액
+    - 거푸집공사 집계금액
+    - 철근콘크리트공사 집계금액
+- 수량산출
+    - 수량산출서
+    - 철근 수량산출서
+    - 콘크리트 수량산출서
+    - 거푸집 수량산출서
+    - 철근 수량산출 항목
+    - 콘크리트 수량산출 항목
+    - 거푸집 수량산출 항목
+- 정보 필드
+    - 공종별내역서 필드
+        - 품명
+        - 규격
+        - 단위
+        - 계약수량
+        - 전회수량
+        - 금회수량
+        - 누계수량
+        - 단가
+        - 금액
+    - 철근 수량산출서 필드
+        - 위치
+        - 부재명
+        - 철근 규격
+        - 철근 직경
+        - 길이
+        - 개수
+        - 단위중량
+        - 산출중량
+    - 콘크리트 수량산출서 필드
+        - 위치
+        - 부재명
+        - 콘크리트 강도
+        - 길이
+        - 폭
+        - 높이
+        - 산출체적
+    - 거푸집 수량산출서 필드
+        - 위치
+        - 부재명
+        - 거푸집 종류
+        - 길이
+        - 높이
+        - 산출면적
+- 검측 항목
+    - 철근 간격 확인
+    - 철근 직경 확인
+    - 정착길이 확인
+    - 타설 위치 확인
+    - 타설 물량 확인
+    - 양생 상태 확인
+    - 거푸집 치수 확인
+    - 동바리 설치 확인
+    - 수직도 및 수평도 확인
+
+---
+
+## 4. Class 및 계층 구조 정의
+
+> 위에서 정리한 대상들을 상하위 관계로 만듦
+> 
+- 상위 클래스
+    - `ppdoc:ProgressPaymentDocument`
+- 모든 행위자, 문서, 절차, 내역, 산출 항목, 정보 필드의 공통 상위 클래스
+- 행위자 계층
+    - `ppdoc:Actor`
+        - `ppdoc:Contractor` → 시공사
+        - `ppdoc:SiteOffice` → 현장
+        - `ppdoc:SupervisionHeadOffice` → 감리본사
+        - `ppdoc:HeadOffice` → 본사
+        - `ppdoc:Owner` →발주처
+        - `ppdoc:Inspector` → 검사자
+- 문서 자원 계층
+    - `ppdoc:DocumentResource`
+        - `ppdoc:DocumentGroup` → 문서군
+        - `ppdoc:Document` → 개별 문서
+- 문서군 계층
+    - `ppdoc:DocumentGroup`
+        - `ppdoc:ContractorProgressPaymentPackage` → 시공사 기성서류 묶음
+        - `ppdoc:AttachmentBundle` → 첨부서류 묶음
+        - `ppdoc:StatementDocument` → 내역서 묶음
+        - `ppdoc:ProgressPaymentStatement` → 공사기성부분내역서 묶음
+        - `ppdoc:MaterialReceiptAndInspectionLedger` → 주요자재 검수 및 수불부 묶음
+        - `ppdoc:InspectionAndPhotoDocumentGroup` → 검측서류 및 사진대지 묶음
+        - `ppdoc:SiteToSupervisionSubmissionPackage` → 현장 → 감리본사 송부 문서 묶음
+        - `ppdoc:HeadOfficeToOwnerSubmissionPackage` → 본사 → 발주처 제출 문서 묶음
+        - `ppdoc:InspectionResultReportPackage` → 기성검사 결과보고 문서 묶음
+- 개별 문서 계층
+    - `ppdoc:Document`
+        - `ppdoc:OfficialLetter` → 공문
+        - `ppdoc:ProgressPaymentInspectionRequest` → 기성부분 검사원
+        - `ppdoc:ProgressPaymentClaimSummary` → 청구기성 요약
+        - `ppdoc:AdvancePaymentDeductionStatement` → 선금공제내역
+        - `ppdoc:CostCalculationSheet` → 원가계산서
+        - `ppdoc:WorkTypeSummarySheet` → 공종별집계표
+        - `ppdoc:WorkTypeDetailSheet` → 공종별내역서
+        - `ppdoc:QuantityCalculationSheet` →수량산출서
+        - `ppdoc:MaterialEvidenceDocument` → 자재 증빙 문서
+        - `ppdoc:InspectionDocument` → 검측문서
+        - `ppdoc:PhotoSheet` → 사진대지
+        - `ppdoc:SupervisionProgressPaymentReport` → 기성부분 감리조서
+        - `ppdoc:InspectionExecutionPlan` → 공사 기성검사 수행계획서
+        - `ppdoc:DetailedExecutionPlan` → 세부 수행계획서
+        - `ppdoc:PriorReviewOpinion` → 사전검토 의견서
+        - `ppdoc:InspectorAppointmentNotice` → 검사자 임명 및 검사일자 통보
+        - `ppdoc:ProgressPaymentInspectionRecord` → 기성검사조서
+        - `ppdoc:ProgressPaymentReviewOpinion` → 기성검사검토의견서
+        - `ppdoc:ConstructionManagerAttendanceConfirmation` → 공사관리관 입회확인서
+        - `ppdoc:SafetyCostEvidenceDocument` → 안전관리비 사용내역 및 증빙
+        - `ppdoc:InsurancePaymentCertificate` → 보험료 납입 증명서
+        - `ppdoc:OwnerRequestedDocument` → 기타 발주처 요청 서류
+- 수량산출서 하위 문서 계층
+    - `ppdoc:QuantityCalculationSheet`
+        - `ppdoc:RebarQuantityCalculationSheet`  → 철근 수량산출서
+        - `ppdoc:ConcreteQuantityCalculationSheet` → 콘크리트 수량산출서
+        - `ppdoc:FormworkQuantityCalculationSheet`  → 거푸집 수량산출서
+- 공종별 내역 계층
+    - `ppdoc:WorkDetailGroup`
+        - `ppdoc:RebarWorkDetailGroup` → 철근공사 내역
+        - `ppdoc:ConcreteWorkDetailGroup` → 콘크리트공사 내역
+        - `ppdoc:FormworkDetailGroup` → 거푸집공사 내역
+- 공종 계층
+    - `ppdoc:WorkType`
+        - `ppdoc:RebarWork` → 철근공사 공종
+        - `ppdoc:ConcreteWork` → 콘크리트공사 공종
+        - `ppdoc:Formwork` → 거푸집공사 공종
+- 수량산출 항목 계층
+    - `ppdoc:QuantityCalculationItem`
+        - `ppdoc:RebarQuantityCalculationItem` → 철근 수량산출 항목
+        - `ppdoc:ConcreteQuantityCalculationItem` → 콘크리트 수량산출 항목
+        - `ppdoc:FormworkQuantityCalculationItem` → 거푸집 수량산출 항목
+- 절차 계층
+    - `ppdoc:Procedure`
+        - `ppdoc:ProgressPaymentInspection` → 기성검사
+        - `ppdoc:DocumentInspection` → 서류검사
+        - `ppdoc:SiteInspection` → 현장검사
+        - `ppdoc:OwnerApproval` → 발주처 승인
+        - `ppdoc:BoundStatementSubmission` → 기성서류 제본 제
+- 보조 개념 클래스
+    - `ppdoc:SummaryAmount` → 공종별 또는 상위 공종의 집계금액 표현
+    - `ppdoc:InformationField` → 문서나 내역 내부의 정보 필드 정의
+    - `ppdoc:InspectionItem` → 검측 문서에서 확인하는 세부 검측 항목
+
+---
+
+## 5. Property 정의
+
+> 클래스 간의 관계 정의
+> 
+- Property 구분
+    - Object Property
+        - 주어와 목적어가 모두 IRI 자원인 관계
+        - 문서 간 구조, 흐름, 근거, 증빙을 표현
+    - Datatype Property (세부 항목 정의)
+        - 주어는 IRI 자원이고 목적어는 literal 값인 관계
+        - 수량, 금액, 규격, 직경, 파일명, 날짜 등을 표현
+- Object Property 정의 및 relation 설명
+    - `ppdoc:creates`
+        - 의미: 행위자가 문서 또는 문서군을 작성
+        - 방향: `Actor -> DocumentResource`
+        - 예: `시공사 -> 제13회 시공사 기성서류`
+    - `ppdoc:createdBy`
+        - 의미: 문서 또는 문서군의 작성 주체
+        - 방향: `DocumentResource -> Actor`
+        - 예: `제13회 시공사 기성서류 -> 시공사`
+    - `ppdoc:hasPart`
+        - 의미: 상위-하위 구성 관계
+        - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
+        - 예: `수량산출서 -> 철근 수량산출서`
+        - 예: `철근 수량산출서 -> 철근 수량산출 항목`
+    - `ppdoc:isPartOf`
+        - 의미: 포함 관계의 역방향
+        - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
+        - 예: `철근 수량산출서 -> 수량산출서`
+    - `ppdoc:attaches`
+        - 의미: 제출 문서 또는 문서군에 첨부 문서 연결
+        - 방향: `DocumentResource -> DocumentResource`
+        - 예: `첨부서류 -> 내역서`
+    - `ppdoc:conditionallyIncludes`
+        - 의미: 특정 조건이 있을 때 포함되는 문서 연결
+        - 방향: `DocumentResource -> DocumentResource`
+        - 예: `첨부서류 -> 선금공제 내역`
+    - `ppdoc:submittedTo`
+        - 의미: 문서 또는 문서군의 제출 대상
+        - 방향: `DocumentResource -> Actor`
+        - 예: `제13회 시공사 기성서류 -> 현장`
+    - `ppdoc:submittedBy`
+        - 의미: 문서 또는 문서군의 제출 주체
+        - 방향: `DocumentResource -> Actor`
+        - 예: `제13회 시공사 기성서류 -> 시공사`
+    - `ppdoc:forwardedTo`
+        - 의미: 다음 검토 주체로 송부
+        - 방향: `DocumentResource -> Actor`
+        - 예: `현장-감리본사 공문발송 문서군 -> 감리본사`
+    - `ppdoc:forwardedBy`
+        - 의미: 문서 또는 문서군의 송부 주체
+        - 방향: `DocumentResource -> Actor`
+        - 예: `현장-감리본사 공문발송 문서군 -> 현장`
+    - `ppdoc:reviewedBy`
+        - 의미: 문서 검토 주체 표시
+        - 방향: `DocumentResource -> Actor`
+        - 예: `기성부분 감리조서 -> 감리본사`
+    - `ppdoc:inspectedBy`
+        - 의미: 검사 절차 수행자 표시
+        - 방향: `Procedure -> Actor`
+        - 예: `제13회 기성검사 -> 기성검사자`
+    - `ppdoc:approvedBy`
+        - 의미: 문서, 절차, 결과의 승인 주체
+        - 방향: `ProgressPaymentDocument -> Actor`
+        - 예: `발주처 승인 -> 발주처`
+    - `ppdoc:precedes`
+        - 의미: 업무 흐름의 선후 관계
+        - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
+        - 예: `제13회 기성검사 -> 기성검사 결과 보고`
+    - `ppdoc:follows`
+        - 의미: 업무 흐름의 역방향 선후 관계
+        - 방향: `ProgressPaymentEntity -> ProgressPaymentEntity`
+        - 예: `기성검사 결과 보고 -> 제13회 기성검사`
+    - `ppdoc:aggregatesTo`
+        - 의미: 하위 내역을 상위 집계로 합산
+        - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
+        - 예: `철근공사 내역 -> 철근공사 집계금액`
+        - 예: `철근공사 집계금액 -> 철근콘크리트공사 집계금액`
+    - `ppdoc:aggregates`
+        - 의미: 상위 집계 개체가 하위 내역 또는 금액을 집계
+        - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
+    - `ppdoc:isQuantityBasisFor`
+        - 의미: 수량산출서 또는 산출 항목의 산정 근거 관계
+        - 방향: `ProgressPaymentDocument -> WorkDetailGroup`
+        - 예: `철근 수량산출 항목 -> 철근공사 내역`
+    - `ppdoc:hasQuantityBasis`
+        - 의미: 공종별 내역이 수량산출 근거를 가짐
+        - 방향: `WorkDetailGroup -> ProgressPaymentEntity`
+        - 예: `철근공사 내역 -> 철근 수량산출 항목`
+    - `ppdoc:evidences`
+        - 의미: 자재 증빙 문서와 공종 내역 연결
+        - 방향: `MaterialEvidenceDocument -> WorkDetailGroup`
+        - 예: `철근 시험성적서 -> 철근공사 내역`
+    - `ppdoc:hasEvidence`
+        - 의미: 공종별 내역이 자재 증빙 문서를 가짐
+        - 방향: `WorkDetailGroup -> MaterialEvidenceDocument`
+        - 예: `철근공사 내역 -> 철근 시험성적서`
+    - `ppdoc:isInspectionBasisFor`
+        - 의미: 검측 문서와 공종 내역 연결
+        - 방향: `InspectionDocument -> WorkDetailGroup`
+        - 예: `철근 배근 검측체크리스트 -> 철근공사 내역`
+    - `ppdoc:hasInspectionBasis`
+        - 의미: 공종별 내역이 검측 문서를 근거로 가짐
+        - 방향: `WorkDetailGroup -> InspectionDocument`
+        - 예: `철근공사 내역 -> 철근 배근 검측체크리스트`
+    - `ppdoc:isPhotoEvidenceFor`
+        - 의미: 사진대지와 증빙 대상 연결
+        - 방향: `PhotoSheet -> ProgressPaymentDoucment`
+        - 예: `철근 배근 사진대지 -> 철근 배근 검측체크리스트`
+    - `ppdoc:hasPhotoEvidence`
+        - 의미: 문서나 절차가 사진 증빙을 가짐
+        - 방향: `ProgressPaymentDocument -> PhotoSheet`
+        - 예: `철근 배근 검측체크리스트 -> 철근 배근 사진대지`
+    - `ppdoc:hasInformationField`
+        - 의미: 문서나 산출서의 정보 필드 정의
+        - 방향: `ProgressPaymentDocument -> InformationField`
+        - 예: `철근 수량산출서 -> 철근 직경`
+    - `ppdoc:hasInspectionItem`
+        - 의미: 검측 문서가 세부 검측 항목을 가짐
+        - 방향: `InspectionDocument -> InspectionItem`
+        - 예: `철근 배근 검측체크리스트 -> 철근 직경 확인`
+    - `ppdoc:hasWorkType`
+        - 의미: 내역, 산출 항목, 문서와 공종 연결
+        - 방향: `ProgressPaymentDocument -> WorkType`
+        - 예: `철근공사 내역 -> 철근공사`
+    - `ppdoc:hasRelatedDocument`
+        - 의미: 의미적으로 관련된 문서 연결
+        - 방향: `ProgressPaymentDocument -> DocumentResource`
+    - `ppdoc:hasSourceDocument`
+        - 의미: 추출값 또는 인스턴스의 원천 문서 연결
+        - 방향: `ProgressPaymentDocument -> DocumentResource`
+- Datatype Property 정의
+    - 문서 식별 속성
+        - `ppdoc:hasDocumentTitle` → 문서 제목
+        - `ppdoc:hasDocumentIdentifier` → 문서번호, 회차, 식별번호
+        - `ppdoc:hasCreationDate` →작성일
+        - `ppdoc:hasSubmissionDate` → 제출일
+        - `ppdoc:hasSourceFileName` → 원본 파일명
+        - `ppdoc:hasSourcePage` → 원본 문서의 페이지
+        - `ppdoc:hasSourceSheetName` → 엑셀 원본 시트명
+        - `ppdoc:hasSourceCellAddress` → 엑셀 셀 위치
+    - 공종별 내역 속성
+        - `ppdoc:hasItemName` → 품명
+        - `ppdoc:hasSpecification` → 규격
+        - `ppdoc:hasQuantityUnit` → 단위
+        - `ppdoc:hasContractQuantity` → 계약수량
+        - `ppdoc:hasPreviousQuantity` → 전회수량
+        - `ppdoc:hasCurrentQuantity` → 금회수량
+        - `ppdoc:hasCumulativeQuantity` → 누계수량
+        - `ppdoc:hasUnitPrice` → 단가
+        - `ppdoc:hasAmount` → 금액
+        - `ppdoc:hasCurrency` → 금액단위
+    - 수량산출 공통 속성
+        - `ppdoc:hasLocation` → 위치
+        - `ppdoc:hasMemberName` → 부재명
+        - `ppdoc:hasLength` → 길이
+        - `ppdoc:hasHeight` → 높이
+        - `ppdoc:hasUnitSymbol` → 산출값의 단위
+    - 철근 수량산출 속성
+        - `ppdoc:hasRebarSpecification` → 철근 규격
+        - `ppdoc:hasRebarDiameter` → 철근 직경
+        - `ppdoc:hasCount` → 개수
+        - `ppdoc:hasUnitWeight` → 단위중량
+        - `ppdoc:hasCalculatedWeight` → 산출중량
+    - 콘크리트 수량산출 속성
+        - `ppdoc:hasConcreteStrength` → 콘크리트 강도
+        - `ppdoc:hasWidth` → 폭
+        - `ppdoc:hasCalculatedVolume` → 산출체적
+    - 거푸집 수량산출 속성
+        - `ppdoc:hasFormworkType` → 거푸집 종류
+        - `ppdoc:hasCalculatedArea` → 산출면
+
+---
+
+## 6. Domain/Range 정의
+
+- Domain/Range 정의 원칙
+    - RDFS의 `rdfs:domain`은 property의 주어가 될 수 있는 클래스를 지정
+    - RDFS의 `rdfs:range`는 property의 목적어가 될 수 있는 클래스를 지정
+- Object Property domain/range
+    - 문서 작성 관계
+        - `ppdoc:creates`
+            - domain: `ppdoc:Actor`
+            - range: `ppdoc:DocumentResource`
+        - `ppdoc:createdBy`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+    - 문서 구성 관계
+        - `ppdoc:hasPart`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+        - `ppdoc:isPartOf`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+    - 첨부 관계
+        - `ppdoc:attaches`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:DocumentResource`
+        - `ppdoc:conditionallyIncludes`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:DocumentResource`
+    - 제출 및 송부 관계
+        - `ppdoc:submittedTo`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+        - `ppdoc:submittedBy`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+        - `ppdoc:forwardedTo`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+        - `ppdoc:forwardedBy`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+    - 검토, 검사, 승인 관계
+        - `ppdoc:reviewedBy`
+            - domain: `ppdoc:DocumentResource`
+            - range: `ppdoc:Actor`
+        - `ppdoc:inspectedBy`
+            - domain: `ppdoc:Procedure`
+            - range: `ppdoc:Actor`
+        - `ppdoc:approvedBy`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:Actor`
+    - 흐름 순서 관계
+        - `ppdoc:precedes`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+        - `ppdoc:follows`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+    - 집계 관계
+        - `ppdoc:aggregatesTo`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+        - `ppdoc:aggregates`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:ProgressPaymentEntity`
+    - 산출 근거 관계
+        - `ppdoc:isQuantityBasisFor`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:WorkDetailGroup`
+        - `ppdoc:hasQuantityBasis`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `ppdoc:ProgressPaymentEntity`
+    - 증빙 관계
+        - `ppdoc:evidences`
+            - domain: `ppdoc:MaterialEvidenceDocument`
+            - range: `ppdoc:WorkDetailGroup`
+        - `ppdoc:hasEvidence`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `ppdoc:MaterialEvidenceDocument`
+    - 검측 근거 관계
+        - `ppdoc:isInspectionBasisFor`
+            - domain: `ppdoc:InspectionDocument`
+            - range: `ppdoc:WorkDetailGroup`
+        - `ppdoc:hasInspectionBasis`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `ppdoc:InspectionDocument`
+    - 사진 증빙 관계
+        - `ppdoc:isPhotoEvidenceFor`
+            - domain: `ppdoc:PhotoSheet`
+            - range: `ppdoc:ProgressPaymentEntity`
+        - `ppdoc:hasPhotoEvidence`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:PhotoSheet`
+    - 필드 및 항목 관계
+        - `ppdoc:hasInformationField`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:InformationField`
+        - `ppdoc:hasInspectionItem`
+            - domain: `ppdoc:InspectionDocument`
+            - range: `ppdoc:InspectionItem`
+        - `ppdoc:hasWorkType`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `ppdoc:WorkType`
+- Datatype Property domain/range 핵심 정의
+    - 문서 속성
+        - `ppdoc:hasDocumentTitle`
+            - domain: `ppdoc:DocumentResource`
+            - range: `xsd:string`
+        - `ppdoc:hasDocumentIdentifier`
+            - domain: `ppdoc:DocumentResource`
+            - range: `xsd:string`
+        - `ppdoc:hasCreationDate`
+            - domain: `ppdoc:DocumentResource`
+            - range: `xsd:date`
+        - `ppdoc:hasSubmissionDate`
+            - domain: `ppdoc:DocumentResource`
+            - range: `xsd:date`
+    - 원본 출처 속성
+        - `ppdoc:hasSourceFileName`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+        - `ppdoc:hasSourcePage`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+        - `ppdoc:hasSourceSheetName`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+        - `ppdoc:hasSourceCellAddress`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+    - 공종별 내역 속성
+        - `ppdoc:hasItemName`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:string`
+        - `ppdoc:hasSpecification`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:string`
+        - `ppdoc:hasQuantityUnit`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:string`
+        - `ppdoc:hasContractQuantity`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:decimal`
+        - `ppdoc:hasPreviousQuantity`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCurrentQuantity`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCumulativeQuantity`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:decimal`
+        - `ppdoc:hasUnitPrice`
+            - domain: `ppdoc:WorkDetailGroup`
+            - range: `xsd:decimal`
+        - `ppdoc:hasAmount`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCurrency`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+    - 수량산출 속성
+        - `ppdoc:hasLocation`
+            - domain: `ppdoc:QuantityCalculationItem`
+            - range: `xsd:string`
+        - `ppdoc:hasMemberName`
+            - domain: `ppdoc:QuantityCalculationItem`
+            - range: `xsd:string`
+        - `ppdoc:hasRebarSpecification`
+            - domain: `ppdoc:RebarQuantityCalculationItem`
+            - range: `xsd:string`
+        - `ppdoc:hasRebarDiameter`
+            - domain: `ppdoc:RebarQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasLength`
+            - domain: `ppdoc:QuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasWidth`
+            - domain: `ppdoc:ConcreteQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasHeight`
+            - domain: `ppdoc:QuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCount`
+            - domain: `ppdoc:RebarQuantityCalculationItem`
+            - range: `xsd:integer`
+        - `ppdoc:hasUnitWeight`
+            - domain: `ppdoc:RebarQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCalculatedWeight`
+            - domain: `ppdoc:RebarQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasConcreteStrength`
+            - domain: `ppdoc:ConcreteQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasCalculatedVolume`
+            - domain: `ppdoc:ConcreteQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasFormworkType`
+            - domain: `ppdoc:FormworkQuantityCalculationItem`
+            - range: `xsd:string`
+        - `ppdoc:hasCalculatedArea`
+            - domain: `ppdoc:FormworkQuantityCalculationItem`
+            - range: `xsd:decimal`
+        - `ppdoc:hasUnitSymbol`
+            - domain: `ppdoc:ProgressPaymentEntity`
+            - range: `xsd:string`
+
+---
+
+## 7. Datatype 및 단위 체계 정의
+
+> `xsd` : XML schema Definition, W3C 표준으로 속성 제약 조건을 정의하는 스키마 언어
+> 
+- 사용 datatype
+    - `xsd:string` → 문자형
+        - 문서명
+        - 파일명
+        - 시트명
+        - 셀 주소
+        - 품명
+        - 규격
+        - 단위
+        - 위치
+        - 부재명
+        - 거푸집 종류
+        - 통화
+        - 단위 기호
+    - `xsd:decimal` → 소숫점을 가지는 숫지
+        - 계약수량
+        - 전회수량
+        - 금회수량
+        - 누계수량
+        - 단가
+        - 금액
+        - 철근 직경
+        - 길이
+        - 폭
+        - 높이
+        - 단위중량
+        - 산출중량
+        - 콘크리트 강도
+        - 산출체적
+        - 산출면적
+    - `xsd:integer` → 정수
+        - 철근 개수
+    - `xsd:date` → 날짜
+        - 작성일
+        - 제출일
+- 공종별내역서 단위
+    - 철근공사 내역
+        - 수량 단위: `ton`
+        - 금액 단위: `KRW`
+    - 콘크리트공사 내역
+        - 수량 단위: `m3`
+        - 금액 단위: `KRW`
+    - 거푸집공사 내역
+        - 수량 단위: `m2`
+        - 금액 단위: `KRW`
+- 철근 수량산출 단위
+    - 철근 직경
+        - datatype: `xsd:decimal`
+        - 단위: `mm`
+    - 길이
+        - datatype: `xsd:decimal`
+        - 단위: `m`
+    - 개수
+        - datatype: `xsd:integer`
+        - 단위: 개
+    - 단위중량
+        - datatype: `xsd:decimal`
+        - 단위: `kg/m`
+    - 산출중량
+        - datatype: `xsd:decimal`
+        - 단위: `kg`
+- 콘크리트 수량산출 단위
+    - 콘크리트 강도
+        - datatype: `xsd:decimal`
+        - 단위: `MPa`
+    - 길이, 폭, 높이
+        - datatype: `xsd:decimal`
+        - 단위: `m`
+    - 산출체적
+        - datatype: `xsd:decimal`
+        - 단위: `m3`
+- 거푸집 수량산출 단위
+    - 거푸집 종류
+        - datatype: `xsd:string`
+    - 길이, 높이
+        - datatype: `xsd:decimal`
+        - 단위: `m`
+    - 산출면적
+        - datatype: `xsd:decimal`
+        - 단위: `m2`
+
+---
+
+## 8. IRI/Namespace 규칙 정의
+
+> 고유식별자 부
+> 
+- 기본 namespace
+    - prefix(접두사): `ppdoc`
+    - namespace IRI: `https://example.org/rc-progress-payment#`
+- 사용 prefix
+    - `ppdoc: <https://example.org/rc-progress-payment#>`
+    - `rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>`
+    - `rdfs: <http://www.w3.org/2000/01/rdf-schema#>`
+    - `xsd: <http://www.w3.org/2001/XMLSchema#>`
+    - `dcterms: <http://purl.org/dc/terms/>`
