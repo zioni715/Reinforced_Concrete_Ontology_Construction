@@ -381,21 +381,21 @@
     };
 
     const relationMeta = {
-      creates: { label: "creates", color: "#2563eb", groups: ["workflow"], description: ["행위자가 문서 또는 문서군 작성", "예: 시공사 -> 제13회 시공사 기성서류"] },
-      hasPart: { label: "hasPart", color: "#475569", groups: ["workflow", "statement", "inspection"], description: ["상위-하위 구성 관계", "예: 수량산출서 -> 철근 수량산출서"] },
-      attaches: { label: "attaches", color: "#0f766e", groups: ["workflow"], description: ["공문 또는 문서군에 첨부 문서 연결", "예: 첨부서류 -> 내역서"] },
-      submittedTo: { label: "submittedTo", color: "#2563eb", groups: ["workflow"], description: ["문서 또는 문서군의 제출 대상", "예: 시공사 기성서류 -> 현장"] },
-      forwardedTo: { label: "forwardedTo", color: "#2563eb", groups: ["workflow"], description: ["다음 검토 주체로 송부", "예: 현장 -> 감리본사"] },
-      reviewedBy: { label: "reviewedBy", color: "#64748b", groups: ["workflow"], description: ["문서 검토 주체 표시", "예: 기성부분 감리조서 -> 감리본사"] },
-      inspectedBy: { label: "inspectedBy", color: "#64748b", groups: ["inspection"], description: ["검사 절차 수행자 표시", "예: 제13회 기성검사 -> 기성검사자"] },
-      approvedBy: { label: "approvedBy", color: "#059669", groups: ["workflow", "inspection"], description: ["문서, 절차, 결과의 승인 주체", "예: 발주처 승인 -> 발주처"] },
-      precedes: { label: "precedes", color: "#334155", groups: ["workflow"], description: ["업무 흐름의 선후 관계", "예: 기성검사 -> 기성검사 결과 보고"] },
-      aggregatesTo: { label: "aggregatesTo", color: "#0f766e", groups: ["statement"], description: ["하위 내역을 상위 집계로 합산", "예: 철근공사 내역 -> 철근공사 집계금액"] },
-      isQuantityBasisFor: { label: "isQuantityBasisFor", color: "#0284c7", groups: ["basis"], description: ["수량산출서 또는 산출 항목의 산정 근거 관계", "예: 철근 수량산출 항목 -> 철근공사 내역"] },
-      hasInformationField: { label: "hasInformationField", color: "#64748b", groups: ["statement", "basis"], description: ["문서나 산출서의 정보 필드 정의", "예: 철근 수량산출서 -> 철근 직경"] },
-      evidences: { label: "evidences", color: "#e11d48", groups: ["evidence"], description: ["자재 증빙 문서와 공종 내역 연결", "예: 철근 시험성적서 -> 철근공사 내역"] },
-      isInspectionBasisFor: { label: "isInspectionBasisFor", color: "#9333ea", groups: ["inspection"], description: ["검측 문서와 공종 내역 연결", "예: 철근 배근 검측체크리스트 -> 철근공사 내역"] },
-      isPhotoEvidenceFor: { label: "isPhotoEvidenceFor", color: "#7c3aed", groups: ["inspection"], description: ["사진대지와 증빙 대상 연결", "예: 철근 배근 사진대지 -> 철근 배근 검측체크리스트"] }
+      creates: { label: "creates", color: "#2563eb", groups: ["workflow"], description: ["행위자가 문서 또는 문서군 작성"] },
+      hasPart: { label: "hasPart", color: "#475569", groups: ["workflow", "statement", "inspection"], description: ["상위-하위 구성 관계"] },
+      attaches: { label: "attaches", color: "#0f766e", groups: ["workflow"], description: ["공문 또는 문서군에 첨부 문서 연결"] },
+      submittedTo: { label: "submittedTo", color: "#2563eb", groups: ["workflow"], description: ["문서 또는 문서군의 제출 대상"] },
+      forwardedTo: { label: "forwardedTo", color: "#2563eb", groups: ["workflow"], description: ["다음 검토 주체로 송부"] },
+      reviewedBy: { label: "reviewedBy", color: "#64748b", groups: ["workflow"], description: ["문서 검토 주체 표시"] },
+      inspectedBy: { label: "inspectedBy", color: "#64748b", groups: ["inspection"], description: ["검사 절차 수행자 표시"] },
+      approvedBy: { label: "approvedBy", color: "#059669", groups: ["workflow", "inspection"], description: ["문서, 절차, 결과의 승인 주체"] },
+      precedes: { label: "precedes", color: "#334155", groups: ["workflow"], description: ["업무 흐름의 선후 관계"] },
+      aggregatesTo: { label: "aggregatesTo", color: "#0f766e", groups: ["statement"], description: ["하위 내역을 상위 집계로 합산"] },
+      isQuantityBasisFor: { label: "isQuantityBasisFor", color: "#0284c7", groups: ["basis"], description: ["수량산출서 또는 산출 항목의 산정 근거 관계"] },
+      hasInformationField: { label: "hasInformationField", color: "#64748b", groups: ["statement", "basis"], description: ["문서나 산출서의 정보 필드 정의"] },
+      evidences: { label: "evidences", color: "#e11d48", groups: ["evidence"], description: ["자재 증빙 문서와 공종 내역 연결"] },
+      isInspectionBasisFor: { label: "isInspectionBasisFor", color: "#9333ea", groups: ["inspection"], description: ["검측 문서와 공종 내역 연결"] },
+      isPhotoEvidenceFor: { label: "isPhotoEvidenceFor", color: "#7c3aed", groups: ["inspection"], description: ["사진대지와 증빙 대상 연결"] }
     };
 
     const nodes = [
@@ -406,7 +406,7 @@
       { id: "owner", label: "발주처", type: "actor", cls: "ppdoc:Owner", fxGroup: "workflow" },
       { id: "inspector", label: "기성검사자", type: "actor", cls: "ppdoc:Inspector", fxGroup: "inspection" },
 
-      { id: "package13", label: "제13회 시공사 기성서류", type: "group", cls: "ppdoc:ContractorProgressPaymentPackage", fxGroup: "workflow" },
+      { id: "contractorPackage", label: "시공사 기성서류", type: "group", cls: "ppdoc:ContractorProgressPaymentPackage", fxGroup: "workflow" },
       { id: "officialLetter", label: "공문", type: "document", cls: "ppdoc:OfficialLetter", fxGroup: "workflow" },
       { id: "attachments", label: "첨부서류", type: "group", cls: "ppdoc:AttachmentBundle", fxGroup: "workflow" },
       { id: "inspectionRequest", label: "기성부분 검사원", type: "document", cls: "ppdoc:ProgressPaymentInspectionRequest", fxGroup: "workflow" },
@@ -479,7 +479,7 @@
       { id: "ownerSubmission", label: "본사-발주처 공문발송 문서군", type: "group", cls: "ppdoc:HeadOfficeToOwnerSubmissionPackage", fxGroup: "workflow" },
       { id: "appointment", label: "검사자 임명 및 검사일자 통보", type: "document", cls: "ppdoc:InspectorAppointmentNotice", fxGroup: "workflow" },
 
-      { id: "inspection", label: "제13회 기성검사", type: "procedure", cls: "ppdoc:ProgressPaymentInspection", fxGroup: "inspection" },
+      { id: "inspection", label: "기성검사", type: "procedure", cls: "ppdoc:ProgressPaymentInspection", fxGroup: "inspection" },
       { id: "documentInspection", label: "서류검사", type: "procedure", cls: "ppdoc:DocumentInspection", fxGroup: "inspection" },
       { id: "siteInspection", label: "현장검사", type: "procedure", cls: "ppdoc:SiteInspection", fxGroup: "inspection" },
       { id: "inspectionPhoto", label: "검사사진 대지", type: "document", cls: "ppdoc:PhotoSheet", fxGroup: "inspection" },
@@ -492,14 +492,14 @@
     ];
 
     const links = [
-      { source: "contractor", target: "package13", relation: "creates" },
-      { source: "package13", target: "officialLetter", relation: "hasPart" },
-      { source: "package13", target: "attachments", relation: "hasPart" },
+      { source: "contractor", target: "contractorPackage", relation: "creates" },
+      { source: "contractorPackage", target: "officialLetter", relation: "hasPart" },
+      { source: "contractorPackage", target: "attachments", relation: "hasPart" },
       { source: "attachments", target: "inspectionRequest", relation: "attaches" },
       { source: "attachments", target: "statement", relation: "attaches" },
       { source: "attachments", target: "materialLedger", relation: "attaches" },
       { source: "attachments", target: "inspectionGroup", relation: "attaches" },
-      { source: "package13", target: "site", relation: "submittedTo" },
+      { source: "contractorPackage", target: "site", relation: "submittedTo" },
       { source: "site", target: "supervision", relation: "forwardedTo" },
 
       { source: "statement", target: "claimSummary", relation: "hasPart" },

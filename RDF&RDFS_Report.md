@@ -418,11 +418,11 @@
     - `ppdoc:creates`
         - 의미: 행위자가 문서 또는 문서군을 작성
         - 방향: `Actor -> DocumentResource`
-        - 예: `시공사 -> 제13회 시공사 기성서류`
+        - 예: `시공사 -> 시공사 기성서류`
     - `ppdoc:createdBy`
         - 의미: 문서 또는 문서군의 작성 주체
         - 방향: `DocumentResource -> Actor`
-        - 예: `제13회 시공사 기성서류 -> 시공사`
+        - 예: `시공사 기성서류 -> 시공사`
     - `ppdoc:hasPart`
         - 의미: 상위-하위 구성 관계
         - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
@@ -443,11 +443,11 @@
     - `ppdoc:submittedTo`
         - 의미: 문서 또는 문서군의 제출 대상
         - 방향: `DocumentResource -> Actor`
-        - 예: `제13회 시공사 기성서류 -> 현장`
+        - 예: `시공사 기성서류 -> 현장`
     - `ppdoc:submittedBy`
         - 의미: 문서 또는 문서군의 제출 주체
         - 방향: `DocumentResource -> Actor`
-        - 예: `제13회 시공사 기성서류 -> 시공사`
+        - 예: `시공사 기성서류 -> 시공사`
     - `ppdoc:forwardedTo`
         - 의미: 다음 검토 주체로 송부
         - 방향: `DocumentResource -> Actor`
@@ -463,7 +463,7 @@
     - `ppdoc:inspectedBy`
         - 의미: 검사 절차 수행자 표시
         - 방향: `Procedure -> Actor`
-        - 예: `제13회 기성검사 -> 기성검사자`
+        - 예: `기성검사 -> 기성검사자`
     - `ppdoc:approvedBy`
         - 의미: 문서, 절차, 결과의 승인 주체
         - 방향: `ProgressPaymentDocument -> Actor`
@@ -471,11 +471,11 @@
     - `ppdoc:precedes`
         - 의미: 업무 흐름의 선후 관계
         - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`
-        - 예: `제13회 기성검사 -> 기성검사 결과 보고`
+        - 예: `기성검사 -> 기성검사 결과 보고`
     - `ppdoc:follows`
         - 의미: 업무 흐름의 역방향 선후 관계
         - 방향: `ProgressPaymentEntity -> ProgressPaymentEntity`
-        - 예: `기성검사 결과 보고 -> 제13회 기성검사`
+        - 예: `기성검사 결과 보고 -> 기성검사`
     - `ppdoc:aggregatesTo`
         - 의미: 하위 내역을 상위 집계로 합산
         - 방향: `ProgressPaymentDocument -> ProgressPaymentDocument`

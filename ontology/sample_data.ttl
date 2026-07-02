@@ -8,27 +8,27 @@
 # Actors
 #################################################################
 
-ppdoc:contractor-13
+ppdoc:contractor-sample
     a ppdoc:Contractor ;
     rdfs:label "시공사"@ko .
 
-ppdoc:site-office-13
+ppdoc:site-office-sample
     a ppdoc:SiteOffice ;
     rdfs:label "현장"@ko .
 
-ppdoc:supervision-head-office-13
+ppdoc:supervision-head-office-sample
     a ppdoc:SupervisionHeadOffice ;
     rdfs:label "감리본사"@ko .
 
-ppdoc:head-office-13
+ppdoc:head-office-sample
     a ppdoc:HeadOffice ;
     rdfs:label "본사"@ko .
 
-ppdoc:owner-13
+ppdoc:owner-sample
     a ppdoc:Owner ;
     rdfs:label "발주처"@ko .
 
-ppdoc:inspector-13
+ppdoc:inspector-sample
     a ppdoc:Inspector ;
     rdfs:label "기성검사자"@ko .
 
@@ -36,55 +36,55 @@ ppdoc:inspector-13
 # Contractor progress payment package
 #################################################################
 
-ppdoc:progress-payment-package-13
+ppdoc:progress-payment-package-sample
     a ppdoc:ContractorProgressPaymentPackage ;
-    rdfs:label "제13회 시공사 기성서류"@ko ;
-    ppdoc:hasDocumentIdentifier "13" ;
-    ppdoc:hasDocumentTitle "제13회 기성검사(정식, 개산급) 결과보고" ;
-    ppdoc:hasSourceFileName "0 공문 - 제 13회 기성검사(정식, 개산급) 결과보고[화성동탄(2) A4-1BL].pdf" ;
-    ppdoc:createdBy ppdoc:contractor-13 ;
-    ppdoc:submittedBy ppdoc:contractor-13 ;
-    ppdoc:submittedTo ppdoc:site-office-13 ;
-    ppdoc:hasPart ppdoc:official-letter-13 ,
-        ppdoc:attachment-bundle-13 .
+    rdfs:label "시공사 기성서류"@ko ;
+    ppdoc:hasDocumentIdentifier "validation-sample" ;
+    ppdoc:hasDocumentTitle "기성검사 결과보고" ;
+    ppdoc:hasSourceFileName "검증용 실제 사례 문서: 기성검사 결과보고 PDF" ;
+    ppdoc:createdBy ppdoc:contractor-sample ;
+    ppdoc:submittedBy ppdoc:contractor-sample ;
+    ppdoc:submittedTo ppdoc:site-office-sample ;
+    ppdoc:hasPart ppdoc:official-letter-sample ,
+        ppdoc:attachment-bundle-sample .
 
-ppdoc:official-letter-13
+ppdoc:official-letter-sample
     a ppdoc:OfficialLetter ;
     rdfs:label "공문"@ko ;
-    ppdoc:hasDocumentTitle "제13회 기성검사 결과보고 공문" ;
-    ppdoc:isPartOf ppdoc:progress-payment-package-13 .
+    ppdoc:hasDocumentTitle "기성검사 결과보고 공문" ;
+    ppdoc:isPartOf ppdoc:progress-payment-package-sample .
 
-ppdoc:attachment-bundle-13
+ppdoc:attachment-bundle-sample
     a ppdoc:AttachmentBundle ;
     rdfs:label "첨부서류"@ko ;
-    ppdoc:isPartOf ppdoc:progress-payment-package-13 ;
-    ppdoc:attaches ppdoc:inspection-request-13 ,
-        ppdoc:statement-document-13 ,
-        ppdoc:material-ledger-13 ,
-        ppdoc:inspection-photo-group-13 ;
-    ppdoc:conditionallyIncludes ppdoc:advance-deduction-13 ,
-        ppdoc:safety-cost-evidence-13 ,
-        ppdoc:insurance-certificate-13 ,
-        ppdoc:owner-requested-document-13 .
+    ppdoc:isPartOf ppdoc:progress-payment-package-sample ;
+    ppdoc:attaches ppdoc:inspection-request-sample ,
+        ppdoc:statement-document-sample ,
+        ppdoc:material-ledger-sample ,
+        ppdoc:inspection-photo-group-sample ;
+    ppdoc:conditionallyIncludes ppdoc:advance-deduction-sample ,
+        ppdoc:safety-cost-evidence-sample ,
+        ppdoc:insurance-certificate-sample ,
+        ppdoc:owner-requested-document-sample .
 
-ppdoc:inspection-request-13
+ppdoc:inspection-request-sample
     a ppdoc:ProgressPaymentInspectionRequest ;
     rdfs:label "기성부분 검사원"@ko ;
     ppdoc:hasSourceFileName "1. 기성검사조서(cotis 생성문서).hwp" .
 
-ppdoc:advance-deduction-13
+ppdoc:advance-deduction-sample
     a ppdoc:AdvancePaymentDeductionStatement ;
     rdfs:label "선금공제 내역"@ko .
 
-ppdoc:safety-cost-evidence-13
+ppdoc:safety-cost-evidence-sample
     a ppdoc:SafetyCostEvidenceDocument ;
     rdfs:label "안전관리비 사용내역 및 증빙"@ko .
 
-ppdoc:insurance-certificate-13
+ppdoc:insurance-certificate-sample
     a ppdoc:InsurancePaymentCertificate ;
     rdfs:label "보험료 납입 증명서"@ko .
 
-ppdoc:owner-requested-document-13
+ppdoc:owner-requested-document-sample
     a ppdoc:OwnerRequestedDocument ;
     rdfs:label "기타 발주처 요청 서류"@ko .
 
@@ -92,46 +92,46 @@ ppdoc:owner-requested-document-13
 # Statement document hierarchy
 #################################################################
 
-ppdoc:statement-document-13
+ppdoc:statement-document-sample
     a ppdoc:StatementDocument ;
     rdfs:label "내역서"@ko ;
     ppdoc:hasSourceFileName "3. 기성 세부내역.xlsx" ;
-    ppdoc:hasPart ppdoc:claim-summary-13 ,
-        ppdoc:progress-payment-statement-13 .
+    ppdoc:hasPart ppdoc:claim-summary-sample ,
+        ppdoc:progress-payment-statement-sample .
 
-ppdoc:claim-summary-13
+ppdoc:claim-summary-sample
     a ppdoc:ProgressPaymentClaimSummary ;
     rdfs:label "청구기성 요약"@ko ;
     ppdoc:hasAmount "350000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" .
 
-ppdoc:progress-payment-statement-13
+ppdoc:progress-payment-statement-sample
     a ppdoc:ProgressPaymentStatement ;
     rdfs:label "공사기성부분 내역서"@ko ;
-    ppdoc:hasPart ppdoc:cost-calculation-sheet-13 ,
-        ppdoc:work-type-summary-sheet-13 ,
-        ppdoc:work-type-detail-sheet-13 ,
-        ppdoc:quantity-calculation-sheet-13 .
+    ppdoc:hasPart ppdoc:cost-calculation-sheet-sample ,
+        ppdoc:work-type-summary-sheet-sample ,
+        ppdoc:work-type-detail-sheet-sample ,
+        ppdoc:quantity-calculation-sheet-sample .
 
-ppdoc:cost-calculation-sheet-13
+ppdoc:cost-calculation-sheet-sample
     a ppdoc:CostCalculationSheet ;
     rdfs:label "원가계산서"@ko .
 
-ppdoc:work-type-summary-sheet-13
+ppdoc:work-type-summary-sheet-sample
     a ppdoc:WorkTypeSummarySheet ;
     rdfs:label "공종별집계표"@ko ;
-    ppdoc:hasPart ppdoc:summary-rc-work-13 ,
-        ppdoc:summary-rebar-work-13 ,
-        ppdoc:summary-concrete-work-13 ,
-        ppdoc:summary-formwork-13 .
+    ppdoc:hasPart ppdoc:summary-rc-work-sample ,
+        ppdoc:summary-rebar-work-sample ,
+        ppdoc:summary-concrete-work-sample ,
+        ppdoc:summary-formwork-sample .
 
-ppdoc:work-type-detail-sheet-13
+ppdoc:work-type-detail-sheet-sample
     a ppdoc:WorkTypeDetailSheet ;
     rdfs:label "공종별내역서"@ko ;
     ppdoc:hasSourceSheetName "기성 세부내역" ;
-    ppdoc:hasPart ppdoc:rebar-detail-13-001 ,
-        ppdoc:concrete-detail-13-001 ,
-        ppdoc:formwork-detail-13-001 ;
+    ppdoc:hasPart ppdoc:rebar-detail-sample-001 ,
+        ppdoc:concrete-detail-sample-001 ,
+        ppdoc:formwork-detail-sample-001 ;
     ppdoc:hasInformationField ppdoc:field-item-name ,
         ppdoc:field-specification ,
         ppdoc:field-quantity-unit ,
@@ -141,36 +141,36 @@ ppdoc:work-type-detail-sheet-13
         ppdoc:field-cumulative-quantity ,
         ppdoc:field-unit-price ,
         ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:work-type-summary-sheet-13 .
+    ppdoc:aggregatesTo ppdoc:work-type-summary-sheet-sample .
 
-ppdoc:summary-rc-work-13
+ppdoc:summary-rc-work-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "철근콘크리트공사 집계금액"@ko ;
     ppdoc:hasAmount "350000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" .
 
-ppdoc:summary-rebar-work-13
+ppdoc:summary-rebar-work-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "철근공사 집계금액"@ko ;
     ppdoc:hasAmount "120000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:aggregatesTo ppdoc:summary-rc-work-13 .
+    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:summary-concrete-work-13
+ppdoc:summary-concrete-work-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "콘크리트공사 집계금액"@ko ;
     ppdoc:hasAmount "150000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:aggregatesTo ppdoc:summary-rc-work-13 .
+    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:summary-formwork-13
+ppdoc:summary-formwork-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "거푸집공사 집계금액"@ko ;
     ppdoc:hasAmount "80000000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:aggregatesTo ppdoc:summary-rc-work-13 .
+    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:rebar-detail-13-001
+ppdoc:rebar-detail-sample-001
     a ppdoc:RebarWorkDetailGroup ;
     rdfs:label "철근공사 내역 행 001"@ko ;
     ppdoc:hasWorkType ppdoc:rebar-work-type ;
@@ -195,12 +195,12 @@ ppdoc:rebar-detail-13-001
         ppdoc:field-cumulative-quantity ,
         ppdoc:field-unit-price ,
         ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:summary-rebar-work-13 ;
-    ppdoc:hasQuantityBasis ppdoc:rebar-quantity-item-13-001 ;
-    ppdoc:hasEvidence ppdoc:rebar-test-report-13 ;
-    ppdoc:hasInspectionBasis ppdoc:rebar-inspection-checklist-13 .
+    ppdoc:aggregatesTo ppdoc:summary-rebar-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:rebar-quantity-item-sample-001 ;
+    ppdoc:hasEvidence ppdoc:rebar-test-report-sample ;
+    ppdoc:hasInspectionBasis ppdoc:rebar-inspection-checklist-sample .
 
-ppdoc:concrete-detail-13-001
+ppdoc:concrete-detail-sample-001
     a ppdoc:ConcreteWorkDetailGroup ;
     rdfs:label "콘크리트공사 내역 행 001"@ko ;
     ppdoc:hasWorkType ppdoc:concrete-work-type ;
@@ -225,12 +225,12 @@ ppdoc:concrete-detail-13-001
         ppdoc:field-cumulative-quantity ,
         ppdoc:field-unit-price ,
         ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:summary-concrete-work-13 ;
-    ppdoc:hasQuantityBasis ppdoc:concrete-quantity-item-13-001 ;
-    ppdoc:hasEvidence ppdoc:ready-mixed-concrete-delivery-note-13 ;
-    ppdoc:hasInspectionBasis ppdoc:concrete-pouring-daily-report-13 .
+    ppdoc:aggregatesTo ppdoc:summary-concrete-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:concrete-quantity-item-sample-001 ;
+    ppdoc:hasEvidence ppdoc:ready-mixed-concrete-delivery-note-sample ;
+    ppdoc:hasInspectionBasis ppdoc:concrete-pouring-daily-report-sample .
 
-ppdoc:formwork-detail-13-001
+ppdoc:formwork-detail-sample-001
     a ppdoc:FormworkDetailGroup ;
     rdfs:label "거푸집공사 내역 행 001"@ko ;
     ppdoc:hasWorkType ppdoc:formwork-type ;
@@ -255,10 +255,10 @@ ppdoc:formwork-detail-13-001
         ppdoc:field-cumulative-quantity ,
         ppdoc:field-unit-price ,
         ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:summary-formwork-13 ;
-    ppdoc:hasQuantityBasis ppdoc:formwork-quantity-item-13-001 ;
-    ppdoc:hasEvidence ppdoc:formwork-material-inspection-record-13 ;
-    ppdoc:hasInspectionBasis ppdoc:formwork-installation-checklist-13 .
+    ppdoc:aggregatesTo ppdoc:summary-formwork-sample ;
+    ppdoc:hasQuantityBasis ppdoc:formwork-quantity-item-sample-001 ;
+    ppdoc:hasEvidence ppdoc:formwork-material-inspection-record-sample ;
+    ppdoc:hasInspectionBasis ppdoc:formwork-installation-checklist-sample .
 
 ppdoc:rebar-work-type
     a ppdoc:RebarWork ;
@@ -383,17 +383,17 @@ ppdoc:field-calculated-area
 # Quantity calculation basis
 #################################################################
 
-ppdoc:quantity-calculation-sheet-13
+ppdoc:quantity-calculation-sheet-sample
     a ppdoc:QuantityCalculationSheet ;
     rdfs:label "수량산출서"@ko ;
-    ppdoc:hasPart ppdoc:rebar-quantity-sheet-13 ,
-        ppdoc:concrete-quantity-sheet-13 ,
-        ppdoc:formwork-quantity-sheet-13 .
+    ppdoc:hasPart ppdoc:rebar-quantity-sheet-sample ,
+        ppdoc:concrete-quantity-sheet-sample ,
+        ppdoc:formwork-quantity-sheet-sample .
 
-ppdoc:rebar-quantity-sheet-13
+ppdoc:rebar-quantity-sheet-sample
     a ppdoc:RebarQuantityCalculationSheet ;
     rdfs:label "철근 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
     ppdoc:hasInformationField ppdoc:field-location ,
         ppdoc:field-member-name ,
         ppdoc:field-rebar-specification ,
@@ -402,13 +402,13 @@ ppdoc:rebar-quantity-sheet-13
         ppdoc:field-count ,
         ppdoc:field-unit-weight ,
         ppdoc:field-calculated-weight ;
-    ppdoc:hasPart ppdoc:rebar-quantity-item-13-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-13-001 .
+    ppdoc:hasPart ppdoc:rebar-quantity-item-sample-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-sample-001 .
 
-ppdoc:concrete-quantity-sheet-13
+ppdoc:concrete-quantity-sheet-sample
     a ppdoc:ConcreteQuantityCalculationSheet ;
     rdfs:label "콘크리트 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
     ppdoc:hasInformationField ppdoc:field-location ,
         ppdoc:field-member-name ,
         ppdoc:field-concrete-strength ,
@@ -416,26 +416,26 @@ ppdoc:concrete-quantity-sheet-13
         ppdoc:field-width ,
         ppdoc:field-height ,
         ppdoc:field-calculated-volume ;
-    ppdoc:hasPart ppdoc:concrete-quantity-item-13-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-13-001 .
+    ppdoc:hasPart ppdoc:concrete-quantity-item-sample-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-sample-001 .
 
-ppdoc:formwork-quantity-sheet-13
+ppdoc:formwork-quantity-sheet-sample
     a ppdoc:FormworkQuantityCalculationSheet ;
     rdfs:label "거푸집 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-13 ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
     ppdoc:hasInformationField ppdoc:field-location ,
         ppdoc:field-member-name ,
         ppdoc:field-formwork-type ,
         ppdoc:field-length ,
         ppdoc:field-height ,
         ppdoc:field-calculated-area ;
-    ppdoc:hasPart ppdoc:formwork-quantity-item-13-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-13-001 .
+    ppdoc:hasPart ppdoc:formwork-quantity-item-sample-001 ;
+    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-sample-001 .
 
-ppdoc:rebar-quantity-item-13-001
+ppdoc:rebar-quantity-item-sample-001
     a ppdoc:RebarQuantityCalculationItem ;
     rdfs:label "철근 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:rebar-quantity-sheet-13 ;
+    ppdoc:isPartOf ppdoc:rebar-quantity-sheet-sample ;
     ppdoc:hasLocation "A동 3층 보" ;
     ppdoc:hasMemberName "보 B3-01" ;
     ppdoc:hasRebarSpecification "SD400" ;
@@ -445,12 +445,12 @@ ppdoc:rebar-quantity-item-13-001
     ppdoc:hasUnitWeight "1.56"^^xsd:decimal ;
     ppdoc:hasCalculatedWeight "1160.64"^^xsd:decimal ;
     ppdoc:hasUnitSymbol "kg" ;
-    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-13-001 .
+    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-sample-001 .
 
-ppdoc:concrete-quantity-item-13-001
+ppdoc:concrete-quantity-item-sample-001
     a ppdoc:ConcreteQuantityCalculationItem ;
     rdfs:label "콘크리트 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:concrete-quantity-sheet-13 ;
+    ppdoc:isPartOf ppdoc:concrete-quantity-sheet-sample ;
     ppdoc:hasLocation "A동 3층 슬래브" ;
     ppdoc:hasMemberName "슬래브 S3" ;
     ppdoc:hasConcreteStrength "24"^^xsd:decimal ;
@@ -459,12 +459,12 @@ ppdoc:concrete-quantity-item-13-001
     ppdoc:hasHeight "0.2"^^xsd:decimal ;
     ppdoc:hasCalculatedVolume "40.0"^^xsd:decimal ;
     ppdoc:hasUnitSymbol "m3" ;
-    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-13-001 .
+    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-sample-001 .
 
-ppdoc:formwork-quantity-item-13-001
+ppdoc:formwork-quantity-item-sample-001
     a ppdoc:FormworkQuantityCalculationItem ;
     rdfs:label "거푸집 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:formwork-quantity-sheet-13 ;
+    ppdoc:isPartOf ppdoc:formwork-quantity-sheet-sample ;
     ppdoc:hasLocation "A동 3층 보" ;
     ppdoc:hasMemberName "보 B3-01" ;
     ppdoc:hasFormworkType "유로폼" ;
@@ -472,224 +472,224 @@ ppdoc:formwork-quantity-item-13-001
     ppdoc:hasHeight "0.6"^^xsd:decimal ;
     ppdoc:hasCalculatedArea "7.44"^^xsd:decimal ;
     ppdoc:hasUnitSymbol "m2" ;
-    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-13-001 .
+    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-sample-001 .
 
 #################################################################
 # Evidence and inspection documents
 #################################################################
 
-ppdoc:material-ledger-13
+ppdoc:material-ledger-sample
     a ppdoc:MaterialReceiptAndInspectionLedger ;
     rdfs:label "주요자재 검수 및 수불부"@ko ;
-    ppdoc:hasPart ppdoc:rebar-test-report-13 ,
-        ppdoc:ready-mixed-concrete-delivery-note-13 ,
-        ppdoc:formwork-material-inspection-record-13 .
+    ppdoc:hasPart ppdoc:rebar-test-report-sample ,
+        ppdoc:ready-mixed-concrete-delivery-note-sample ,
+        ppdoc:formwork-material-inspection-record-sample .
 
-ppdoc:rebar-test-report-13
+ppdoc:rebar-test-report-sample
     a ppdoc:MaterialEvidenceDocument ;
     rdfs:label "철근 시험성적서"@ko ;
     ppdoc:hasSourceFileName "철근 시험성적서.pdf" ;
-    ppdoc:evidences ppdoc:rebar-detail-13-001 .
+    ppdoc:evidences ppdoc:rebar-detail-sample-001 .
 
-ppdoc:ready-mixed-concrete-delivery-note-13
+ppdoc:ready-mixed-concrete-delivery-note-sample
     a ppdoc:MaterialEvidenceDocument ;
     rdfs:label "레미콘 납품서"@ko ;
     ppdoc:hasSourceFileName "레미콘 납품서.pdf" ;
-    ppdoc:evidences ppdoc:concrete-detail-13-001 .
+    ppdoc:evidences ppdoc:concrete-detail-sample-001 .
 
-ppdoc:formwork-material-inspection-record-13
+ppdoc:formwork-material-inspection-record-sample
     a ppdoc:MaterialEvidenceDocument ;
     rdfs:label "거푸집 검수자료"@ko ;
     ppdoc:hasSourceFileName "거푸집 검수자료.pdf" ;
-    ppdoc:evidences ppdoc:formwork-detail-13-001 .
+    ppdoc:evidences ppdoc:formwork-detail-sample-001 .
 
-ppdoc:inspection-photo-group-13
+ppdoc:inspection-photo-group-sample
     a ppdoc:InspectionAndPhotoDocumentGroup ;
     rdfs:label "검측서류 및 사진대지"@ko ;
-    ppdoc:hasPart ppdoc:rebar-inspection-checklist-13 ,
-        ppdoc:concrete-pouring-daily-report-13 ,
-        ppdoc:formwork-installation-checklist-13 ,
-        ppdoc:rebar-photo-sheet-13 ,
-        ppdoc:concrete-photo-sheet-13 ,
-        ppdoc:formwork-photo-sheet-13 .
+    ppdoc:hasPart ppdoc:rebar-inspection-checklist-sample ,
+        ppdoc:concrete-pouring-daily-report-sample ,
+        ppdoc:formwork-installation-checklist-sample ,
+        ppdoc:rebar-photo-sheet-sample ,
+        ppdoc:concrete-photo-sheet-sample ,
+        ppdoc:formwork-photo-sheet-sample .
 
-ppdoc:rebar-inspection-checklist-13
+ppdoc:rebar-inspection-checklist-sample
     a ppdoc:InspectionDocument ;
     rdfs:label "철근 배근 검측체크리스트"@ko ;
-    ppdoc:hasInspectionItem ppdoc:rebar-spacing-check-13 ,
-        ppdoc:rebar-diameter-check-13 ,
-        ppdoc:anchorage-length-check-13 ;
-    ppdoc:isInspectionBasisFor ppdoc:rebar-detail-13-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:rebar-photo-sheet-13 .
+    ppdoc:hasInspectionItem ppdoc:rebar-spacing-check-sample ,
+        ppdoc:rebar-diameter-check-sample ,
+        ppdoc:anchorage-length-check-sample ;
+    ppdoc:isInspectionBasisFor ppdoc:rebar-detail-sample-001 ;
+    ppdoc:hasPhotoEvidence ppdoc:rebar-photo-sheet-sample .
 
-ppdoc:concrete-pouring-daily-report-13
+ppdoc:concrete-pouring-daily-report-sample
     a ppdoc:InspectionDocument ;
     rdfs:label "콘크리트 타설일보"@ko ;
-    ppdoc:hasInspectionItem ppdoc:pouring-location-check-13 ,
-        ppdoc:pouring-quantity-check-13 ,
-        ppdoc:curing-condition-check-13 ;
-    ppdoc:isInspectionBasisFor ppdoc:concrete-detail-13-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:concrete-photo-sheet-13 .
+    ppdoc:hasInspectionItem ppdoc:pouring-location-check-sample ,
+        ppdoc:pouring-quantity-check-sample ,
+        ppdoc:curing-condition-check-sample ;
+    ppdoc:isInspectionBasisFor ppdoc:concrete-detail-sample-001 ;
+    ppdoc:hasPhotoEvidence ppdoc:concrete-photo-sheet-sample .
 
-ppdoc:formwork-installation-checklist-13
+ppdoc:formwork-installation-checklist-sample
     a ppdoc:InspectionDocument ;
     rdfs:label "거푸집 설치 검측체크리스트"@ko ;
-    ppdoc:hasInspectionItem ppdoc:formwork-dimension-check-13 ,
-        ppdoc:support-installation-check-13 ,
-        ppdoc:vertical-horizontal-check-13 ;
-    ppdoc:isInspectionBasisFor ppdoc:formwork-detail-13-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:formwork-photo-sheet-13 .
+    ppdoc:hasInspectionItem ppdoc:formwork-dimension-check-sample ,
+        ppdoc:support-installation-check-sample ,
+        ppdoc:vertical-horizontal-check-sample ;
+    ppdoc:isInspectionBasisFor ppdoc:formwork-detail-sample-001 ;
+    ppdoc:hasPhotoEvidence ppdoc:formwork-photo-sheet-sample .
 
-ppdoc:rebar-spacing-check-13
+ppdoc:rebar-spacing-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "철근 간격 확인"@ko .
 
-ppdoc:rebar-diameter-check-13
+ppdoc:rebar-diameter-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "철근 직경 확인"@ko .
 
-ppdoc:anchorage-length-check-13
+ppdoc:anchorage-length-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "정착길이 확인"@ko .
 
-ppdoc:pouring-location-check-13
+ppdoc:pouring-location-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "타설 위치 확인"@ko .
 
-ppdoc:pouring-quantity-check-13
+ppdoc:pouring-quantity-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "타설 물량 확인"@ko .
 
-ppdoc:curing-condition-check-13
+ppdoc:curing-condition-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "양생 상태 확인"@ko .
 
-ppdoc:formwork-dimension-check-13
+ppdoc:formwork-dimension-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "거푸집 치수 확인"@ko .
 
-ppdoc:support-installation-check-13
+ppdoc:support-installation-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "동바리 설치 확인"@ko .
 
-ppdoc:vertical-horizontal-check-13
+ppdoc:vertical-horizontal-check-sample
     a ppdoc:InspectionItem ;
     rdfs:label "수직도 및 수평도 확인"@ko .
 
-ppdoc:rebar-photo-sheet-13
+ppdoc:rebar-photo-sheet-sample
     a ppdoc:PhotoSheet ;
     rdfs:label "철근 배근 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:rebar-inspection-checklist-13 .
+    ppdoc:isPhotoEvidenceFor ppdoc:rebar-inspection-checklist-sample .
 
-ppdoc:concrete-photo-sheet-13
+ppdoc:concrete-photo-sheet-sample
     a ppdoc:PhotoSheet ;
     rdfs:label "콘크리트 타설 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:concrete-pouring-daily-report-13 .
+    ppdoc:isPhotoEvidenceFor ppdoc:concrete-pouring-daily-report-sample .
 
-ppdoc:formwork-photo-sheet-13
+ppdoc:formwork-photo-sheet-sample
     a ppdoc:PhotoSheet ;
     rdfs:label "거푸집 설치 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:formwork-installation-checklist-13 .
+    ppdoc:isPhotoEvidenceFor ppdoc:formwork-installation-checklist-sample .
 
 #################################################################
 # Review, inspection, approval flow
 #################################################################
 
-ppdoc:site-to-supervision-package-13
+ppdoc:site-to-supervision-package-sample
     a ppdoc:SiteToSupervisionSubmissionPackage ;
     rdfs:label "현장-감리본사 공문발송 문서군"@ko ;
-    ppdoc:forwardedBy ppdoc:site-office-13 ;
-    ppdoc:forwardedTo ppdoc:supervision-head-office-13 ;
-    ppdoc:hasPart ppdoc:supervision-report-13 ,
-        ppdoc:inspection-plan-13 ,
-        ppdoc:inspection-request-13 .
+    ppdoc:forwardedBy ppdoc:site-office-sample ;
+    ppdoc:forwardedTo ppdoc:supervision-head-office-sample ;
+    ppdoc:hasPart ppdoc:supervision-report-sample ,
+        ppdoc:inspection-plan-sample ,
+        ppdoc:inspection-request-sample .
 
-ppdoc:supervision-report-13
+ppdoc:supervision-report-sample
     a ppdoc:SupervisionProgressPaymentReport ;
     rdfs:label "기성부분 감리조서"@ko ;
-    ppdoc:reviewedBy ppdoc:supervision-head-office-13 .
+    ppdoc:reviewedBy ppdoc:supervision-head-office-sample .
 
-ppdoc:inspection-plan-13
+ppdoc:inspection-plan-sample
     a ppdoc:InspectionExecutionPlan ;
     rdfs:label "공사 기성검사 수행계획서"@ko ;
-    ppdoc:hasPart ppdoc:detailed-execution-plan-13 ,
-        ppdoc:prior-review-opinion-13 .
+    ppdoc:hasPart ppdoc:detailed-execution-plan-sample ,
+        ppdoc:prior-review-opinion-sample .
 
-ppdoc:detailed-execution-plan-13
+ppdoc:detailed-execution-plan-sample
     a ppdoc:DetailedExecutionPlan ;
     rdfs:label "세부 수행계획서"@ko .
 
-ppdoc:prior-review-opinion-13
+ppdoc:prior-review-opinion-sample
     a ppdoc:PriorReviewOpinion ;
     rdfs:label "기성검사원에 대한 사전검토 의견서"@ko .
 
-ppdoc:head-office-to-owner-package-13
+ppdoc:head-office-to-owner-package-sample
     a ppdoc:HeadOfficeToOwnerSubmissionPackage ;
     rdfs:label "본사-발주처 공문발송 문서군"@ko ;
-    ppdoc:forwardedBy ppdoc:head-office-13 ;
-    ppdoc:submittedTo ppdoc:owner-13 ;
-    ppdoc:hasPart ppdoc:inspector-appointment-notice-13 ;
-    ppdoc:attaches ppdoc:site-to-supervision-package-13 .
+    ppdoc:forwardedBy ppdoc:head-office-sample ;
+    ppdoc:submittedTo ppdoc:owner-sample ;
+    ppdoc:hasPart ppdoc:inspector-appointment-notice-sample ;
+    ppdoc:attaches ppdoc:site-to-supervision-package-sample .
 
-ppdoc:inspector-appointment-notice-13
+ppdoc:inspector-appointment-notice-sample
     a ppdoc:InspectorAppointmentNotice ;
     rdfs:label "검사자 임명 및 검사일자 통보"@ko .
 
-ppdoc:progress-payment-inspection-13
+ppdoc:progress-payment-inspection-sample
     a ppdoc:ProgressPaymentInspection ;
-    rdfs:label "제13회 기성검사"@ko ;
-    ppdoc:inspectedBy ppdoc:inspector-13 ;
-    ppdoc:hasPart ppdoc:document-inspection-13 ,
-        ppdoc:site-inspection-13 ,
-        ppdoc:inspection-photo-sheet-13 ;
-    ppdoc:precedes ppdoc:inspection-result-report-13 .
+    rdfs:label "기성검사"@ko ;
+    ppdoc:inspectedBy ppdoc:inspector-sample ;
+    ppdoc:hasPart ppdoc:document-inspection-sample ,
+        ppdoc:site-inspection-sample ,
+        ppdoc:inspection-photo-sheet-sample ;
+    ppdoc:precedes ppdoc:inspection-result-report-sample .
 
-ppdoc:document-inspection-13
+ppdoc:document-inspection-sample
     a ppdoc:DocumentInspection ;
     rdfs:label "서류검사"@ko .
 
-ppdoc:site-inspection-13
+ppdoc:site-inspection-sample
     a ppdoc:SiteInspection ;
     rdfs:label "현장검사"@ko .
 
-ppdoc:inspection-photo-sheet-13
+ppdoc:inspection-photo-sheet-sample
     a ppdoc:PhotoSheet ;
     rdfs:label "검사사진 대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:progress-payment-inspection-13 .
+    ppdoc:isPhotoEvidenceFor ppdoc:progress-payment-inspection-sample .
 
-ppdoc:inspection-result-report-13
+ppdoc:inspection-result-report-sample
     a ppdoc:InspectionResultReportPackage ;
     rdfs:label "기성검사 결과 보고"@ko ;
-    ppdoc:submittedTo ppdoc:owner-13 ;
-    ppdoc:hasPart ppdoc:inspection-record-13 ,
-        ppdoc:review-opinion-13 ,
-        ppdoc:attendance-confirmation-13 ,
-        ppdoc:result-photo-attachment-13 ;
-    ppdoc:precedes ppdoc:owner-approval-13 .
+    ppdoc:submittedTo ppdoc:owner-sample ;
+    ppdoc:hasPart ppdoc:inspection-record-sample ,
+        ppdoc:review-opinion-sample ,
+        ppdoc:attendance-confirmation-sample ,
+        ppdoc:result-photo-attachment-sample ;
+    ppdoc:precedes ppdoc:owner-approval-sample .
 
-ppdoc:inspection-record-13
+ppdoc:inspection-record-sample
     a ppdoc:ProgressPaymentInspectionRecord ;
-    rdfs:label "제13회 기성검사 조서"@ko ;
-    ppdoc:hasSourceFileName "1. 제 13회 기성검사조서(정식, 개산급).PDF" .
+    rdfs:label "기성검사 조서"@ko ;
+    ppdoc:hasSourceFileName "검증용 실제 사례 문서: 기성검사조서 PDF" .
 
-ppdoc:review-opinion-13
+ppdoc:review-opinion-sample
     a ppdoc:ProgressPaymentReviewOpinion ;
     rdfs:label "기성검토의견서"@ko .
 
-ppdoc:attendance-confirmation-13
+ppdoc:attendance-confirmation-sample
     a ppdoc:ConstructionManagerAttendanceConfirmation ;
     rdfs:label "공사관리관 입회확인서"@ko .
 
-ppdoc:result-photo-attachment-13
+ppdoc:result-photo-attachment-sample
     a ppdoc:PhotoSheet ;
     rdfs:label "사진첨부"@ko .
 
-ppdoc:owner-approval-13
+ppdoc:owner-approval-sample
     a ppdoc:OwnerApproval ;
     rdfs:label "발주처 승인"@ko ;
-    ppdoc:approvedBy ppdoc:owner-13 ;
-    ppdoc:precedes ppdoc:bound-statement-submission-13 .
+    ppdoc:approvedBy ppdoc:owner-sample ;
+    ppdoc:precedes ppdoc:bound-statement-submission-sample .
 
-ppdoc:bound-statement-submission-13
+ppdoc:bound-statement-submission-sample
     a ppdoc:BoundStatementSubmission ;
     rdfs:label "기성서류 내역서 제본 제출"@ko .

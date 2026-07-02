@@ -19,10 +19,10 @@ Ontology resources use IRIs.
 @prefix ppdoc: <https://example.org/rc-progress-payment#> .
 ```
 
-For example, `ppdoc:inspection-record-13` expands to:
+For example, `ppdoc:inspection-record` expands to:
 
 ```text
-https://example.org/rc-progress-payment#inspection-record-13
+https://example.org/rc-progress-payment#inspection-record
 ```
 
 
