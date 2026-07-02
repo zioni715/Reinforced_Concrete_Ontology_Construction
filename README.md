@@ -25,28 +25,6 @@ For example, `ppdoc:inspection-record-13` expands to:
 https://example.org/rc-progress-payment#inspection-record-13
 ```
 
-## Ontology Artifacts
-
-```text
-Ontology_Development_101_Rebuild.md
-Ontology_Tables.md
-ontology/ontology.ttl
-ontology/sample_data.ttl
-visualization/ontology_graph.html
-```
-
-## Validate
-
-```bash
-conda activate RC_Ontology
-python - <<'PY'
-from rdflib import Graph
-for path in ("ontology/ontology.ttl", "ontology/sample_data.ttl"):
-    g = Graph()
-    g.parse(path, format="turtle")
-    print(path, len(g))
-PY
-```
 
 ## Visualization
 http://127.0.0.1:3000/visualization/ontology_graph.html?vscode-livepreview=true
