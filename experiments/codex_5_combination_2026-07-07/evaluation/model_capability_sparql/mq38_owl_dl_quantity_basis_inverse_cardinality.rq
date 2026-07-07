@@ -1,0 +1,11 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:QuantityCalculationItem rdfs:subClassOf ?basisForRestriction .
+  ?basisForRestriction owl:onProperty ppdoc:isQuantityBasisFor ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass ppdoc:BoQItem .
+}

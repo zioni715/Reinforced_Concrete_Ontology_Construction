@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  ppdoc:BoQItemShape sh:sparql ?constraint .
+  ?constraint sh:message ?message ;
+      sh:select ?selectText .
+  FILTER(CONTAINS(STR(?message), "재료비"))
+  FILTER(CONTAINS(?selectText, "hasMaterialAmount"))
+  FILTER(CONTAINS(?selectText, "hasLaborAmount"))
+  FILTER(CONTAINS(?selectText, "hasExpenseAmount"))
+}

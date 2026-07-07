@@ -1,0 +1,28 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?quantityItem ?boqItem ?specObject
+WHERE {
+  ?quantityItem ppdoc:isQuantityBasisFor ?boqItem .
+  ?boqItem ppdoc:hasQuantityBasis ?quantityItem .
+  {
+    ?quantityItem ppdoc:hasConcreteMix ?specObject .
+    ?boqItem ppdoc:hasConcreteMix ?specObject .
+  }
+  UNION
+  {
+    ?quantityItem ppdoc:hasRebarSpec ?specObject .
+    ?boqItem ppdoc:hasRebarSpec ?specObject .
+  }
+  UNION
+  {
+    ?quantityItem ppdoc:hasFormworkSpec ?specObject .
+    ?boqItem ppdoc:hasFormworkSpec ?specObject .
+  }
+  UNION
+  {
+    ?quantityItem ppdoc:hasSteelShapeSpec ?specObject .
+    ?boqItem ppdoc:hasSteelShapeSpec ?specObject .
+  }
+}
+ORDER BY ?quantityItem ?boqItem

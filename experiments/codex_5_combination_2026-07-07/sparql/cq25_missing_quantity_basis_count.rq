@@ -1,0 +1,7 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT (COUNT(?boqItem) AS ?missingQuantityBasisBoqCount)
+WHERE {
+  ?boqItem a ppdoc:BoQItem .
+  FILTER NOT EXISTS { ?boqItem ppdoc:hasQuantityBasis ?quantityBasis }
+}

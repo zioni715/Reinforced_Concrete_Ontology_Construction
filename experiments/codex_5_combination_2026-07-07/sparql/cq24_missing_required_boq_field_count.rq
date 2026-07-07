@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT (COUNT(?boqItem) AS ?missingRequiredFieldBoqCount)
+WHERE {
+  ?boqItem a ppdoc:BoQItem .
+  FILTER(
+    NOT EXISTS { ?boqItem ppdoc:hasItemName ?itemName }
+    || NOT EXISTS { ?boqItem ppdoc:hasSpecification ?specText }
+    || NOT EXISTS { ?boqItem ppdoc:hasQuantityUnit ?unit }
+    || NOT EXISTS { ?boqItem ppdoc:hasCurrentQuantity ?currentQuantity }
+    || NOT EXISTS { ?boqItem ppdoc:hasAmount ?amount }
+  )
+}

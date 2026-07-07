@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?costItem ?reachableSummary
+WHERE {
+  ?costItem a ?costClass ;
+            ppdoc:hasCostBasis+ ?reachableSummary .
+  ?costClass rdfs:subClassOf* ppdoc:CostItem .
+  ?reachableSummary a ppdoc:SummaryAmount ;
+                    ppdoc:hasWorkType ppdoc:worktype-rc .
+}
+ORDER BY ?costItem

@@ -1,0 +1,14 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?summary ?workType ?contractAmount ?previousAmount ?currentAmount ?cumulativeAmount ?progressRate
+WHERE {
+  ?summary a ppdoc:SummaryAmount ;
+           ppdoc:hasWorkType ?workType ;
+           ppdoc:hasContractAmount ?contractAmount ;
+           ppdoc:hasPreviousAmount ?previousAmount ;
+           ppdoc:hasCurrentAmount ?currentAmount ;
+           ppdoc:hasCumulativeAmount ?cumulativeAmount ;
+           ppdoc:hasProgressRate ?progressRate .
+}
+ORDER BY ?summary

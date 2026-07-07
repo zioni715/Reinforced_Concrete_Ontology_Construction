@@ -1,0 +1,262 @@
+@prefix ppdoc: <https://example.org/rc-progress-payment#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ppdoc:SHACLExtension
+    a sh:NodeShape ;
+    dcterms:title "공사기성부분 내역서 SHACL 검증 모델"@ko ;
+    dcterms:description "문서 구성, 필수 필드, 수량산출 근거, 규격 객체, 금액 산식, 단위 변환, 원가 연결을 검증하기 위한 SHACL shape 모음."@ko ;
+    sh:deactivated true .
+
+ppdoc:ProgressPaymentStatementShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:ProgressPaymentStatement ;
+    sh:property [
+        sh:path ppdoc:hasProjectName ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasProgressRound ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasBaseDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasPart ;
+        sh:qualifiedValueShape [ sh:class ppdoc:CostCalculationSheet ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasPart ;
+        sh:qualifiedValueShape [ sh:class ppdoc:WorkTypeSummarySheet ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasPart ;
+        sh:qualifiedValueShape [ sh:class ppdoc:WorkTypeDetailSheet ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasPart ;
+        sh:qualifiedValueShape [ sh:class ppdoc:QuantityCalculationSheet ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:qualifiedMaxCount 1
+    ] .
+
+ppdoc:BoQItemShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:BoQItem ;
+    sh:property [
+        sh:path ppdoc:hasItemName ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasSpecification ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasSpecificationObject ;
+        sh:minCount 1 ;
+        sh:class ppdoc:Specification
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasQuantityUnit ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasCurrentQuantity ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasUnitPrice ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasAmount ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasQuantityBasis ;
+        sh:minCount 1 ;
+        sh:class ppdoc:QuantityCalculationItem
+    ] ;
+    sh:property [
+        sh:path ppdoc:aggregatesTo ;
+        sh:minCount 1 ;
+        sh:class ppdoc:SummaryAmount
+    ] ;
+    sh:sparql [
+        sh:message "내역 항목의 금회수량 x 단가가 금액과 일치해야 한다."@ko ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ppdoc:hasCurrentQuantity ?quantity ;
+                      ppdoc:hasUnitPrice ?unitPrice ;
+                      ppdoc:hasAmount ?amount .
+                FILTER(ABS((?quantity * ?unitPrice) - ?amount) > 1)
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "재료비, 노무비, 경비 금액 합계가 내역 항목 금액과 일치해야 한다."@ko ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ppdoc:hasMaterialAmount ?materialAmount ;
+                      ppdoc:hasLaborAmount ?laborAmount ;
+                      ppdoc:hasExpenseAmount ?expenseAmount ;
+                      ppdoc:hasAmount ?amount .
+                FILTER(ABS((?materialAmount + ?laborAmount + ?expenseAmount) - ?amount) > 1)
+            }
+        """
+    ] .
+
+ppdoc:QuantityCalculationItemShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:QuantityCalculationItem ;
+    sh:property [
+        sh:path ppdoc:hasTakeoffItemName ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasLocation ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasMemberName ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasCalculatedQuantity ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasQuantityUnit ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:isQuantityBasisFor ;
+        sh:minCount 1 ;
+        sh:class ppdoc:BoQItem
+    ] .
+
+ppdoc:ConcreteMixShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:ConcreteMix ;
+    sh:property [
+        sh:path ppdoc:hasDesignStrength ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasSlump ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasMaxAggregateSize ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] .
+
+ppdoc:RebarSpecShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:RebarSpec ;
+    sh:property [
+        sh:path ppdoc:hasSteelGrade ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasBarDiameter ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasYieldStrength ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] .
+
+ppdoc:FormworkSpecShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:FormworkSpec ;
+    sh:property [
+        sh:path ppdoc:hasFormworkType ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string
+    ] .
+
+ppdoc:SummaryAmountShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:SummaryAmount ;
+    sh:property [
+        sh:path ppdoc:hasCurrentAmount ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasCumulativeAmount ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] ;
+    sh:property [
+        sh:path ppdoc:hasProgressRate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:decimal
+    ] .
+
+ppdoc:QuantityBasisUnitConversionShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:BoQItem ;
+    sh:sparql [
+        sh:message "내역 항목 수량과 수량산출 근거 수량은 단위 변환을 고려해 일치해야 한다."@ko ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ppdoc:hasCurrentQuantity ?boqQuantity ;
+                      ppdoc:hasQuantityUnit ?boqUnit ;
+                      ppdoc:hasQuantityBasis ?basis .
+                ?basis ppdoc:hasCalculatedQuantity ?basisQuantity ;
+                       ppdoc:hasQuantityUnit ?basisUnit .
+                BIND(IF(?boqUnit = "ton" && ?basisUnit = "kg", ?basisQuantity / 1000, ?basisQuantity) AS ?normalizedBasisQuantity)
+                FILTER(ABS(?boqQuantity - ?normalizedBasisQuantity) > 0.001)
+            }
+        """
+    ] .
+
+ppdoc:DirectCostReconciliationShape
+    a sh:NodeShape ;
+    sh:targetClass ppdoc:DirectCostItem ;
+    sh:sparql [
+        sh:message "철근콘크리트공사 직접공사비는 철근콘크리트공사 집계금액과 일치해야 한다."@ko ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this ppdoc:hasAmount ?directCost ;
+                      ppdoc:hasCostBasis ?summary .
+                ?summary ppdoc:hasAmount ?summaryAmount .
+                FILTER(ABS(?directCost - ?summaryAmount) > 1)
+            }
+        """
+    ] .

@@ -1,0 +1,26 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  FILTER EXISTS {
+    ppdoc:BoQItemShape sh:property [
+      sh:path ppdoc:hasSpecificationObject ;
+      sh:minCount 1 ;
+      sh:class ppdoc:Specification
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:BoQItemShape sh:property [
+      sh:path ppdoc:hasQuantityBasis ;
+      sh:minCount 1 ;
+      sh:class ppdoc:QuantityCalculationItem
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:BoQItemShape sh:property [
+      sh:path ppdoc:aggregatesTo ;
+      sh:minCount 1 ;
+      sh:class ppdoc:SummaryAmount
+    ] .
+  }
+}

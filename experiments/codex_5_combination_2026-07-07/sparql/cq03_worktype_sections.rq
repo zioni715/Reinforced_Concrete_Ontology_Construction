@@ -1,0 +1,15 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?sheet ?section ?workType ?sectionLabel
+WHERE {
+  VALUES ?sheet {
+    ppdoc:work-type-summary-sheet-sample
+    ppdoc:work-type-detail-sheet-sample
+    ppdoc:quantity-calculation-sheet-sample
+  }
+  ?sheet ppdoc:hasWorkTypeSection ?section .
+  ?section ppdoc:hasWorkType ?workType ;
+           rdfs:label ?sectionLabel .
+}
+ORDER BY ?sheet ?sectionLabel

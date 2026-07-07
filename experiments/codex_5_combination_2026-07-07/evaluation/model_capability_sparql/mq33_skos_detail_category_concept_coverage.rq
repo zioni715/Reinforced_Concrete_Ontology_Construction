@@ -1,0 +1,17 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:concept-detail-category skos:narrower ppdoc:concept-ready-mixed-concrete ,
+      ppdoc:concept-concrete-placement ,
+      ppdoc:concept-rebar-material ,
+      ppdoc:concept-rebar-assembly ,
+      ppdoc:concept-formwork-installation ,
+      ppdoc:concept-shoring-support-material .
+  ppdoc:concept-ready-mixed-concrete skos:exactMatch ppdoc:ReadyMixedConcrete .
+  ppdoc:concept-concrete-placement skos:exactMatch ppdoc:ConcretePlacement .
+  ppdoc:concept-rebar-material skos:exactMatch ppdoc:RebarMaterial .
+  ppdoc:concept-rebar-assembly skos:exactMatch ppdoc:RebarAssembly .
+  ppdoc:concept-formwork-installation skos:exactMatch ppdoc:FormworkInstallation .
+  ppdoc:concept-shoring-support-material skos:exactMatch ppdoc:ShoringSupportMaterial .
+}

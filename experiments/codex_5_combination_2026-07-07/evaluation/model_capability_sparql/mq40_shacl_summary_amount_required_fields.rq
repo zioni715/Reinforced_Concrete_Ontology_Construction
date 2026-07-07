@@ -1,0 +1,29 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:SummaryAmountShape a sh:NodeShape ;
+      sh:targetClass ppdoc:SummaryAmount .
+  FILTER EXISTS {
+    ppdoc:SummaryAmountShape sh:property [
+      sh:path ppdoc:hasCurrentAmount ;
+      sh:minCount 1 ;
+      sh:datatype xsd:decimal
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:SummaryAmountShape sh:property [
+      sh:path ppdoc:hasCumulativeAmount ;
+      sh:minCount 1 ;
+      sh:datatype xsd:decimal
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:SummaryAmountShape sh:property [
+      sh:path ppdoc:hasProgressRate ;
+      sh:minCount 1 ;
+      sh:datatype xsd:decimal
+    ] .
+  }
+}

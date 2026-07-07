@@ -1,8 +1,40 @@
 # Local reference documents
 /Documents/
+*.pdf
+*.xls
+*.xlsx
+*:Zone.Identifier
+
+# OS / editor metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python / notebook cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local environments
+.venv/
+venv/
+env/
+
+# Generated experiment outputs
+experiments/**/sparql_execution_results.csv
+experiments/**/sparql_execution_results.json
+experiments/**/model_capability_results.csv
+experiments/**/model_capability_results.json
+experiments/**/model_capability_scores.csv
+experiments/**/model_capability_criterion_scores.csv
 
 # Markdown documents
 *.md
+# Markdown documents
+*.md
 !README.md
-!Progress_Payment_Structure.md
-!RDF&RDFS_Report.md
+!Document_Data_Definition.md
+!RDF&RDFS_New_Report.md
+!New_RDF&RDFS_Experiment_Report.md

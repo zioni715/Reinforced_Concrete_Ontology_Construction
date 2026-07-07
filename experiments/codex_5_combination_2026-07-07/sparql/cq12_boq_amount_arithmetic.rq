@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?currentQuantity ?unitPrice ?amount ?computedAmount
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasCurrentQuantity ?currentQuantity ;
+           ppdoc:hasUnitPrice ?unitPrice ;
+           ppdoc:hasAmount ?amount .
+  BIND(?currentQuantity * ?unitPrice AS ?computedAmount)
+  FILTER(?computedAmount = ?amount)
+}
+ORDER BY ?boqItem

@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?amount ?materialAmount ?laborAmount ?expenseAmount ?componentTotal
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasAmount ?amount ;
+           ppdoc:hasMaterialAmount ?materialAmount ;
+           ppdoc:hasLaborAmount ?laborAmount ;
+           ppdoc:hasExpenseAmount ?expenseAmount .
+  BIND(?materialAmount + ?laborAmount + ?expenseAmount AS ?componentTotal)
+  FILTER(?componentTotal = ?amount)
+}
+ORDER BY ?boqItem

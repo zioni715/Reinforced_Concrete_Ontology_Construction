@@ -1,0 +1,15 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:RebarSpec rdfs:subClassOf ?gradeRestriction .
+  ?gradeRestriction owl:onProperty ppdoc:hasSteelGrade ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onDataRange xsd:string .
+  ppdoc:RebarSpec rdfs:subClassOf ?diameterRestriction .
+  ?diameterRestriction owl:onProperty ppdoc:hasBarDiameter ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onDataRange xsd:string .
+}

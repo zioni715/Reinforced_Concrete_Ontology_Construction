@@ -1,0 +1,18 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?summary ?summaryAmount ?boqSubtotal ?uncoveredAmount
+WHERE {
+  ?summary a ppdoc:SummaryAmount ;
+           ppdoc:hasAmount ?summaryAmount .
+  {
+    SELECT ?summary (SUM(?boqAmount) AS ?boqSubtotal)
+    WHERE {
+      ?boqItem a ppdoc:BoQItem ;
+               ppdoc:aggregatesTo ?summary ;
+               ppdoc:hasAmount ?boqAmount .
+    }
+    GROUP BY ?summary
+  }
+  BIND(?summaryAmount - ?boqSubtotal AS ?uncoveredAmount)
+}
+ORDER BY ?summary

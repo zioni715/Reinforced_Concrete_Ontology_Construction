@@ -1,0 +1,17 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?quantityItem ?boqQuantity ?boqUnit ?basisQuantity ?basisUnit ?convertedBasisQuantity
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasCurrentQuantity ?boqQuantity ;
+           ppdoc:hasQuantityUnit ?boqUnit ;
+           ppdoc:hasQuantityBasis ?quantityItem .
+  ?quantityItem ppdoc:hasCalculatedQuantity ?basisQuantity ;
+                ppdoc:hasQuantityUnit ?basisUnit .
+  BIND(
+    IF(?boqUnit = "ton" && ?basisUnit = "kg", ?basisQuantity / 1000, ?basisQuantity)
+    AS ?convertedBasisQuantity
+  )
+  FILTER(?convertedBasisQuantity = ?boqQuantity)
+}
+ORDER BY ?boqItem

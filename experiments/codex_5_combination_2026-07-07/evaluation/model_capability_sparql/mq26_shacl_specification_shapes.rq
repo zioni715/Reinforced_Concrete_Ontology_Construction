@@ -1,0 +1,44 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  ppdoc:ConcreteMixShape sh:targetClass ppdoc:ConcreteMix .
+  ppdoc:RebarSpecShape sh:targetClass ppdoc:RebarSpec .
+  ppdoc:FormworkSpecShape sh:targetClass ppdoc:FormworkSpec .
+  FILTER EXISTS {
+    ppdoc:ConcreteMixShape sh:property [
+      sh:path ppdoc:hasDesignStrength ;
+      sh:minCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:ConcreteMixShape sh:property [
+      sh:path ppdoc:hasSlump ;
+      sh:minCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:ConcreteMixShape sh:property [
+      sh:path ppdoc:hasMaxAggregateSize ;
+      sh:minCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:RebarSpecShape sh:property [
+      sh:path ppdoc:hasSteelGrade ;
+      sh:minCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:RebarSpecShape sh:property [
+      sh:path ppdoc:hasBarDiameter ;
+      sh:minCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:FormworkSpecShape sh:property [
+      sh:path ppdoc:hasFormworkType ;
+      sh:minCount 1
+    ] .
+  }
+}

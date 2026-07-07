@@ -1,0 +1,14 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?statement ?projectName ?progressRound ?baseDate ?sourceFile (COUNT(?part) AS ?partCount)
+WHERE {
+  ?statement a ppdoc:ProgressPaymentStatement ;
+             ppdoc:hasProjectName ?projectName ;
+             ppdoc:hasProgressRound ?progressRound ;
+             ppdoc:hasBaseDate ?baseDate ;
+             ppdoc:hasSourceFileName ?sourceFile ;
+             ppdoc:hasPart ?part .
+}
+GROUP BY ?statement ?projectName ?progressRound ?baseDate ?sourceFile
+HAVING (COUNT(?part) = 4)

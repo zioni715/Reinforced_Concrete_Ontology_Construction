@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:concept-rc-work skos:broader ppdoc:concept-work-type ;
+      skos:narrower ppdoc:concept-concrete-work ,
+          ppdoc:concept-rebar-work ,
+          ppdoc:concept-formwork-shoring-work .
+  ppdoc:concept-concrete-work skos:broader ppdoc:concept-rc-work .
+  ppdoc:concept-rebar-work skos:broader ppdoc:concept-rc-work .
+  ppdoc:concept-formwork-shoring-work skos:broader ppdoc:concept-rc-work .
+}

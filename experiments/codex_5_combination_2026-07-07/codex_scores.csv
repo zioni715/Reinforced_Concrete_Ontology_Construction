@@ -1,0 +1,6 @@
+combination,document_hierarchy,worktype_decomposition,attribute_specification,traceability,value_validation,reasoning_inference,queryability,reusability,maintainability,current_goal_fit,total_score,rank
+RDF/RDFS,8.0,8.0,7.0,7.0,2.0,2.0,7.0,7.0,9.0,6.0,63.0,5
+RDF/RDFS + SKOS,8.0,8.5,8.0,7.5,2.5,3.5,8.0,8.0,8.0,7.0,69.0,4
+RDF/RDFS + OWL 2 RL,8.5,8.5,8.5,8.0,4.5,7.5,8.0,8.0,7.0,8.0,76.5,3
+RDF/RDFS + OWL 2 DL,9.0,9.0,9.5,8.5,6.5,9.5,8.5,9.0,6.5,9.0,85.0,1
+RDF/RDFS + SHACL,8.5,8.5,8.5,9.0,9.5,5.5,8.0,8.5,8.0,9.0,83.0,2

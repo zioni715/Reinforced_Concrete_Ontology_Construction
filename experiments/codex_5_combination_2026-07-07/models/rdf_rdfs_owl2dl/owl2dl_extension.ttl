@@ -1,0 +1,219 @@
+@prefix ppdoc: <https://example.org/rc-progress-payment#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ppdoc:OWL2DLExtension
+    a owl:Ontology ;
+    dcterms:title "공사기성부분 내역서 OWL 2 DL 확장 모델"@ko ;
+    dcterms:description "공사기성부분 내역서의 문서 계층, 내역-수량산출-집계 추적, 규격 객체, cardinality, disjointness, key를 표현하기 위한 OWL 2 DL 확장 모델."@ko .
+
+ppdoc:ProgressPaymentEntity a owl:Class .
+ppdoc:DocumentResource a owl:Class .
+ppdoc:ProgressPaymentStatement a owl:Class .
+ppdoc:CostCalculationSheet a owl:Class .
+ppdoc:WorkTypeSummarySheet a owl:Class .
+ppdoc:WorkTypeDetailSheet a owl:Class .
+ppdoc:QuantityCalculationSheet a owl:Class .
+ppdoc:BoQItem a owl:Class .
+ppdoc:QuantityCalculationItem a owl:Class .
+ppdoc:SummaryAmount a owl:Class .
+ppdoc:CostItem a owl:Class .
+ppdoc:Specification a owl:Class .
+ppdoc:ConcreteMix a owl:Class .
+ppdoc:RebarSpec a owl:Class .
+ppdoc:FormworkSpec a owl:Class .
+ppdoc:SteelShapeSpec a owl:Class .
+
+ppdoc:hasPart
+    a owl:ObjectProperty ,
+        owl:TransitiveProperty ;
+    owl:inverseOf ppdoc:isPartOf .
+
+ppdoc:isPartOf
+    a owl:ObjectProperty .
+
+ppdoc:hasSubWorkType
+    a owl:ObjectProperty ,
+        owl:TransitiveProperty .
+
+ppdoc:hasWorkTypeSection a owl:ObjectProperty .
+ppdoc:hasWorkType a owl:ObjectProperty .
+ppdoc:hasSpecificationObject a owl:ObjectProperty .
+ppdoc:hasConcreteMix a owl:ObjectProperty .
+ppdoc:hasRebarSpec a owl:ObjectProperty .
+ppdoc:hasFormworkSpec a owl:ObjectProperty .
+ppdoc:hasSteelShapeSpec a owl:ObjectProperty .
+
+ppdoc:hasQuantityBasis
+    a owl:ObjectProperty ;
+    owl:inverseOf ppdoc:isQuantityBasisFor .
+
+ppdoc:isQuantityBasisFor
+    a owl:ObjectProperty .
+
+ppdoc:aggregatesTo
+    a owl:ObjectProperty ;
+    owl:inverseOf ppdoc:aggregates .
+
+ppdoc:aggregates
+    a owl:ObjectProperty .
+
+ppdoc:hasCostBasis
+    a owl:ObjectProperty ,
+        owl:TransitiveProperty .
+
+ppdoc:hasTraceableSummary
+    a owl:ObjectProperty ;
+    rdfs:label "추적 가능한 집계금액을 가진다"@ko ;
+    owl:propertyChainAxiom ( ppdoc:hasQuantityBasis ppdoc:isQuantityBasisFor ppdoc:aggregatesTo ) .
+
+ppdoc:hasAmount a owl:DatatypeProperty .
+ppdoc:hasCurrentQuantity a owl:DatatypeProperty .
+ppdoc:hasUnitPrice a owl:DatatypeProperty .
+ppdoc:hasQuantityUnit a owl:DatatypeProperty .
+ppdoc:hasSourceFileName a owl:DatatypeProperty .
+ppdoc:hasSourceSheetName a owl:DatatypeProperty .
+ppdoc:hasSourceRowNumber a owl:DatatypeProperty .
+ppdoc:hasDesignStrength a owl:DatatypeProperty .
+ppdoc:hasStrengthUnit a owl:DatatypeProperty .
+ppdoc:hasSlump a owl:DatatypeProperty .
+ppdoc:hasMaxAggregateSize a owl:DatatypeProperty .
+ppdoc:hasSteelGrade a owl:DatatypeProperty .
+ppdoc:hasBarDiameter a owl:DatatypeProperty .
+ppdoc:hasYieldStrength a owl:DatatypeProperty .
+ppdoc:hasFormworkType a owl:DatatypeProperty .
+ppdoc:hasSteelShape a owl:DatatypeProperty .
+ppdoc:hasSectionSize a owl:DatatypeProperty .
+
+ppdoc:TraceableBoQItem
+    a owl:Class ;
+    rdfs:label "추적 가능한 내역 항목"@ko ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            ppdoc:BoQItem
+            [
+                a owl:Restriction ;
+                owl:onProperty ppdoc:hasQuantityBasis ;
+                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                owl:onClass ppdoc:QuantityCalculationItem
+            ]
+            [
+                a owl:Restriction ;
+                owl:onProperty ppdoc:aggregatesTo ;
+                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                owl:onClass ppdoc:SummaryAmount
+            ]
+            [
+                a owl:Restriction ;
+                owl:onProperty ppdoc:hasSpecificationObject ;
+                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                owl:onClass ppdoc:Specification
+            ]
+        )
+    ] .
+
+ppdoc:ProgressPaymentStatement
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasPart ;
+        owl:someValuesFrom ppdoc:CostCalculationSheet
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasPart ;
+        owl:someValuesFrom ppdoc:WorkTypeSummarySheet
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasPart ;
+        owl:someValuesFrom ppdoc:WorkTypeDetailSheet
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasPart ;
+        owl:someValuesFrom ppdoc:QuantityCalculationSheet
+    ] .
+
+ppdoc:BoQItem
+    owl:hasKey ( ppdoc:hasSourceFileName ppdoc:hasSourceSheetName ppdoc:hasSourceRowNumber ) ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasQuantityUnit ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasCurrentQuantity ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:decimal
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasAmount ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:decimal
+    ] .
+
+ppdoc:QuantityCalculationItem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:isQuantityBasisFor ;
+        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onClass ppdoc:BoQItem
+    ] .
+
+ppdoc:Specification
+    owl:disjointUnionOf (
+        ppdoc:ConcreteMix
+        ppdoc:RebarSpec
+        ppdoc:FormworkSpec
+        ppdoc:SteelShapeSpec
+    ) .
+
+ppdoc:ConcreteMix
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasDesignStrength ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:decimal
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasSlump ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:decimal
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasMaxAggregateSize ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:decimal
+    ] .
+
+ppdoc:RebarSpec
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasSteelGrade ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasBarDiameter ;
+        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string
+    ] .
+
+ppdoc:SpecificationDisjointness
+    a owl:AllDisjointClasses ;
+    owl:members (
+        ppdoc:ConcreteMix
+        ppdoc:RebarSpec
+        ppdoc:FormworkSpec
+        ppdoc:SteelShapeSpec
+    ) .

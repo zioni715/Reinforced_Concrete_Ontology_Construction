@@ -1,0 +1,18 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+ASK {
+  ppdoc:boq-item-table-format-sample ppdoc:definesField ppdoc:field-item-name ,
+      ppdoc:field-specification ,
+      ppdoc:field-quantity-unit ,
+      ppdoc:field-current-quantity ,
+      ppdoc:field-unit-price ,
+      ppdoc:field-amount .
+  ppdoc:field-item-name ppdoc:hasCanonicalFieldName "item_name" ;
+      ppdoc:isRequiredField true .
+  ppdoc:field-specification ppdoc:hasCanonicalFieldName "specification_text" ;
+      ppdoc:isRequiredField true .
+  ppdoc:field-current-quantity ppdoc:hasCanonicalFieldName "current_quantity" ;
+      ppdoc:isRequiredField true .
+  ppdoc:field-amount ppdoc:hasCanonicalFieldName "amount" ;
+      ppdoc:isRequiredField true .
+}

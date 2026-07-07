@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+ASK {
+  ppdoc:hasPart a owl:ObjectProperty .
+  ppdoc:hasQuantityBasis a owl:ObjectProperty .
+  ppdoc:aggregatesTo a owl:ObjectProperty .
+  ppdoc:hasCostBasis a owl:ObjectProperty .
+  ppdoc:hasAmount a owl:DatatypeProperty .
+  ppdoc:hasCurrentQuantity a owl:DatatypeProperty .
+  ppdoc:hasUnitPrice a owl:DatatypeProperty .
+  ppdoc:hasQuantityUnit a owl:DatatypeProperty .
+}

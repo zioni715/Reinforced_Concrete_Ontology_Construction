@@ -1,0 +1,184 @@
+{
+  "experiment_id": "codex_5_combination_2026-07-07",
+  "evaluator": "Codex",
+  "scope": "ProgressPaymentStatement-centered reinforced concrete progress-payment ontology",
+  "base_files": [
+    "ontology/ontology.ttl",
+    "ontology/sample_data.ttl",
+    "visualization/ontology_graph.html",
+    "RDF&RDFS_New_Report.md"
+  ],
+  "sparql_execution": {
+    "engine": "rdflib 7.6.0",
+    "graph_triples": 1327,
+    "query_count": 30,
+    "passed": 30,
+    "failed": 0,
+    "summary_csv": "experiments/codex_5_combination_2026-07-07/sparql_execution_results.csv",
+    "detail_json": "experiments/codex_5_combination_2026-07-07/sparql_execution_results.json",
+    "query_directory": "experiments/codex_5_combination_2026-07-07/sparql"
+  },
+  "model_based_evaluation": {
+    "engine": "rdflib 7.6.0",
+    "model_count": 5,
+    "query_count": 40,
+    "model_query_pairs": 200,
+    "answer_key_matches": 200,
+    "answer_key_mismatches": 0,
+    "manifest": "experiments/codex_5_combination_2026-07-07/models/model_manifest.json",
+    "answer_key": "experiments/codex_5_combination_2026-07-07/evaluation/model_capability_answer_key.json",
+    "query_directory": "experiments/codex_5_combination_2026-07-07/evaluation/model_capability_sparql",
+    "summary_csv": "experiments/codex_5_combination_2026-07-07/model_capability_scores.csv",
+    "criterion_csv": "experiments/codex_5_combination_2026-07-07/model_capability_criterion_scores.csv",
+    "detail_json": "experiments/codex_5_combination_2026-07-07/model_capability_results.json",
+    "winner": "RDF/RDFS + OWL 2 DL",
+    "second_best": "RDF/RDFS + SHACL"
+  },
+  "criteria": [
+    {
+      "id": "document_hierarchy",
+      "label": "문서 계층 표현성",
+      "max_score": 10
+    },
+    {
+      "id": "worktype_decomposition",
+      "label": "공종 및 원가 분개 적합성",
+      "max_score": 10
+    },
+    {
+      "id": "attribute_specification",
+      "label": "속성 및 규격 표현성",
+      "max_score": 10
+    },
+    {
+      "id": "traceability",
+      "label": "내역-수량산출-집계-원가 추적성",
+      "max_score": 10
+    },
+    {
+      "id": "value_validation",
+      "label": "값 검증 가능성",
+      "max_score": 10
+    },
+    {
+      "id": "reasoning_inference",
+      "label": "추론 가능성",
+      "max_score": 10
+    },
+    {
+      "id": "queryability",
+      "label": "질의 가능성",
+      "max_score": 10
+    },
+    {
+      "id": "reusability",
+      "label": "재사용 및 확장 가능성",
+      "max_score": 10
+    },
+    {
+      "id": "maintainability",
+      "label": "유지보수성과 모델 복잡도",
+      "max_score": 10
+    },
+    {
+      "id": "current_goal_fit",
+      "label": "현재 연구 목적 적합성",
+      "max_score": 10
+    }
+  ],
+  "results": [
+    {
+      "combination": "RDF/RDFS + OWL 2 DL",
+      "scores": {
+        "document_hierarchy": 9.0,
+        "worktype_decomposition": 9.0,
+        "attribute_specification": 9.5,
+        "traceability": 8.5,
+        "value_validation": 6.5,
+        "reasoning_inference": 9.5,
+        "queryability": 8.5,
+        "reusability": 9.0,
+        "maintainability": 6.5,
+        "current_goal_fit": 9.0
+      },
+      "total_score": 85.0,
+      "rank": 1,
+      "summary": "Best overall for semantic structuring because it can express class restrictions, relation constraints, disjointness, cardinality, and richer reusable domain semantics."
+    },
+    {
+      "combination": "RDF/RDFS + SHACL",
+      "scores": {
+        "document_hierarchy": 8.5,
+        "worktype_decomposition": 8.5,
+        "attribute_specification": 8.5,
+        "traceability": 9.0,
+        "value_validation": 9.5,
+        "reasoning_inference": 5.5,
+        "queryability": 8.0,
+        "reusability": 8.5,
+        "maintainability": 8.0,
+        "current_goal_fit": 9.0
+      },
+      "total_score": 83.0,
+      "rank": 2,
+      "summary": "Strongest practical choice for validating quantities, units, required fields, and calculation consistency, but weaker than OWL 2 DL for semantic inference."
+    },
+    {
+      "combination": "RDF/RDFS + OWL 2 RL",
+      "scores": {
+        "document_hierarchy": 8.5,
+        "worktype_decomposition": 8.5,
+        "attribute_specification": 8.5,
+        "traceability": 8.0,
+        "value_validation": 4.5,
+        "reasoning_inference": 7.5,
+        "queryability": 8.0,
+        "reusability": 8.0,
+        "maintainability": 7.0,
+        "current_goal_fit": 8.0
+      },
+      "total_score": 76.5,
+      "rank": 3,
+      "summary": "Operationally lighter than OWL 2 DL and better than plain RDFS, but less expressive for the current specification and traceability model."
+    },
+    {
+      "combination": "RDF/RDFS + SKOS",
+      "scores": {
+        "document_hierarchy": 8.0,
+        "worktype_decomposition": 8.5,
+        "attribute_specification": 8.0,
+        "traceability": 7.5,
+        "value_validation": 2.5,
+        "reasoning_inference": 3.5,
+        "queryability": 8.0,
+        "reusability": 8.0,
+        "maintainability": 8.0,
+        "current_goal_fit": 7.0
+      },
+      "total_score": 69.0,
+      "rank": 4,
+      "summary": "Useful for vocabulary management and labels, but insufficient for validation and deeper semantic constraints."
+    },
+    {
+      "combination": "RDF/RDFS",
+      "scores": {
+        "document_hierarchy": 8.0,
+        "worktype_decomposition": 8.0,
+        "attribute_specification": 7.0,
+        "traceability": 7.0,
+        "value_validation": 2.0,
+        "reasoning_inference": 2.0,
+        "queryability": 7.0,
+        "reusability": 7.0,
+        "maintainability": 9.0,
+        "current_goal_fit": 6.0
+      },
+      "total_score": 63.0,
+      "rank": 5,
+      "summary": "Good baseline and easiest to maintain, but lacks validation, advanced inference, and formal constraints."
+    }
+  ],
+  "winner": "RDF/RDFS + OWL 2 DL",
+  "second_best": "RDF/RDFS + SHACL",
+  "note": "If the experiment prioritizes data validation over semantic representation, RDF/RDFS + SHACL becomes the practical deployment winner. Under the current semantic structuring goal, RDF/RDFS + OWL 2 DL remains the best overall combination."
+}

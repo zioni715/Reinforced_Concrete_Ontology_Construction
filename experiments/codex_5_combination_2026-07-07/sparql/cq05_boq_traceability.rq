@@ -1,0 +1,16 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?boqItem ?itemName ?specText ?specObject ?quantityBasis ?summary
+WHERE {
+  ppdoc:work-type-detail-sheet-sample ppdoc:hasBoQItem ?boqItem .
+  ?boqItem ppdoc:hasItemName ?itemName ;
+           ppdoc:hasSpecification ?specText ;
+           ppdoc:hasQuantityBasis ?quantityBasis ;
+           ppdoc:aggregatesTo ?summary .
+  OPTIONAL { ?boqItem ppdoc:hasConcreteMix ?specObject . }
+  OPTIONAL { ?boqItem ppdoc:hasRebarSpec ?specObject . }
+  OPTIONAL { ?boqItem ppdoc:hasFormworkSpec ?specObject . }
+  OPTIONAL { ?boqItem ppdoc:hasSteelShapeSpec ?specObject . }
+}
+ORDER BY ?boqItem

@@ -1,0 +1,15 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+ASK {
+  VALUES ?workType {
+    ppdoc:worktype-concrete
+    ppdoc:worktype-rebar
+    ppdoc:worktype-formwork-shoring
+  }
+  ppdoc:work-type-summary-sheet-sample ppdoc:hasWorkTypeSection ?summarySection .
+  ppdoc:work-type-detail-sheet-sample ppdoc:hasWorkTypeSection ?detailSection .
+  ppdoc:quantity-calculation-sheet-sample ppdoc:hasWorkTypeSection ?quantitySection .
+  ?summarySection ppdoc:hasWorkType ?workType .
+  ?detailSection ppdoc:hasWorkType ?workType .
+  ?quantitySection ppdoc:hasWorkType ?workType .
+}

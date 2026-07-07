@@ -1,0 +1,19 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:ConcreteMix rdfs:subClassOf ?strengthRestriction .
+  ?strengthRestriction owl:onProperty ppdoc:hasDesignStrength ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onDataRange xsd:decimal .
+  ppdoc:ConcreteMix rdfs:subClassOf ?slumpRestriction .
+  ?slumpRestriction owl:onProperty ppdoc:hasSlump ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onDataRange xsd:decimal .
+  ppdoc:ConcreteMix rdfs:subClassOf ?aggregateRestriction .
+  ?aggregateRestriction owl:onProperty ppdoc:hasMaxAggregateSize ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onDataRange xsd:decimal .
+}

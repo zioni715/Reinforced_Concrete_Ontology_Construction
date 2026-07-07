@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?root ?rcDocs ?statementDocs ?statement
+WHERE {
+  ?root a ppdoc:ProgressPaymentDocumentSet ;
+        ppdoc:hasPart ?rcDocs .
+  ?rcDocs a ppdoc:ReinforcedConcreteProgressPaymentDocuments ;
+          ppdoc:hasPart ?statementDocs .
+  ?statementDocs a ppdoc:StatementDocument ;
+                 ppdoc:hasPart ?statement .
+  ?statement a ppdoc:ProgressPaymentStatement .
+}

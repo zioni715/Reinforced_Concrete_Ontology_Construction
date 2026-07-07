@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT (COUNT(?boqItem) AS ?missingSpecificationObjectBoqCount)
+WHERE {
+  ?boqItem a ppdoc:BoQItem .
+  FILTER(
+    NOT EXISTS { ?boqItem ppdoc:hasConcreteMix ?concreteMix }
+    && NOT EXISTS { ?boqItem ppdoc:hasRebarSpec ?rebarSpec }
+    && NOT EXISTS { ?boqItem ppdoc:hasFormworkSpec ?formworkSpec }
+    && NOT EXISTS { ?boqItem ppdoc:hasSteelShapeSpec ?steelShapeSpec }
+  )
+}

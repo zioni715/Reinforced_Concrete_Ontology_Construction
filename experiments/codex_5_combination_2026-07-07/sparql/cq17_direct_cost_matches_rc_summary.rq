@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?directCost ?directAmount ?summary ?summaryAmount
+WHERE {
+  ?directCost a ppdoc:DirectCostItem ;
+              ppdoc:hasAmount ?directAmount ;
+              ppdoc:hasCostBasis ?summary .
+  ?summary a ppdoc:SummaryAmount ;
+           ppdoc:hasWorkType ppdoc:worktype-rc ;
+           ppdoc:hasAmount ?summaryAmount .
+  FILTER(?directAmount = ?summaryAmount)
+}

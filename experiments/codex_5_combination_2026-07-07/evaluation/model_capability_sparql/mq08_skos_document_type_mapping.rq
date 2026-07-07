@@ -1,0 +1,10 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:concept-progress-payment-statement skos:exactMatch ppdoc:ProgressPaymentStatement .
+  ppdoc:concept-cost-calculation-sheet skos:exactMatch ppdoc:CostCalculationSheet .
+  ppdoc:concept-worktype-summary-sheet skos:exactMatch ppdoc:WorkTypeSummarySheet .
+  ppdoc:concept-worktype-detail-sheet skos:exactMatch ppdoc:WorkTypeDetailSheet .
+  ppdoc:concept-quantity-calculation-sheet skos:exactMatch ppdoc:QuantityCalculationSheet .
+}

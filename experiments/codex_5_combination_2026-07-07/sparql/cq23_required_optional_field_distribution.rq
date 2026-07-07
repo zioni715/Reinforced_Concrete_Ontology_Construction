@@ -1,0 +1,9 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?required (COUNT(?field) AS ?fieldCount)
+WHERE {
+  ppdoc:boq-item-table-format-sample ppdoc:definesField ?field .
+  ?field ppdoc:isRequiredField ?required .
+}
+GROUP BY ?required
+ORDER BY DESC(?required)

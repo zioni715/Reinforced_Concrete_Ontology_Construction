@@ -1,0 +1,9 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?category (COUNT(?costItem) AS ?itemCount)
+WHERE {
+  ppdoc:cost-section-rc-work ppdoc:hasCostItem ?costItem .
+  ?costItem ppdoc:hasCostCategory ?category .
+}
+GROUP BY ?category
+ORDER BY ?category

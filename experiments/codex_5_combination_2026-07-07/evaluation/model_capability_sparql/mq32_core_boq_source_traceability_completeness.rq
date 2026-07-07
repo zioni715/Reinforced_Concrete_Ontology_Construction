@@ -1,0 +1,29 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+ASK {
+  ?anyBoQ a ppdoc:BoQItem .
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasSourceSheetName ?sourceSheet . }
+  }
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasSourceRowNumber ?sourceRow . }
+  }
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasSourceCellAddress ?sourceCell . }
+  }
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasHierarchyPath ?hierarchyPath . }
+  }
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasWorkTypeLabel ?workTypeLabel . }
+  }
+  FILTER NOT EXISTS {
+    ?boq a ppdoc:BoQItem .
+    FILTER NOT EXISTS { ?boq ppdoc:hasDetailCategoryLabel ?detailCategoryLabel . }
+  }
+}

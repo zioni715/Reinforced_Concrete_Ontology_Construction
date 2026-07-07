@@ -1,0 +1,15 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?workType (COUNT(DISTINCT ?section) AS ?sectionCount)
+WHERE {
+  VALUES ?sheet {
+    ppdoc:work-type-summary-sheet-sample
+    ppdoc:work-type-detail-sheet-sample
+    ppdoc:quantity-calculation-sheet-sample
+  }
+  ?sheet ppdoc:hasWorkTypeSection ?section .
+  ?section ppdoc:hasWorkType ?workType .
+}
+GROUP BY ?workType
+HAVING (COUNT(DISTINCT ?section) = 3)
+ORDER BY ?workType

@@ -1,0 +1,18 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:TraceableBoQItem owl:equivalentClass ?equivalentClass .
+  ?equivalentClass owl:intersectionOf ?list .
+  ?list rdf:rest*/rdf:first ppdoc:BoQItem .
+  ?list rdf:rest*/rdf:first ?quantityRestriction .
+  ?quantityRestriction owl:onProperty ppdoc:hasQuantityBasis ;
+      owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass ppdoc:QuantityCalculationItem .
+  ?list rdf:rest*/rdf:first ?summaryRestriction .
+  ?summaryRestriction owl:onProperty ppdoc:aggregatesTo ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onClass ppdoc:SummaryAmount .
+}

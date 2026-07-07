@@ -1,0 +1,39 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  ppdoc:ProgressPaymentStatementShape a sh:NodeShape ;
+      sh:targetClass ppdoc:ProgressPaymentStatement .
+  FILTER EXISTS {
+    ppdoc:ProgressPaymentStatementShape sh:property [
+      sh:path ppdoc:hasPart ;
+      sh:qualifiedValueShape [ sh:class ppdoc:CostCalculationSheet ] ;
+      sh:qualifiedMinCount 1 ;
+      sh:qualifiedMaxCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:ProgressPaymentStatementShape sh:property [
+      sh:path ppdoc:hasPart ;
+      sh:qualifiedValueShape [ sh:class ppdoc:WorkTypeSummarySheet ] ;
+      sh:qualifiedMinCount 1 ;
+      sh:qualifiedMaxCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:ProgressPaymentStatementShape sh:property [
+      sh:path ppdoc:hasPart ;
+      sh:qualifiedValueShape [ sh:class ppdoc:WorkTypeDetailSheet ] ;
+      sh:qualifiedMinCount 1 ;
+      sh:qualifiedMaxCount 1
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:ProgressPaymentStatementShape sh:property [
+      sh:path ppdoc:hasPart ;
+      sh:qualifiedValueShape [ sh:class ppdoc:QuantityCalculationSheet ] ;
+      sh:qualifiedMinCount 1 ;
+      sh:qualifiedMaxCount 1
+    ] .
+  }
+}

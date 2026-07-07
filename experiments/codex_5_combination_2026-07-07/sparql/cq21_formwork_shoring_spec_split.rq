@@ -1,0 +1,20 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?itemName ?specObject ?specType ?quantityItem
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasItemName ?itemName ;
+           ppdoc:hasQuantityBasis ?quantityItem .
+  {
+    ?boqItem ppdoc:hasFormworkSpec ?specObject .
+    ?quantityItem ppdoc:hasFormworkSpec ?specObject .
+    BIND("FormworkSpec" AS ?specType)
+  }
+  UNION
+  {
+    ?boqItem ppdoc:hasSteelShapeSpec ?specObject .
+    ?quantityItem ppdoc:hasSteelShapeSpec ?specObject .
+    BIND("SteelShapeSpec" AS ?specType)
+  }
+}
+ORDER BY ?boqItem

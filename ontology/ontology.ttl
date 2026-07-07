@@ -6,10 +6,9 @@
 
 ppdoc:Ontology
     a rdfs:Resource ;
-    dcterms:title "철근콘크리트 공종 기성서류 RDF/RDFS 온톨로지"@ko ;
-    dcterms:description "철근콘크리트 공종 기성서류의 문서 계층, 제출 흐름, 산정 근거, 증빙, 검측 관계를 표현하기 위한 RDFS 스키마 초안."@ko ;
-    dcterms:source "Ontology Development 101: A Guide to Creating Your First Ontology" ;
-    rdfs:comment "본 스키마의 ppdoc: 식별자는 https://example.org/rc-progress-payment# namespace IRI와 local name을 결합한 IRI이다."@ko .
+    dcterms:title "철근콘크리트 공종 공사기성부분 내역서 RDF/RDFS 온톨로지"@ko ;
+    dcterms:description "기성서류, 철근콘크리트 공종 기성서류, 공사기성부분 내역서, 하위 산정 시트, 공종, 내역항목, 규격 속성, 수량·금액 정보를 표현하기 위한 RDF/RDFS 스키마."@ko ;
+    rdfs:comment "본 스키마는 전체 기성 행정 절차보다 철근콘크리트 공종 기성서류의 문서 계층과 공사기성부분 내역서의 금액 산정·규격 속성 구조를 중심 범위로 한다."@ko .
 
 #################################################################
 # Classes
@@ -17,270 +16,211 @@ ppdoc:Ontology
 
 ppdoc:ProgressPaymentEntity
     a rdfs:Class ;
-    rdfs:label "기성서류 온톨로지 개체"@ko ;
-    rdfs:comment "본 온톨로지에서 다루는 모든 행위자, 문서, 절차, 내역, 산출 항목의 최상위 클래스."@ko .
-
-ppdoc:Actor
-    a rdfs:Class ;
-    rdfs:label "행위자"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "기성서류를 작성, 제출, 송부, 검토, 검사, 승인하는 주체."@ko .
-
-ppdoc:Contractor
-    a rdfs:Class ;
-    rdfs:label "시공사"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
-
-ppdoc:SiteOffice
-    a rdfs:Class ;
-    rdfs:label "현장"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
-
-ppdoc:SupervisionHeadOffice
-    a rdfs:Class ;
-    rdfs:label "감리본사"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
-
-ppdoc:HeadOffice
-    a rdfs:Class ;
-    rdfs:label "본사"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
-
-ppdoc:Owner
-    a rdfs:Class ;
-    rdfs:label "발주처"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
-
-ppdoc:Inspector
-    a rdfs:Class ;
-    rdfs:label "검사자"@ko ;
-    rdfs:subClassOf ppdoc:Actor .
+    rdfs:label "기성 내역 개체"@ko ;
+    rdfs:comment "공사기성부분 내역서 온톨로지에서 다루는 문서, 내역 항목, 공종, 세부 분류, 규격, 산출 항목의 최상위 클래스."@ko .
 
 ppdoc:DocumentResource
     a rdfs:Class ;
     rdfs:label "문서 자원"@ko ;
     rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "문서군과 개별 문서를 포괄하는 상위 클래스."@ko .
+    rdfs:comment "공사기성부분 내역서와 그 하위 문서를 포괄하는 클래스."@ko .
 
 ppdoc:DocumentGroup
     a rdfs:Class ;
     rdfs:label "문서군"@ko ;
     rdfs:subClassOf ppdoc:DocumentResource ;
-    rdfs:comment "여러 문서 또는 하위 문서군을 묶는 단위."@ko .
+    rdfs:comment "여러 문서 또는 하위 항목을 묶는 문서 단위."@ko .
 
 ppdoc:Document
     a rdfs:Class ;
     rdfs:label "문서"@ko ;
     rdfs:subClassOf ppdoc:DocumentResource ;
-    rdfs:comment "실제로 제출, 첨부, 검토되는 개별 문서."@ko .
+    rdfs:comment "원가계산서, 공종별집계표, 공종별내역서, 수량산출서 같은 개별 문서."@ko .
 
-ppdoc:Procedure
+ppdoc:ProgressPaymentDocumentSet
     a rdfs:Class ;
-    rdfs:label "절차"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "기성서류 처리 과정의 업무 단계."@ko .
+    rdfs:label "기성서류"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup ;
+    rdfs:comment "기성 청구, 검사, 산정, 증빙과 관련된 서류 묶음의 최상위 문서군."@ko .
 
-ppdoc:ContractorProgressPaymentPackage
+ppdoc:ReinforcedConcreteProgressPaymentDocuments
     a rdfs:Class ;
-    rdfs:label "시공사 기성서류"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:AttachmentBundle
-    a rdfs:Class ;
-    rdfs:label "첨부서류"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
+    rdfs:label "철근콘크리트 공종 기성서류"@ko ;
+    rdfs:subClassOf ppdoc:DocumentGroup ;
+    rdfs:comment "철근콘크리트 공종에 한정한 기성서류 문서군. 공사기성부분 내역서와 관련 산정 문서를 포함한다."@ko .
 
 ppdoc:StatementDocument
     a rdfs:Class ;
     rdfs:label "내역서"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
+    rdfs:subClassOf ppdoc:DocumentGroup ;
+    rdfs:comment "공종별 산정 내역을 담는 문서군. 공사기성부분 내역서를 하위 문서군으로 포함한다."@ko .
 
 ppdoc:ProgressPaymentStatement
     a rdfs:Class ;
     rdfs:label "공사기성부분 내역서"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:MaterialReceiptAndInspectionLedger
-    a rdfs:Class ;
-    rdfs:label "주요자재 검수 및 수불부"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:InspectionAndPhotoDocumentGroup
-    a rdfs:Class ;
-    rdfs:label "검측서류 및 사진대지"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:SiteToSupervisionSubmissionPackage
-    a rdfs:Class ;
-    rdfs:label "현장-감리본사 공문발송 문서군"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:HeadOfficeToOwnerSubmissionPackage
-    a rdfs:Class ;
-    rdfs:label "본사-발주처 공문발송 문서군"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:InspectionResultReportPackage
-    a rdfs:Class ;
-    rdfs:label "기성검사 결과 보고"@ko ;
-    rdfs:subClassOf ppdoc:DocumentGroup .
-
-ppdoc:OfficialLetter
-    a rdfs:Class ;
-    rdfs:label "공문"@ko ;
-    rdfs:subClassOf ppdoc:Document .
-
-ppdoc:ProgressPaymentInspectionRequest
-    a rdfs:Class ;
-    rdfs:label "기성부분 검사원"@ko ;
-    rdfs:subClassOf ppdoc:Document .
-
-ppdoc:ProgressPaymentClaimSummary
-    a rdfs:Class ;
-    rdfs:label "청구기성 요약"@ko ;
-    rdfs:subClassOf ppdoc:Document .
-
-ppdoc:AdvancePaymentDeductionStatement
-    a rdfs:Class ;
-    rdfs:label "선금공제 내역"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:subClassOf ppdoc:DocumentGroup ;
+    rdfs:comment "기성 금액 산정의 중심 문서군. 원가계산서, 공종별집계표, 공종별내역서, 수량산출서를 포함한다."@ko .
 
 ppdoc:CostCalculationSheet
     a rdfs:Class ;
     rdfs:label "원가계산서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:subClassOf ppdoc:Document ;
+    rdfs:comment "공사기성부분 내역서의 총괄 원가 산정 문서. 철근콘크리트공사에 배부되는 구간은 공종별 집계 결과를 원가 항목 구조로 재분류해 표현한다."@ko .
 
 ppdoc:WorkTypeSummarySheet
     a rdfs:Class ;
     rdfs:label "공종별집계표"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:subClassOf ppdoc:Document ;
+    rdfs:comment "철근콘크리트공사 및 하위 공종별 금액을 집계하는 문서."@ko .
 
 ppdoc:WorkTypeDetailSheet
     a rdfs:Class ;
     rdfs:label "공종별내역서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:subClassOf ppdoc:Document ;
+    rdfs:comment "실제 금액 산정 단위인 내역 항목 행을 포함하는 문서."@ko .
 
 ppdoc:QuantityCalculationSheet
     a rdfs:Class ;
     rdfs:label "수량산출서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:subClassOf ppdoc:Document ;
+    rdfs:comment "내역 항목의 수량 산정 근거가 되는 산출 항목을 포함하는 문서."@ko .
 
-ppdoc:RebarQuantityCalculationSheet
+ppdoc:DocumentRecord
     a rdfs:Class ;
-    rdfs:label "철근 수량산출서"@ko ;
-    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
-    rdfs:comment "철근공사 내역의 수량 근거가 되는 위치, 부재명, 철근 규격, 철근 직경, 길이, 개수, 단위중량, 산출중량을 포함하는 문서."@ko .
+    rdfs:label "문서 레코드"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서나 시트에서 추출한 원본 행 단위 데이터. 분류나 규격 객체를 만들기 전에 먼저 보존해야 하는 데이터 단위."@ko .
 
-ppdoc:ConcreteQuantityCalculationSheet
+ppdoc:SpecifiableRecord
     a rdfs:Class ;
-    rdfs:label "콘크리트 수량산출서"@ko ;
-    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
-    rdfs:comment "콘크리트공사 내역의 수량 근거가 되는 위치, 부재명, 콘크리트 강도, 길이, 폭, 높이, 산출체적을 포함하는 문서."@ko .
+    rdfs:label "규격 참조 가능 레코드"@ko ;
+    rdfs:subClassOf ppdoc:DocumentRecord ;
+    rdfs:comment "공종별내역서의 내역 항목과 수량산출서의 산출 항목처럼 같은 규격 객체를 참조할 수 있는 원본 행 레코드."@ko .
 
-ppdoc:FormworkQuantityCalculationSheet
+ppdoc:CostCalculationRecord
     a rdfs:Class ;
-    rdfs:label "거푸집 수량산출서"@ko ;
-    rdfs:subClassOf ppdoc:QuantityCalculationSheet ;
-    rdfs:comment "거푸집공사 내역의 수량 근거가 되는 위치, 부재명, 거푸집 종류, 길이, 높이, 산출면적을 포함하는 문서."@ko .
+    rdfs:label "원가계산 행"@ko ;
+    rdfs:subClassOf ppdoc:DocumentRecord ;
+    rdfs:comment "원가계산서의 금액 계산 행."@ko .
 
-ppdoc:MaterialEvidenceDocument
+ppdoc:WorkTypeSummaryRecord
     a rdfs:Class ;
-    rdfs:label "자재 증빙 문서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "공종 집계 행"@ko ;
+    rdfs:subClassOf ppdoc:DocumentRecord ;
+    rdfs:comment "공종별집계표에서 공종별 금액을 나타내는 행."@ko .
 
-ppdoc:InspectionDocument
+ppdoc:BoQItemRecord
     a rdfs:Class ;
-    rdfs:label "검측 문서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "내역 행 레코드"@ko ;
+    rdfs:subClassOf ppdoc:DocumentRecord ;
+    rdfs:comment "공종별내역서의 품명, 규격, 수량, 단가, 금액을 가진 원본 행 레코드."@ko .
 
-ppdoc:PhotoSheet
+ppdoc:QuantityCalculationRecord
     a rdfs:Class ;
-    rdfs:label "사진대지"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "수량산출 행"@ko ;
+    rdfs:subClassOf ppdoc:DocumentRecord ;
+    rdfs:comment "수량산출서의 위치, 부재, 치수, 산출량을 가진 원본 행 레코드."@ko .
 
-ppdoc:SupervisionProgressPaymentReport
+ppdoc:DocumentWorkTypeSection
     a rdfs:Class ;
-    rdfs:label "기성부분 감리조서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "문서 공종 분개 구간"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서 내부에서 콘크리트공사, 철근공사, 거푸집 및 동바리공사 같은 공종별 행들을 묶는 구간."@ko .
 
-ppdoc:InspectionExecutionPlan
+ppdoc:SummaryWorkTypeSection
     a rdfs:Class ;
-    rdfs:label "공사 기성검사 수행계획서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "공종별집계표 공종 구간"@ko ;
+    rdfs:subClassOf ppdoc:DocumentWorkTypeSection ;
+    rdfs:comment "공종별집계표에서 특정 공종의 집계 금액을 나타내는 구간."@ko .
 
-ppdoc:DetailedExecutionPlan
+ppdoc:CostWorkTypeSection
     a rdfs:Class ;
-    rdfs:label "세부 수행계획서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "원가계산서 공종 원가 구간"@ko ;
+    rdfs:subClassOf ppdoc:DocumentWorkTypeSection ;
+    rdfs:comment "원가계산서에서 특정 공종에 배부되는 직접비, 간접비, 일반관리비, 이윤, 세금, 총액 항목을 묶는 구간."@ko .
 
-ppdoc:PriorReviewOpinion
+ppdoc:DetailWorkTypeSection
     a rdfs:Class ;
-    rdfs:label "사전검토 의견서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "공종별내역서 공종 구간"@ko ;
+    rdfs:subClassOf ppdoc:DocumentWorkTypeSection ;
+    rdfs:comment "공종별내역서에서 특정 공종의 내역 항목 행들을 묶는 구간."@ko .
 
-ppdoc:InspectorAppointmentNotice
+ppdoc:QuantityWorkTypeSection
     a rdfs:Class ;
-    rdfs:label "검사자 임명 및 검사일자 통보"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "수량산출서 공종 구간"@ko ;
+    rdfs:subClassOf ppdoc:DocumentWorkTypeSection ;
+    rdfs:comment "수량산출서에서 특정 공종의 수량산출 항목을 묶는 구간."@ko .
 
-ppdoc:ProgressPaymentInspectionRecord
+ppdoc:DerivedDataRecord
     a rdfs:Class ;
-    rdfs:label "기성검사 조서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "파생 데이터 레코드"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "원본 문서 레코드에서 해석 또는 파싱으로 만들어진 분류, 규격, 연결 정보."@ko .
 
-ppdoc:ProgressPaymentReviewOpinion
+ppdoc:CanonicalDataFormat
     a rdfs:Class ;
-    rdfs:label "기성검토의견서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "표준 데이터 포맷"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "문서의 원본 데이터를 일관되게 저장하기 위한 정형 필드 구조. 분개 계층과 별도로 유지한다."@ko .
 
-ppdoc:ConstructionManagerAttendanceConfirmation
+ppdoc:BoQItemTableFormat
     a rdfs:Class ;
-    rdfs:label "공사관리관 입회확인서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "공종별내역서 표준 행 포맷"@ko ;
+    rdfs:subClassOf ppdoc:CanonicalDataFormat ;
+    rdfs:comment "공종별내역서의 내역 항목 행이 따라야 하는 품명, 규격, 단위, 수량, 단가, 금액 중심의 표준 포맷."@ko .
 
-ppdoc:SafetyCostEvidenceDocument
+ppdoc:BoQItem
     a rdfs:Class ;
-    rdfs:label "안전관리비 사용내역 및 증빙"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "내역 항목 원본 행"@ko ;
+    rdfs:subClassOf ppdoc:BoQItemRecord ,
+        ppdoc:SpecifiableRecord ;
+    rdfs:comment "공종별내역서의 한 줄 금액 항목. 품명, 규격, 수량, 단가, 금액은 원본 필드이며 공종, 세부 분류, 규격 객체는 이 행에서 파생해 연결한다."@ko .
 
-ppdoc:InsurancePaymentCertificate
+ppdoc:SummaryAmount
     a rdfs:Class ;
-    rdfs:label "보험료 납입 증명서"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "집계금액"@ko ;
+    rdfs:subClassOf ppdoc:WorkTypeSummaryRecord ;
+    rdfs:comment "공종별 또는 상위 공종의 집계 금액."@ko .
 
-ppdoc:OwnerRequestedDocument
+ppdoc:CostItem
     a rdfs:Class ;
-    rdfs:label "기타 발주처 요청 서류"@ko ;
-    rdfs:subClassOf ppdoc:Document .
+    rdfs:label "원가 항목"@ko ;
+    rdfs:subClassOf ppdoc:CostCalculationRecord ;
+    rdfs:comment "원가계산서에서 특정 공종에 배부되는 재료비, 노무비, 경비, 일반관리비, 이윤, 세금, 총액 등의 계산 항목."@ko .
 
-ppdoc:WorkDetailGroup
+ppdoc:DirectCostItem
     a rdfs:Class ;
-    rdfs:label "내역 그룹"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+    rdfs:label "직접공사비 항목"@ko ;
+    rdfs:subClassOf ppdoc:CostItem ;
+    rdfs:comment "공종별집계표에서 넘어오는 재료비, 직접노무비, 직접경비 중심의 원가 항목."@ko .
 
-ppdoc:RebarWorkDetailGroup
+ppdoc:IndirectCostItem
     a rdfs:Class ;
-    rdfs:label "철근공사 내역"@ko ;
-    rdfs:subClassOf ppdoc:WorkDetailGroup .
+    rdfs:label "간접비 및 법정경비 항목"@ko ;
+    rdfs:subClassOf ppdoc:CostItem ;
+    rdfs:comment "간접노무비, 산재보험료, 고용보험료, 산업안전보건관리비, 보험료, 보증수수료 등 산식 또는 요율로 산정되는 원가 항목."@ko .
 
-ppdoc:ConcreteWorkDetailGroup
+ppdoc:MarkupCostItem
     a rdfs:Class ;
-    rdfs:label "콘크리트공사 내역"@ko ;
-    rdfs:subClassOf ppdoc:WorkDetailGroup .
+    rdfs:label "일반관리비 및 이윤 항목"@ko ;
+    rdfs:subClassOf ppdoc:CostItem ;
+    rdfs:comment "직접비와 간접비 합계에 요율을 적용해 산정되는 일반관리비와 이윤 항목."@ko .
 
-ppdoc:FormworkDetailGroup
+ppdoc:TaxAndTotalCostItem
     a rdfs:Class ;
-    rdfs:label "거푸집공사 내역"@ko ;
-    rdfs:subClassOf ppdoc:WorkDetailGroup .
+    rdfs:label "세금 및 총액 항목"@ko ;
+    rdfs:subClassOf ppdoc:CostItem ;
+    rdfs:comment "부가가치세, 총도급액, 총공사비처럼 원가계산서 말단에서 총액을 구성하는 항목."@ko .
 
 ppdoc:WorkType
     a rdfs:Class ;
     rdfs:label "공종"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "철근콘크리트공사, 콘크리트공사, 철근공사, 거푸집 및 동바리공사 같은 1차 공종 분류."@ko .
 
-ppdoc:RebarWork
+ppdoc:ReinforcedConcreteWork
     a rdfs:Class ;
-    rdfs:label "철근공사"@ko ;
+    rdfs:label "철근콘크리트공사"@ko ;
     rdfs:subClassOf ppdoc:WorkType .
 
 ppdoc:ConcreteWork
@@ -288,284 +228,352 @@ ppdoc:ConcreteWork
     rdfs:label "콘크리트공사"@ko ;
     rdfs:subClassOf ppdoc:WorkType .
 
-ppdoc:Formwork
+ppdoc:RebarWork
     a rdfs:Class ;
-    rdfs:label "거푸집공사"@ko ;
+    rdfs:label "철근공사"@ko ;
     rdfs:subClassOf ppdoc:WorkType .
 
-ppdoc:SummaryAmount
+ppdoc:FormworkAndShoringWork
     a rdfs:Class ;
-    rdfs:label "집계금액"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
+    rdfs:label "거푸집 및 동바리공사"@ko ;
+    rdfs:subClassOf ppdoc:WorkType .
+
+ppdoc:DetailCategory
+    a rdfs:Class ;
+    rdfs:label "세부 작업 분류"@ko ;
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "내역서에서 반복적으로 금액 산정 단위로 등장하는 작업 유형. 강도, 직경, 형상 같은 규격값은 이 클래스로 분개하지 않는다."@ko .
+
+ppdoc:ConcreteDetailCategory
+    a rdfs:Class ;
+    rdfs:label "콘크리트 세부 작업 분류"@ko ;
+    rdfs:subClassOf ppdoc:DetailCategory .
+
+ppdoc:ReadyMixedConcrete
+    a rdfs:Class ;
+    rdfs:label "레미콘"@ko ;
+    rdfs:subClassOf ppdoc:ConcreteDetailCategory .
+
+ppdoc:ConcretePlacement
+    a rdfs:Class ;
+    rdfs:label "콘크리트 타설"@ko ;
+    rdfs:subClassOf ppdoc:ConcreteDetailCategory .
+
+ppdoc:ConcretePumping
+    a rdfs:Class ;
+    rdfs:label "콘크리트 펌프"@ko ;
+    rdfs:subClassOf ppdoc:ConcreteDetailCategory .
+
+ppdoc:ConcreteCuring
+    a rdfs:Class ;
+    rdfs:label "콘크리트 양생"@ko ;
+    rdfs:subClassOf ppdoc:ConcreteDetailCategory .
+
+ppdoc:RebarDetailCategory
+    a rdfs:Class ;
+    rdfs:label "철근 세부 작업 분류"@ko ;
+    rdfs:subClassOf ppdoc:DetailCategory .
+
+ppdoc:RebarMaterial
+    a rdfs:Class ;
+    rdfs:label "철근 재료"@ko ;
+    rdfs:subClassOf ppdoc:RebarDetailCategory .
+
+ppdoc:RebarFabrication
+    a rdfs:Class ;
+    rdfs:label "철근 가공"@ko ;
+    rdfs:subClassOf ppdoc:RebarDetailCategory .
+
+ppdoc:RebarAssembly
+    a rdfs:Class ;
+    rdfs:label "철근 조립"@ko ;
+    rdfs:subClassOf ppdoc:RebarDetailCategory .
+
+ppdoc:RebarSplicing
+    a rdfs:Class ;
+    rdfs:label "철근 이음"@ko ;
+    rdfs:subClassOf ppdoc:RebarDetailCategory .
+
+ppdoc:FormworkDetailCategory
+    a rdfs:Class ;
+    rdfs:label "거푸집 및 동바리 세부 작업 분류"@ko ;
+    rdfs:subClassOf ppdoc:DetailCategory .
+
+ppdoc:FormworkInstallation
+    a rdfs:Class ;
+    rdfs:label "거푸집 설치"@ko ;
+    rdfs:subClassOf ppdoc:FormworkDetailCategory .
+
+ppdoc:FormworkRemoval
+    a rdfs:Class ;
+    rdfs:label "거푸집 해체"@ko ;
+    rdfs:subClassOf ppdoc:FormworkDetailCategory .
+
+ppdoc:ShoringInstallation
+    a rdfs:Class ;
+    rdfs:label "동바리 설치"@ko ;
+    rdfs:subClassOf ppdoc:FormworkDetailCategory .
+
+ppdoc:ShoringSupportMaterial
+    a rdfs:Class ;
+    rdfs:label "동바리 지지재"@ko ;
+    rdfs:subClassOf ppdoc:FormworkDetailCategory .
+
+ppdoc:Specification
+    a rdfs:Class ;
+    rdfs:label "규격 객체"@ko ;
+    rdfs:subClassOf ppdoc:DerivedDataRecord ;
+    rdfs:comment "내역 행의 원본 규격 문자열에서 파생한 객체. 강도, 직경, 형상, 치수, 배합 같은 값을 반복 가능한 구조로 분리한다."@ko .
+
+ppdoc:ConcreteMix
+    a rdfs:Class ;
+    rdfs:label "콘크리트 배합 규격"@ko ;
+    rdfs:subClassOf ppdoc:Specification ;
+    rdfs:comment "설계기준강도, 슬럼프, 굵은골재 최대치수, 배합 코드를 가진 콘크리트 규격."@ko .
+
+ppdoc:RebarSpec
+    a rdfs:Class ;
+    rdfs:label "철근 규격"@ko ;
+    rdfs:subClassOf ppdoc:Specification ;
+    rdfs:comment "강종, 직경, 철근 종류, 가공 여부 같은 철근 규격."@ko .
+
+ppdoc:SteelShapeSpec
+    a rdfs:Class ;
+    rdfs:label "형강 규격"@ko ;
+    rdfs:subClassOf ppdoc:Specification ;
+    rdfs:comment "H형, ㄱ형, ㄷ형 등 형상과 단면 치수, 재질을 표현하는 규격."@ko .
+
+ppdoc:FormworkSpec
+    a rdfs:Class ;
+    rdfs:label "거푸집 규격"@ko ;
+    rdfs:subClassOf ppdoc:Specification ;
+    rdfs:comment "합판거푸집, 유로폼, 시스템폼 등 거푸집 종류와 치수를 표현하는 규격."@ko .
+
+ppdoc:ClassificationMapping
+    a rdfs:Class ;
+    rdfs:label "분류 매핑"@ko ;
+    rdfs:subClassOf ppdoc:DerivedDataRecord ;
+    rdfs:comment "공종별내역서 원본 행을 공종과 세부 작업 분류에 연결한 해석 결과."@ko .
 
 ppdoc:QuantityCalculationItem
     a rdfs:Class ;
-    rdfs:label "산출 항목"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
-
-ppdoc:RebarQuantityCalculationItem
-    a rdfs:Class ;
-    rdfs:label "철근 수량산출 항목"@ko ;
-    rdfs:subClassOf ppdoc:QuantityCalculationItem .
+    rdfs:label "수량산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationRecord ,
+        ppdoc:SpecifiableRecord ;
+    rdfs:comment "수량산출서 내부에서 내역 항목의 수량 근거가 되는 계산 단위."@ko .
 
 ppdoc:ConcreteQuantityCalculationItem
     a rdfs:Class ;
     rdfs:label "콘크리트 수량산출 항목"@ko ;
     rdfs:subClassOf ppdoc:QuantityCalculationItem .
 
+ppdoc:RebarQuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "철근 수량산출 항목"@ko ;
+    rdfs:subClassOf ppdoc:QuantityCalculationItem .
+
 ppdoc:FormworkQuantityCalculationItem
     a rdfs:Class ;
-    rdfs:label "거푸집 수량산출 항목"@ko ;
+    rdfs:label "거푸집 및 동바리 수량산출 항목"@ko ;
     rdfs:subClassOf ppdoc:QuantityCalculationItem .
 
 ppdoc:InformationField
     a rdfs:Class ;
     rdfs:label "정보 필드"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
-
-ppdoc:InspectionItem
-    a rdfs:Class ;
-    rdfs:label "검측 항목"@ko ;
-    rdfs:subClassOf ppdoc:ProgressPaymentEntity .
-
-ppdoc:ProgressPaymentInspection
-    a rdfs:Class ;
-    rdfs:label "기성검사"@ko ;
-    rdfs:subClassOf ppdoc:Procedure .
-
-ppdoc:DocumentInspection
-    a rdfs:Class ;
-    rdfs:label "서류검사"@ko ;
-    rdfs:subClassOf ppdoc:Procedure .
-
-ppdoc:SiteInspection
-    a rdfs:Class ;
-    rdfs:label "현장검사"@ko ;
-    rdfs:subClassOf ppdoc:Procedure .
-
-ppdoc:OwnerApproval
-    a rdfs:Class ;
-    rdfs:label "발주처 승인"@ko ;
-    rdfs:subClassOf ppdoc:Procedure .
-
-ppdoc:BoundStatementSubmission
-    a rdfs:Class ;
-    rdfs:label "제본 제출"@ko ;
-    rdfs:subClassOf ppdoc:Procedure .
+    rdfs:subClassOf ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "공종별내역서나 수량산출서에서 관리하는 필드 정의."@ko .
 
 #################################################################
 # Object properties
 #################################################################
-
-ppdoc:creates
-    a rdf:Property ;
-    rdfs:label "작성한다"@ko ;
-    rdfs:domain ppdoc:Actor ;
-    rdfs:range ppdoc:DocumentResource ;
-    rdfs:comment "행위자가 기성서류 문서 또는 문서군을 작성하는 관계."@ko .
-
-ppdoc:createdBy
-    a rdf:Property ;
-    rdfs:label "작성자이다"@ko ;
-    rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서 또는 문서군의 작성 주체를 나타내는 관계."@ko .
 
 ppdoc:hasPart
     a rdf:Property ;
     rdfs:label "포함한다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "상위 문서, 문서군, 절차가 하위 문서, 하위 절차, 산출 항목을 포함하는 구성 관계."@ko .
+    rdfs:comment "상위 문서나 항목이 하위 문서, 내역 항목, 산출 항목, 규격 항목을 포함하는 관계."@ko .
 
 ppdoc:isPartOf
     a rdf:Property ;
     rdfs:label "포함된다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "하위 개체가 상위 문서, 문서군, 절차에 포함됨을 나타내는 관계."@ko .
+    rdfs:comment "하위 개체가 상위 개체에 포함됨을 나타내는 관계."@ko .
 
-ppdoc:attaches
+ppdoc:hasRecord
     a rdf:Property ;
-    rdfs:label "첨부한다"@ko ;
+    rdfs:label "레코드를 가진다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:DocumentResource ;
-    rdfs:comment "공문 또는 문서군에 다른 문서 자원이 첨부되는 관계."@ko .
+    rdfs:range ppdoc:DocumentRecord ;
+    rdfs:subPropertyOf ppdoc:hasPart ;
+    rdfs:comment "문서나 시트가 원본 행 레코드를 포함하는 관계. 공종별내역서의 hasBoQItem, 수량산출서의 hasPart보다 상위의 일반 관계."@ko .
 
-ppdoc:conditionallyIncludes
+ppdoc:hasDataFormat
     a rdf:Property ;
-    rdfs:label "조건부 포함"@ko ;
+    rdfs:label "데이터 포맷을 가진다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:DocumentResource ;
-    rdfs:comment "선금공제, 안전관리비, 보험료, 발주처 요청 서류처럼 조건에 따라 포함되는 문서 관계."@ko .
+    rdfs:range ppdoc:CanonicalDataFormat ;
+    rdfs:comment "문서나 시트가 따라야 하는 정형 데이터 포맷을 연결하는 관계. 공종/규격 분개와 별도로 원본 표 구조를 고정한다."@ko .
 
-ppdoc:submittedTo
+ppdoc:hasWorkTypeSection
     a rdf:Property ;
-    rdfs:label "제출한다"@ko ;
+    rdfs:label "공종 분개 구간을 가진다"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서 또는 문서군이 제출되는 수신 주체를 나타내는 관계."@ko .
+    rdfs:range ppdoc:DocumentWorkTypeSection ;
+    rdfs:subPropertyOf ppdoc:hasPart ;
+    rdfs:comment "원가계산서, 공종별집계표, 공종별내역서, 수량산출서가 특정 공종에 해당하는 문서 내부 구간을 가지는 관계."@ko .
 
-ppdoc:submittedBy
+ppdoc:hasCostItem
     a rdf:Property ;
-    rdfs:label "제출자이다"@ko ;
-    rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서 또는 문서군을 제출한 주체를 나타내는 관계."@ko .
-
-ppdoc:forwardedTo
-    a rdf:Property ;
-    rdfs:label "송부한다"@ko ;
-    rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "검토 또는 접수 후 문서가 다음 기관이나 주체로 송부되는 관계."@ko .
-
-ppdoc:forwardedBy
-    a rdf:Property ;
-    rdfs:label "송부자이다"@ko ;
-    rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서 또는 문서군을 송부한 주체를 나타내는 관계."@ko .
-
-ppdoc:reviewedBy
-    a rdf:Property ;
-    rdfs:label "검토한다"@ko ;
-    rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서가 특정 주체에 의해 검토됨을 나타내는 관계."@ko .
-
-ppdoc:inspectedBy
-    a rdf:Property ;
-    rdfs:label "검사한다"@ko ;
-    rdfs:domain ppdoc:Procedure ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "검사 절차가 특정 검사자 또는 검사 주체에 의해 수행됨을 나타내는 관계."@ko .
-
-ppdoc:approvedBy
-    a rdf:Property ;
-    rdfs:label "승인한다"@ko ;
+    rdfs:label "원가 항목을 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:Actor ;
-    rdfs:comment "문서, 결과, 절차가 특정 행위자에게 승인됨을 나타내는 관계."@ko .
+    rdfs:range ppdoc:CostItem ;
+    rdfs:subPropertyOf ppdoc:hasPart ;
+    rdfs:comment "원가계산서의 공종 원가 구간이 직접공사비, 간접비, 일반관리비, 이윤, 세금, 총액 같은 원가 항목을 포함하는 관계."@ko .
 
-ppdoc:precedes
+ppdoc:hasCostBasis
     a rdf:Property ;
-    rdfs:label "후속 단계로 이어진다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:label "원가 산정 근거를 가진다"@ko ;
+    rdfs:domain ppdoc:CostCalculationRecord ;
     rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "문서 흐름 또는 절차 흐름에서 현재 개체가 다음 개체보다 선행함을 나타내는 관계."@ko .
+    rdfs:comment "원가 항목이 공종별집계표의 집계금액, 직접비 항목, 또는 다른 원가 항목을 산정 근거로 참조하는 관계."@ko .
 
-ppdoc:follows
+ppdoc:hasSubWorkType
     a rdf:Property ;
-    rdfs:label "이전 단계이다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "문서 흐름 또는 절차 흐름에서 현재 개체가 이전 개체를 따름을 나타내는 관계."@ko .
+    rdfs:label "하위 공종을 가진다"@ko ;
+    rdfs:domain ppdoc:WorkType ;
+    rdfs:range ppdoc:WorkType ;
+    rdfs:comment "철근콘크리트공사가 콘크리트공사, 철근공사, 거푸집 및 동바리공사 같은 하위 공종을 가지는 관계."@ko .
 
-ppdoc:aggregatesTo
+ppdoc:hasBoQItem
     a rdf:Property ;
-    rdfs:label "집계된다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "하위 공종 내역, 수량, 금액이 상위 집계 항목으로 합산되는 관계."@ko .
-
-ppdoc:aggregates
-    a rdf:Property ;
-    rdfs:label "집계한다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "상위 집계 개체가 하위 내역 또는 금액을 집계함을 나타내는 관계."@ko .
-
-ppdoc:isQuantityBasisFor
-    a rdf:Property ;
-    rdfs:label "산출 근거가 된다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:WorkDetailGroup ;
-    rdfs:comment "수량산출서 또는 산출 항목이 공종별 내역의 수량 산정 근거가 됨을 나타내는 관계."@ko .
-
-ppdoc:hasQuantityBasis
-    a rdf:Property ;
-    rdfs:label "산출 근거를 가진다"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "공종별 내역이 수량산출서 또는 산출 항목을 산정 근거로 가짐을 나타내는 관계."@ko .
-
-ppdoc:evidences
-    a rdf:Property ;
-    rdfs:label "증빙한다"@ko ;
-    rdfs:domain ppdoc:MaterialEvidenceDocument ;
-    rdfs:range ppdoc:WorkDetailGroup ;
-    rdfs:comment "자재 증빙 문서가 특정 공종별 내역을 증빙함을 나타내는 관계."@ko .
-
-ppdoc:hasEvidence
-    a rdf:Property ;
-    rdfs:label "증빙자료를 가진다"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:MaterialEvidenceDocument ;
-    rdfs:comment "공종별 내역이 관련 자재 증빙 문서를 가짐을 나타내는 관계."@ko .
-
-ppdoc:isInspectionBasisFor
-    a rdf:Property ;
-    rdfs:label "검측 근거가 된다"@ko ;
-    rdfs:domain ppdoc:InspectionDocument ;
-    rdfs:range ppdoc:WorkDetailGroup ;
-    rdfs:comment "검측 문서가 특정 공종별 내역의 시공 확인 근거가 됨을 나타내는 관계."@ko .
-
-ppdoc:hasInspectionBasis
-    a rdf:Property ;
-    rdfs:label "검측 근거를 가진다"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range ppdoc:InspectionDocument ;
-    rdfs:comment "공종별 내역이 관련 검측 문서를 근거로 가짐을 나타내는 관계."@ko .
-
-ppdoc:isPhotoEvidenceFor
-    a rdf:Property ;
-    rdfs:label "사진 근거가 된다"@ko ;
-    rdfs:domain ppdoc:PhotoSheet ;
-    rdfs:range ppdoc:ProgressPaymentEntity ;
-    rdfs:comment "사진대지가 문서, 검측 문서, 검사 절차의 사진 증빙이 됨을 나타내는 관계."@ko .
-
-ppdoc:hasPhotoEvidence
-    a rdf:Property ;
-    rdfs:label "사진 근거를 가진다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:PhotoSheet ;
-    rdfs:comment "문서, 검측 문서, 검사 절차가 사진대지를 증빙 자료로 가짐을 나타내는 관계."@ko .
-
-ppdoc:hasInformationField
-    a rdf:Property ;
-    rdfs:label "정보 필드를 가진다"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:InformationField ;
-    rdfs:comment "문서, 내역, 산출서가 포함해야 하는 정보 필드 정의를 연결하는 관계."@ko .
-
-ppdoc:hasInspectionItem
-    a rdf:Property ;
-    rdfs:label "검측 항목을 가진다"@ko ;
-    rdfs:domain ppdoc:InspectionDocument ;
-    rdfs:range ppdoc:InspectionItem ;
-    rdfs:comment "검측 문서가 확인해야 하는 세부 검측 항목을 연결하는 관계."@ko .
+    rdfs:label "내역 항목을 가진다"@ko ;
+    rdfs:domain ppdoc:WorkTypeDetailSheet ;
+    rdfs:range ppdoc:BoQItem ;
+    rdfs:subPropertyOf ppdoc:hasRecord ;
+    rdfs:comment "공종별내역서가 품명, 규격, 수량, 단가, 금액을 가진 원본 내역 항목 행을 포함하는 관계."@ko .
 
 ppdoc:hasWorkType
     a rdf:Property ;
     rdfs:label "공종을 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range ppdoc:WorkType ;
-    rdfs:comment "내역, 산출 항목, 문서가 철근, 콘크리트, 거푸집 등 공종과 연결됨을 나타내는 관계."@ko .
+    rdfs:comment "내역 항목이나 집계금액을 관련 공종과 연결하는 파생 관계. 원본 행의 공종 단서는 hasHierarchyPath, hasWorkTypeLabel 같은 데이터 필드로 먼저 보존한다."@ko .
 
-ppdoc:hasRelatedDocument
+ppdoc:hasDetailCategory
     a rdf:Property ;
-    rdfs:label "관련 문서를 가진다"@ko ;
+    rdfs:label "세부 분류를 가진다"@ko ;
+    rdfs:domain ppdoc:WorkType ;
+    rdfs:range ppdoc:DetailCategory ;
+    rdfs:comment "공종이 레미콘, 콘크리트 타설, 철근 재료, 거푸집 설치 등 반복 작업 유형을 하위 세부 분류로 가지는 관계."@ko .
+
+ppdoc:hasCategoryItem
+    a rdf:Property ;
+    rdfs:label "분류 내역 항목을 가진다"@ko ;
+    rdfs:domain ppdoc:DetailCategory ;
+    rdfs:range ppdoc:BoQItem ;
+    rdfs:subPropertyOf ppdoc:hasPart ;
+    rdfs:comment "세부 작업 분류가 실제 금액 산정 행인 내역 항목을 포함하는 관계."@ko .
+
+ppdoc:belongsToDetailCategory
+    a rdf:Property ;
+    rdfs:label "세부 분류에 속한다"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range ppdoc:DetailCategory ;
+    rdfs:comment "내역 항목 원본 행을 레미콘, 콘크리트 타설, 철근 재료, 거푸집 설치 등 세부 작업 분류에 연결한 파생 관계."@ko .
+
+ppdoc:hasSpecificationObject
+    a rdf:Property ;
+    rdfs:label "규격 객체를 가진다"@ko ;
+    rdfs:domain ppdoc:SpecifiableRecord ;
+    rdfs:range ppdoc:Specification ;
+    rdfs:comment "내역 항목 또는 수량산출 항목의 원본 규격 문자열에서 파생한 콘크리트 배합, 철근 규격, 형강 규격, 거푸집 규격 객체를 참조하는 관계."@ko .
+
+ppdoc:hasClassificationMapping
+    a rdf:Property ;
+    rdfs:label "분류 매핑을 가진다"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range ppdoc:ClassificationMapping ;
+    rdfs:comment "내역 항목 원본 행과 공종/세부 분류 연결의 판단 근거를 별도 파생 레코드로 보존하는 관계."@ko .
+
+ppdoc:hasConcreteMix
+    a rdf:Property ;
+    rdfs:label "콘크리트 배합 규격을 가진다"@ko ;
+    rdfs:domain ppdoc:SpecifiableRecord ;
+    rdfs:range ppdoc:ConcreteMix ;
+    rdfs:subPropertyOf ppdoc:hasSpecificationObject .
+
+ppdoc:hasRebarSpec
+    a rdf:Property ;
+    rdfs:label "철근 규격을 가진다"@ko ;
+    rdfs:domain ppdoc:SpecifiableRecord ;
+    rdfs:range ppdoc:RebarSpec ;
+    rdfs:subPropertyOf ppdoc:hasSpecificationObject .
+
+ppdoc:hasSteelShapeSpec
+    a rdf:Property ;
+    rdfs:label "형강 규격을 가진다"@ko ;
+    rdfs:domain ppdoc:SpecifiableRecord ;
+    rdfs:range ppdoc:SteelShapeSpec ;
+    rdfs:subPropertyOf ppdoc:hasSpecificationObject .
+
+ppdoc:hasFormworkSpec
+    a rdf:Property ;
+    rdfs:label "거푸집 규격을 가진다"@ko ;
+    rdfs:domain ppdoc:SpecifiableRecord ;
+    rdfs:range ppdoc:FormworkSpec ;
+    rdfs:subPropertyOf ppdoc:hasSpecificationObject .
+
+ppdoc:aggregatesTo
+    a rdf:Property ;
+    rdfs:label "집계된다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range ppdoc:DocumentResource ;
-    rdfs:comment "개체와 의미적으로 관련된 문서 자원을 연결하는 보조 관계."@ko .
+    rdfs:range ppdoc:SummaryAmount ;
+    rdfs:comment "내역 항목 또는 하위 집계금액이 상위 집계금액으로 합산되는 관계."@ko .
+
+ppdoc:aggregates
+    a rdf:Property ;
+    rdfs:label "집계한다"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range ppdoc:ProgressPaymentEntity ;
+    rdfs:comment "상위 집계금액이 하위 내역 항목 또는 하위 집계금액을 집계하는 관계."@ko .
+
+ppdoc:hasQuantityBasis
+    a rdf:Property ;
+    rdfs:label "수량산출 근거를 가진다"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range ppdoc:QuantityCalculationItem ;
+    rdfs:comment "내역 항목이 수량산출 항목을 산정 근거로 가지는 관계."@ko .
+
+ppdoc:isQuantityBasisFor
+    a rdf:Property ;
+    rdfs:label "수량산출 근거가 된다"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range ppdoc:BoQItem ;
+    rdfs:comment "수량산출 항목이 특정 내역 항목의 수량 근거가 되는 관계."@ko .
+
+ppdoc:hasInformationField
+    a rdf:Property ;
+    rdfs:label "정보 필드를 가진다"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range ppdoc:InformationField ;
+    rdfs:comment "문서, 레코드 타입, 내역 항목이 관리하는 원본 또는 표준 정보 필드 정의를 연결하는 관계."@ko .
+
+ppdoc:definesField
+    a rdf:Property ;
+    rdfs:label "필드를 정의한다"@ko ;
+    rdfs:domain ppdoc:CanonicalDataFormat ;
+    rdfs:range ppdoc:InformationField ;
+    rdfs:subPropertyOf ppdoc:hasInformationField ;
+    rdfs:comment "표준 데이터 포맷이 포함해야 하는 필드를 정의하는 관계."@ko .
 
 ppdoc:hasSourceDocument
     a rdf:Property ;
     rdfs:label "출처 문서를 가진다"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range ppdoc:DocumentResource ;
-    rdfs:comment "추출값 또는 인스턴스의 원천 문서 자원을 연결하는 관계."@ko .
+    rdfs:comment "내역 항목이나 산출 항목의 원천 문서를 연결하는 관계."@ko .
 
 #################################################################
 # Datatype properties
@@ -583,27 +591,27 @@ ppdoc:hasDocumentIdentifier
     rdfs:domain ppdoc:DocumentResource ;
     rdfs:range xsd:string .
 
-ppdoc:hasCreationDate
+ppdoc:hasProjectName
     a rdf:Property ;
-    rdfs:label "작성일"@ko ;
+    rdfs:label "공사명"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
-    rdfs:range xsd:date .
+    rdfs:range xsd:string .
 
-ppdoc:hasSubmissionDate
+ppdoc:hasProgressRound
     a rdf:Property ;
-    rdfs:label "제출일"@ko ;
+    rdfs:label "기성 회차"@ko ;
+    rdfs:domain ppdoc:DocumentResource ;
+    rdfs:range xsd:string .
+
+ppdoc:hasBaseDate
+    a rdf:Property ;
+    rdfs:label "기준일"@ko ;
     rdfs:domain ppdoc:DocumentResource ;
     rdfs:range xsd:date .
 
 ppdoc:hasSourceFileName
     a rdf:Property ;
     rdfs:label "원본 파일명"@ko ;
-    rdfs:domain ppdoc:ProgressPaymentEntity ;
-    rdfs:range xsd:string .
-
-ppdoc:hasSourcePage
-    a rdf:Property ;
-    rdfs:label "원본 페이지"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range xsd:string .
 
@@ -619,52 +627,104 @@ ppdoc:hasSourceCellAddress
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range xsd:string .
 
+ppdoc:hasSourceRowNumber
+    a rdf:Property ;
+    rdfs:label "원본 행 번호"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:integer .
+
+ppdoc:hasHierarchyPath
+    a rdf:Property ;
+    rdfs:label "원본 계층 경로"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string ;
+    rdfs:comment "내역 행이 속한 원본 목차, 헤딩, 상위 공종 경로. 공종 분류의 1차 근거로 사용한다."@ko .
+
+ppdoc:hasItemCode
+    a rdf:Property ;
+    rdfs:label "항목 코드"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasWorkTypeLabel
+    a rdf:Property ;
+    rdfs:label "원본 공종명"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string ;
+    rdfs:comment "원본 내역서의 헤딩이나 행에서 읽은 공종명 문자열."@ko .
+
+ppdoc:hasDetailCategoryLabel
+    a rdf:Property ;
+    rdfs:label "원본 세부 분류명"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string ;
+    rdfs:comment "원본 품명, 헤딩, 규격에서 읽거나 최소 규칙으로 추정한 세부 분류명 문자열."@ko .
+
 ppdoc:hasItemName
     a rdf:Property ;
     rdfs:label "품명"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:string .
 
 ppdoc:hasSpecification
     a rdf:Property ;
-    rdfs:label "규격"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
-    rdfs:range xsd:string .
+    rdfs:label "규격 문자열"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string ;
+    rdfs:comment "원본 내역서에 적힌 규격 문자열. 구조화된 규격은 ConcreteMix, RebarSpec, SteelShapeSpec 등으로 별도 표현한다."@ko .
 
 ppdoc:hasQuantityUnit
     a rdf:Property ;
     rdfs:label "단위"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range xsd:string .
 
 ppdoc:hasContractQuantity
     a rdf:Property ;
     rdfs:label "계약수량"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasPreviousQuantity
     a rdf:Property ;
     rdfs:label "전회수량"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasCurrentQuantity
     a rdf:Property ;
     rdfs:label "금회수량"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasCumulativeQuantity
     a rdf:Property ;
     rdfs:label "누계수량"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasUnitPrice
     a rdf:Property ;
     rdfs:label "단가"@ko ;
-    rdfs:domain ppdoc:WorkDetailGroup ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasMaterialUnitPrice
+    a rdf:Property ;
+    rdfs:label "재료비 단가"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasLaborUnitPrice
+    a rdf:Property ;
+    rdfs:label "노무비 단가"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasExpenseUnitPrice
+    a rdf:Property ;
+    rdfs:label "경비 단가"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasAmount
@@ -673,10 +733,95 @@ ppdoc:hasAmount
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range xsd:decimal .
 
+ppdoc:hasMaterialAmount
+    a rdf:Property ;
+    rdfs:label "재료비 금액"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasLaborAmount
+    a rdf:Property ;
+    rdfs:label "노무비 금액"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasExpenseAmount
+    a rdf:Property ;
+    rdfs:label "경비 금액"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:decimal .
+
 ppdoc:hasCurrency
     a rdf:Property ;
     rdfs:label "통화"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string .
+
+ppdoc:hasContractAmount
+    a rdf:Property ;
+    rdfs:label "계약금액"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasPreviousAmount
+    a rdf:Property ;
+    rdfs:label "전회 기성 금액"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCurrentAmount
+    a rdf:Property ;
+    rdfs:label "금회 기성 금액"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasCumulativeAmount
+    a rdf:Property ;
+    rdfs:label "누계 기성 금액"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasProgressRate
+    a rdf:Property ;
+    rdfs:label "기성률"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasSummaryLevel
+    a rdf:Property ;
+    rdfs:label "집계 수준"@ko ;
+    rdfs:domain ppdoc:SummaryAmount ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCostItemName
+    a rdf:Property ;
+    rdfs:label "원가 항목명"@ko ;
+    rdfs:domain ppdoc:CostCalculationRecord ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCostCategory
+    a rdf:Property ;
+    rdfs:label "원가 항목 분류"@ko ;
+    rdfs:domain ppdoc:CostCalculationRecord ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCalculationFormula
+    a rdf:Property ;
+    rdfs:label "계산식"@ko ;
+    rdfs:domain ppdoc:ProgressPaymentEntity ;
+    rdfs:range xsd:string ;
+    rdfs:comment "원가계산서의 산식 또는 수량산출서의 산출식에 해당하는 계산 근거 문자열."@ko .
+
+ppdoc:hasRate
+    a rdf:Property ;
+    rdfs:label "요율"@ko ;
+    rdfs:domain ppdoc:CostCalculationRecord ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasTakeoffItemName
+    a rdf:Property ;
+    rdfs:label "수량산출 항목명"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:string .
 
 ppdoc:hasLocation
@@ -691,16 +836,22 @@ ppdoc:hasMemberName
     rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:string .
 
-ppdoc:hasRebarSpecification
+ppdoc:hasMemberType
     a rdf:Property ;
-    rdfs:label "철근 규격"@ko ;
-    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:label "부재 유형"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:string .
 
-ppdoc:hasRebarDiameter
+ppdoc:hasBasisDescription
     a rdf:Property ;
-    rdfs:label "철근 직경"@ko ;
-    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:label "산출 근거 설명"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCalculatedQuantity
+    a rdf:Property ;
+    rdfs:label "산출수량"@ko ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasLength
@@ -712,7 +863,7 @@ ppdoc:hasLength
 ppdoc:hasWidth
     a rdf:Property ;
     rdfs:label "폭"@ko ;
-    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasHeight
@@ -724,47 +875,185 @@ ppdoc:hasHeight
 ppdoc:hasCount
     a rdf:Property ;
     rdfs:label "개수"@ko ;
-    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:integer .
 
 ppdoc:hasUnitWeight
     a rdf:Property ;
     rdfs:label "단위중량"@ko ;
-    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasCalculatedWeight
     a rdf:Property ;
     rdfs:label "산출중량"@ko ;
-    rdfs:domain ppdoc:RebarQuantityCalculationItem ;
-    rdfs:range xsd:decimal .
-
-ppdoc:hasConcreteStrength
-    a rdf:Property ;
-    rdfs:label "콘크리트 강도"@ko ;
-    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
 
 ppdoc:hasCalculatedVolume
     a rdf:Property ;
     rdfs:label "산출체적"@ko ;
-    rdfs:domain ppdoc:ConcreteQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
-
-ppdoc:hasFormworkType
-    a rdf:Property ;
-    rdfs:label "거푸집 종류"@ko ;
-    rdfs:domain ppdoc:FormworkQuantityCalculationItem ;
-    rdfs:range xsd:string .
 
 ppdoc:hasCalculatedArea
     a rdf:Property ;
     rdfs:label "산출면적"@ko ;
-    rdfs:domain ppdoc:FormworkQuantityCalculationItem ;
+    rdfs:domain ppdoc:QuantityCalculationItem ;
     rdfs:range xsd:decimal .
+
+ppdoc:hasDesignStrength
+    a rdf:Property ;
+    rdfs:label "설계기준강도"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasStrengthUnit
+    a rdf:Property ;
+    rdfs:label "강도 단위"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSlump
+    a rdf:Property ;
+    rdfs:label "슬럼프"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasSlumpUnit
+    a rdf:Property ;
+    rdfs:label "슬럼프 단위"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:string .
+
+ppdoc:hasMaxAggregateSize
+    a rdf:Property ;
+    rdfs:label "굵은골재 최대치수"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasAggregateSizeUnit
+    a rdf:Property ;
+    rdfs:label "골재치수 단위"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:string .
+
+ppdoc:hasMixCode
+    a rdf:Property ;
+    rdfs:label "배합 코드"@ko ;
+    rdfs:domain ppdoc:ConcreteMix ;
+    rdfs:range xsd:string .
+
+ppdoc:hasPlacementMethod
+    a rdf:Property ;
+    rdfs:label "타설 방식"@ko ;
+    rdfs:domain ppdoc:BoQItem ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSteelGrade
+    a rdf:Property ;
+    rdfs:label "철근 강종/강도등급"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasBarDiameter
+    a rdf:Property ;
+    rdfs:label "철근 직경 표기"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasNominalDiameter
+    a rdf:Property ;
+    rdfs:label "공칭 직경"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasYieldStrength
+    a rdf:Property ;
+    rdfs:label "항복강도"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:decimal .
+
+ppdoc:hasYieldStrengthUnit
+    a rdf:Property ;
+    rdfs:label "항복강도 단위"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasBarType
+    a rdf:Property ;
+    rdfs:label "철근 종류"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasProcessingType
+    a rdf:Property ;
+    rdfs:label "가공 방식"@ko ;
+    rdfs:domain ppdoc:RebarSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSteelShape
+    a rdf:Property ;
+    rdfs:label "형강 형상"@ko ;
+    rdfs:domain ppdoc:SteelShapeSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSectionSize
+    a rdf:Property ;
+    rdfs:label "단면 치수"@ko ;
+    rdfs:domain ppdoc:SteelShapeSpec ;
+    rdfs:range xsd:string .
+
+ppdoc:hasMaterialGrade
+    a rdf:Property ;
+    rdfs:label "재질 등급"@ko ;
+    rdfs:domain ppdoc:Specification ;
+    rdfs:range xsd:string .
+
+ppdoc:hasIntendedUse
+    a rdf:Property ;
+    rdfs:label "용도"@ko ;
+    rdfs:domain ppdoc:Specification ;
+    rdfs:range xsd:string .
+
+ppdoc:hasSupportMethod
+    a rdf:Property ;
+    rdfs:label "지지 방식"@ko ;
+    rdfs:domain ppdoc:Specification ;
+    rdfs:range xsd:string .
+
+ppdoc:hasFormworkType
+    a rdf:Property ;
+    rdfs:label "거푸집 종류"@ko ;
+    rdfs:domain ppdoc:FormworkSpec ;
+    rdfs:range xsd:string .
 
 ppdoc:hasUnitSymbol
     a rdf:Property ;
     rdfs:label "단위 기호"@ko ;
     rdfs:domain ppdoc:ProgressPaymentEntity ;
     rdfs:range xsd:string .
+
+ppdoc:hasSourceFieldName
+    a rdf:Property ;
+    rdfs:label "원본 필드명"@ko ;
+    rdfs:domain ppdoc:InformationField ;
+    rdfs:range xsd:string .
+
+ppdoc:hasCanonicalFieldName
+    a rdf:Property ;
+    rdfs:label "표준 필드명"@ko ;
+    rdfs:domain ppdoc:InformationField ;
+    rdfs:range xsd:string .
+
+ppdoc:hasDatatypeHint
+    a rdf:Property ;
+    rdfs:label "자료형 힌트"@ko ;
+    rdfs:domain ppdoc:InformationField ;
+    rdfs:range xsd:string .
+
+ppdoc:isRequiredField
+    a rdf:Property ;
+    rdfs:label "필수 필드 여부"@ko ;
+    rdfs:domain ppdoc:InformationField ;
+    rdfs:range xsd:boolean .

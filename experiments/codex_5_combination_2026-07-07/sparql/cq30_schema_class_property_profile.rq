@@ -1,0 +1,22 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?classCount ?propertyCount ?domainDefinedPropertyCount ?rangeDefinedPropertyCount
+WHERE {
+  {
+    SELECT (COUNT(DISTINCT ?class) AS ?classCount)
+    WHERE { ?class a rdfs:Class . }
+  }
+  {
+    SELECT (COUNT(DISTINCT ?property) AS ?propertyCount)
+    WHERE { ?property a rdf:Property . }
+  }
+  {
+    SELECT (COUNT(DISTINCT ?domainProperty) AS ?domainDefinedPropertyCount)
+    WHERE { ?domainProperty rdfs:domain ?domain . }
+  }
+  {
+    SELECT (COUNT(DISTINCT ?rangeProperty) AS ?rangeDefinedPropertyCount)
+    WHERE { ?rangeProperty rdfs:range ?range . }
+  }
+}

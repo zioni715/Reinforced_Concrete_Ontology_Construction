@@ -1,0 +1,10 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+ASK {
+  ppdoc:worktype-rc ppdoc:hasSkosConcept ppdoc:concept-rc-work .
+  ppdoc:worktype-concrete ppdoc:hasSkosConcept ppdoc:concept-concrete-work .
+  ppdoc:worktype-rebar ppdoc:hasSkosConcept ppdoc:concept-rebar-work .
+  ppdoc:worktype-formwork-shoring ppdoc:hasSkosConcept ppdoc:concept-formwork-shoring-work .
+  ppdoc:concrete-mix-25-24-150 ppdoc:hasSkosConcept ppdoc:concept-concrete-mix .
+  ppdoc:rebar-spec-sd400-hd13 ppdoc:hasSkosConcept ppdoc:concept-rebar-spec .
+}

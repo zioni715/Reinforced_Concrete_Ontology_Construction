@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  ppdoc:DirectCostReconciliationShape a sh:NodeShape ;
+      sh:targetClass ppdoc:DirectCostItem ;
+      sh:sparql ?constraint .
+  ?constraint sh:message ?message ;
+      sh:select ?selectText .
+  FILTER(CONTAINS(STR(?message), "직접공사비"))
+  FILTER(CONTAINS(?selectText, "hasCostBasis"))
+  FILTER(CONTAINS(?selectText, "hasAmount"))
+}

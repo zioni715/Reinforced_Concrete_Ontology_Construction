@@ -2,112 +2,38 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 
 #################################################################
-# Actors
+# Progress payment statement document structure
 #################################################################
 
-ppdoc:contractor-sample
-    a ppdoc:Contractor ;
-    rdfs:label "시공사"@ko .
+ppdoc:progress-payment-documents-sample
+    a ppdoc:ProgressPaymentDocumentSet ;
+    rdfs:label "기성서류"@ko ;
+    ppdoc:hasPart ppdoc:rc-progress-payment-documents-sample .
 
-ppdoc:site-office-sample
-    a ppdoc:SiteOffice ;
-    rdfs:label "현장"@ko .
-
-ppdoc:supervision-head-office-sample
-    a ppdoc:SupervisionHeadOffice ;
-    rdfs:label "감리본사"@ko .
-
-ppdoc:head-office-sample
-    a ppdoc:HeadOffice ;
-    rdfs:label "본사"@ko .
-
-ppdoc:owner-sample
-    a ppdoc:Owner ;
-    rdfs:label "발주처"@ko .
-
-ppdoc:inspector-sample
-    a ppdoc:Inspector ;
-    rdfs:label "기성검사자"@ko .
-
-#################################################################
-# Contractor progress payment package
-#################################################################
-
-ppdoc:progress-payment-package-sample
-    a ppdoc:ContractorProgressPaymentPackage ;
-    rdfs:label "시공사 기성서류"@ko ;
-    ppdoc:hasDocumentIdentifier "validation-sample" ;
-    ppdoc:hasDocumentTitle "기성검사 결과보고" ;
-    ppdoc:hasSourceFileName "검증용 실제 사례 문서: 기성검사 결과보고 PDF" ;
-    ppdoc:createdBy ppdoc:contractor-sample ;
-    ppdoc:submittedBy ppdoc:contractor-sample ;
-    ppdoc:submittedTo ppdoc:site-office-sample ;
-    ppdoc:hasPart ppdoc:official-letter-sample ,
-        ppdoc:attachment-bundle-sample .
-
-ppdoc:official-letter-sample
-    a ppdoc:OfficialLetter ;
-    rdfs:label "공문"@ko ;
-    ppdoc:hasDocumentTitle "기성검사 결과보고 공문" ;
-    ppdoc:isPartOf ppdoc:progress-payment-package-sample .
-
-ppdoc:attachment-bundle-sample
-    a ppdoc:AttachmentBundle ;
-    rdfs:label "첨부서류"@ko ;
-    ppdoc:isPartOf ppdoc:progress-payment-package-sample ;
-    ppdoc:attaches ppdoc:inspection-request-sample ,
-        ppdoc:statement-document-sample ,
-        ppdoc:material-ledger-sample ,
-        ppdoc:inspection-photo-group-sample ;
-    ppdoc:conditionallyIncludes ppdoc:advance-deduction-sample ,
-        ppdoc:safety-cost-evidence-sample ,
-        ppdoc:insurance-certificate-sample ,
-        ppdoc:owner-requested-document-sample .
-
-ppdoc:inspection-request-sample
-    a ppdoc:ProgressPaymentInspectionRequest ;
-    rdfs:label "기성부분 검사원"@ko ;
-    ppdoc:hasSourceFileName "1. 기성검사조서(cotis 생성문서).hwp" .
-
-ppdoc:advance-deduction-sample
-    a ppdoc:AdvancePaymentDeductionStatement ;
-    rdfs:label "선금공제 내역"@ko .
-
-ppdoc:safety-cost-evidence-sample
-    a ppdoc:SafetyCostEvidenceDocument ;
-    rdfs:label "안전관리비 사용내역 및 증빙"@ko .
-
-ppdoc:insurance-certificate-sample
-    a ppdoc:InsurancePaymentCertificate ;
-    rdfs:label "보험료 납입 증명서"@ko .
-
-ppdoc:owner-requested-document-sample
-    a ppdoc:OwnerRequestedDocument ;
-    rdfs:label "기타 발주처 요청 서류"@ko .
-
-#################################################################
-# Statement document hierarchy
-#################################################################
+ppdoc:rc-progress-payment-documents-sample
+    a ppdoc:ReinforcedConcreteProgressPaymentDocuments ;
+    rdfs:label "철근콘크리트 공종 기성서류"@ko ;
+    ppdoc:isPartOf ppdoc:progress-payment-documents-sample ;
+    ppdoc:hasPart ppdoc:statement-document-sample .
 
 ppdoc:statement-document-sample
     a ppdoc:StatementDocument ;
     rdfs:label "내역서"@ko ;
-    ppdoc:hasSourceFileName "3. 기성 세부내역.xlsx" ;
-    ppdoc:hasPart ppdoc:claim-summary-sample ,
-        ppdoc:progress-payment-statement-sample .
-
-ppdoc:claim-summary-sample
-    a ppdoc:ProgressPaymentClaimSummary ;
-    rdfs:label "청구기성 요약"@ko ;
-    ppdoc:hasAmount "350000000"^^xsd:decimal ;
-    ppdoc:hasCurrency "KRW" .
+    ppdoc:isPartOf ppdoc:rc-progress-payment-documents-sample ;
+    ppdoc:hasPart ppdoc:progress-payment-statement-sample .
 
 ppdoc:progress-payment-statement-sample
     a ppdoc:ProgressPaymentStatement ;
     rdfs:label "공사기성부분 내역서"@ko ;
+    ppdoc:isPartOf ppdoc:statement-document-sample ;
+    ppdoc:hasDocumentIdentifier "sample-progress-payment-statement" ;
+    ppdoc:hasDocumentTitle "철근콘크리트 공종 공사기성부분 내역서" ;
+    ppdoc:hasProjectName "화성동탄(2)A4-1BL아파트신축공사" ;
+    ppdoc:hasProgressRound "예시 기성회차" ;
+    ppdoc:hasBaseDate "2026-06-30"^^xsd:date ;
+    ppdoc:hasSourceFileName "Documents/화성동탄(2)A4-1BL아파트신축공사/3. 기성 세부내역.xlsx" ;
     ppdoc:hasPart ppdoc:cost-calculation-sheet-sample ,
         ppdoc:work-type-summary-sheet-sample ,
         ppdoc:work-type-detail-sheet-sample ,
@@ -115,24 +41,207 @@ ppdoc:progress-payment-statement-sample
 
 ppdoc:cost-calculation-sheet-sample
     a ppdoc:CostCalculationSheet ;
-    rdfs:label "원가계산서"@ko .
+    rdfs:label "원가계산서"@ko ;
+    ppdoc:isPartOf ppdoc:progress-payment-statement-sample ;
+    ppdoc:hasSourceSheetName "1.총괄원가계산서" ;
+    ppdoc:hasWorkTypeSection ppdoc:cost-section-rc-work .
 
 ppdoc:work-type-summary-sheet-sample
     a ppdoc:WorkTypeSummarySheet ;
     rdfs:label "공종별집계표"@ko ;
+    ppdoc:isPartOf ppdoc:progress-payment-statement-sample ;
+    ppdoc:hasWorkTypeSection ppdoc:summary-section-concrete-work ,
+        ppdoc:summary-section-rebar-work ,
+        ppdoc:summary-section-formwork-shoring-work ;
     ppdoc:hasPart ppdoc:summary-rc-work-sample ,
-        ppdoc:summary-rebar-work-sample ,
         ppdoc:summary-concrete-work-sample ,
-        ppdoc:summary-formwork-sample .
+        ppdoc:summary-rebar-work-sample ,
+        ppdoc:summary-formwork-shoring-work-sample .
 
 ppdoc:work-type-detail-sheet-sample
     a ppdoc:WorkTypeDetailSheet ;
     rdfs:label "공종별내역서"@ko ;
+    ppdoc:isPartOf ppdoc:progress-payment-statement-sample ;
     ppdoc:hasSourceSheetName "기성 세부내역" ;
-    ppdoc:hasPart ppdoc:rebar-detail-sample-001 ,
-        ppdoc:concrete-detail-sample-001 ,
-        ppdoc:formwork-detail-sample-001 ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasDataFormat ppdoc:boq-item-table-format-sample ;
+    ppdoc:hasWorkTypeSection ppdoc:detail-section-concrete-work ,
+        ppdoc:detail-section-rebar-work ,
+        ppdoc:detail-section-formwork-shoring-work ;
+    ppdoc:hasBoQItem ppdoc:boq-concrete-ready-mix-001 ,
+        ppdoc:boq-concrete-placement-001 ,
+        ppdoc:boq-rebar-material-001 ,
+        ppdoc:boq-rebar-assembly-001 ,
+        ppdoc:boq-formwork-installation-001 ,
+        ppdoc:boq-shoring-support-001 ;
     ppdoc:hasInformationField ppdoc:field-item-name ,
+        ppdoc:field-specification ,
+        ppdoc:field-quantity-unit ,
+        ppdoc:field-source-row-number ,
+        ppdoc:field-hierarchy-path ,
+        ppdoc:field-contract-quantity ,
+        ppdoc:field-previous-quantity ,
+        ppdoc:field-current-quantity ,
+        ppdoc:field-cumulative-quantity ,
+        ppdoc:field-unit-price ,
+        ppdoc:field-amount ,
+        ppdoc:field-currency .
+
+ppdoc:quantity-calculation-sheet-sample
+    a ppdoc:QuantityCalculationSheet ;
+    rdfs:label "수량산출서"@ko ;
+    ppdoc:isPartOf ppdoc:progress-payment-statement-sample ;
+    ppdoc:hasWorkTypeSection ppdoc:quantity-section-concrete-work ,
+        ppdoc:quantity-section-rebar-work ,
+        ppdoc:quantity-section-formwork-shoring-work ;
+    ppdoc:hasPart ppdoc:quantity-concrete-slab-001 ,
+        ppdoc:quantity-rebar-beam-001 ,
+        ppdoc:quantity-formwork-wall-001 ,
+        ppdoc:quantity-shoring-support-001 .
+
+#################################################################
+# Second-level work type sections
+#################################################################
+
+ppdoc:cost-section-rc-work
+    a ppdoc:CostWorkTypeSection ;
+    rdfs:label "철근콘크리트공사 원가계산 구간"@ko ;
+    ppdoc:isPartOf ppdoc:cost-calculation-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasCostItem ppdoc:cost-rc-direct-cost ,
+        ppdoc:cost-rc-indirect-cost ,
+        ppdoc:cost-rc-markup-cost ,
+        ppdoc:cost-rc-tax-total-cost .
+
+ppdoc:cost-rc-direct-cost
+    a ppdoc:DirectCostItem ;
+    rdfs:label "철근콘크리트공사 직접공사비"@ko ;
+    ppdoc:isPartOf ppdoc:cost-section-rc-work ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasCostCategory "직접공사비" ;
+    ppdoc:hasCostItemName "재료비, 직접노무비, 직접경비" ;
+    ppdoc:hasAmount "235670000"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasCalculationFormula "공종별집계표의 철근콘크리트공사 재료비, 노무비, 경비 비목 합계" ;
+    ppdoc:hasCostBasis ppdoc:summary-rc-work-sample .
+
+ppdoc:cost-rc-indirect-cost
+    a ppdoc:IndirectCostItem ;
+    rdfs:label "철근콘크리트공사 간접비 및 법정경비"@ko ;
+    ppdoc:isPartOf ppdoc:cost-section-rc-work ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasCostCategory "간접비 및 법정경비" ;
+    ppdoc:hasCostItemName "간접노무비, 기타경비, 산재보험료, 고용보험료, 퇴직공제부금비, 산업안전보건관리비, 보험료, 보증수수료" ;
+    ppdoc:hasRate "0.120"^^xsd:decimal ;
+    ppdoc:hasAmount "28280400"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasCalculationFormula "철근콘크리트공사 직접비 또는 노무비 기준 요율 적용" ;
+    ppdoc:hasCostBasis ppdoc:cost-rc-direct-cost .
+
+ppdoc:cost-rc-markup-cost
+    a ppdoc:MarkupCostItem ;
+    rdfs:label "철근콘크리트공사 일반관리비 및 이윤"@ko ;
+    ppdoc:isPartOf ppdoc:cost-section-rc-work ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasCostCategory "일반관리비 및 이윤" ;
+    ppdoc:hasCostItemName "일반관리비, 이윤" ;
+    ppdoc:hasRate "0.090"^^xsd:decimal ;
+    ppdoc:hasAmount "23755536"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasCalculationFormula "철근콘크리트공사 재료비, 노무비, 경비 및 일반관리비 기준 요율 적용" ;
+    ppdoc:hasCostBasis ppdoc:cost-rc-direct-cost ,
+        ppdoc:cost-rc-indirect-cost .
+
+ppdoc:cost-rc-tax-total-cost
+    a ppdoc:TaxAndTotalCostItem ;
+    rdfs:label "철근콘크리트공사 세금 및 총액"@ko ;
+    ppdoc:isPartOf ppdoc:cost-section-rc-work ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasCostCategory "세금 및 총액" ;
+    ppdoc:hasCostItemName "부가가치세, 총도급액, 총공사비" ;
+    ppdoc:hasRate "0.100"^^xsd:decimal ;
+    ppdoc:hasAmount "28770594"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:hasCalculationFormula "철근콘크리트공사 원가 항목 합계에 세금 및 총액 산정 규칙 적용" ;
+    ppdoc:hasCostBasis ppdoc:cost-rc-direct-cost ,
+        ppdoc:cost-rc-indirect-cost ,
+        ppdoc:cost-rc-markup-cost .
+
+ppdoc:summary-section-concrete-work
+    a ppdoc:SummaryWorkTypeSection ;
+    rdfs:label "콘크리트공사 집계 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-summary-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-concrete ;
+    ppdoc:hasPart ppdoc:summary-concrete-work-sample .
+
+ppdoc:summary-section-rebar-work
+    a ppdoc:SummaryWorkTypeSection ;
+    rdfs:label "철근공사 집계 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-summary-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-rebar ;
+    ppdoc:hasPart ppdoc:summary-rebar-work-sample .
+
+ppdoc:summary-section-formwork-shoring-work
+    a ppdoc:SummaryWorkTypeSection ;
+    rdfs:label "거푸집 및 동바리공사 집계 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-summary-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasPart ppdoc:summary-formwork-shoring-work-sample .
+
+ppdoc:detail-section-concrete-work
+    a ppdoc:DetailWorkTypeSection ;
+    rdfs:label "콘크리트공사 내역 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-concrete ;
+    ppdoc:hasPart ppdoc:boq-concrete-ready-mix-001 ,
+        ppdoc:boq-concrete-placement-001 .
+
+ppdoc:detail-section-rebar-work
+    a ppdoc:DetailWorkTypeSection ;
+    rdfs:label "철근공사 내역 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-rebar ;
+    ppdoc:hasPart ppdoc:boq-rebar-material-001 ,
+        ppdoc:boq-rebar-assembly-001 .
+
+ppdoc:detail-section-formwork-shoring-work
+    a ppdoc:DetailWorkTypeSection ;
+    rdfs:label "거푸집 및 동바리공사 내역 구간"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasPart ppdoc:boq-formwork-installation-001 ,
+        ppdoc:boq-shoring-support-001 .
+
+ppdoc:quantity-section-concrete-work
+    a ppdoc:QuantityWorkTypeSection ;
+    rdfs:label "콘크리트공사 수량산출 구간"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-concrete ;
+    ppdoc:hasPart ppdoc:quantity-concrete-slab-001 .
+
+ppdoc:quantity-section-rebar-work
+    a ppdoc:QuantityWorkTypeSection ;
+    rdfs:label "철근공사 수량산출 구간"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-rebar ;
+    ppdoc:hasPart ppdoc:quantity-rebar-beam-001 .
+
+ppdoc:quantity-section-formwork-shoring-work
+    a ppdoc:QuantityWorkTypeSection ;
+    rdfs:label "거푸집 및 동바리공사 수량산출 구간"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasWorkType ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasPart ppdoc:quantity-formwork-wall-001 ,
+        ppdoc:quantity-shoring-support-001 .
+
+#################################################################
+# Canonical data formats
+#################################################################
+
+ppdoc:boq-item-table-format-sample
+    a ppdoc:BoQItemTableFormat ;
+    rdfs:label "공종별내역서 표준 행 포맷"@ko ;
+    ppdoc:definesField ppdoc:field-item-name ,
         ppdoc:field-specification ,
         ppdoc:field-quantity-unit ,
         ppdoc:field-contract-quantity ,
@@ -140,556 +249,545 @@ ppdoc:work-type-detail-sheet-sample
         ppdoc:field-current-quantity ,
         ppdoc:field-cumulative-quantity ,
         ppdoc:field-unit-price ,
-        ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:work-type-summary-sheet-sample .
+        ppdoc:field-amount ,
+        ppdoc:field-currency .
+
+#################################################################
+# Work types and detail categories
+#################################################################
+
+ppdoc:worktype-rc
+    a ppdoc:ReinforcedConcreteWork ;
+    rdfs:label "철근콘크리트공사"@ko ;
+    ppdoc:hasSubWorkType ppdoc:worktype-concrete ,
+        ppdoc:worktype-rebar ,
+        ppdoc:worktype-formwork-shoring .
+
+ppdoc:worktype-concrete
+    a ppdoc:ConcreteWork ;
+    rdfs:label "콘크리트공사"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-rc ;
+    ppdoc:hasDetailCategory ppdoc:category-ready-mixed-concrete ,
+        ppdoc:category-concrete-placement .
+
+ppdoc:worktype-rebar
+    a ppdoc:RebarWork ;
+    rdfs:label "철근공사"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-rc ;
+    ppdoc:hasDetailCategory ppdoc:category-rebar-material ,
+        ppdoc:category-rebar-assembly .
+
+ppdoc:worktype-formwork-shoring
+    a ppdoc:FormworkAndShoringWork ;
+    rdfs:label "거푸집 및 동바리공사"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-rc ;
+    ppdoc:hasDetailCategory ppdoc:category-formwork-installation ,
+        ppdoc:category-shoring-support-material .
+
+ppdoc:category-ready-mixed-concrete
+    a ppdoc:ReadyMixedConcrete ;
+    rdfs:label "레미콘"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-concrete ;
+    ppdoc:hasCategoryItem ppdoc:boq-concrete-ready-mix-001 .
+
+ppdoc:category-concrete-placement
+    a ppdoc:ConcretePlacement ;
+    rdfs:label "콘크리트 타설"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-concrete ;
+    ppdoc:hasCategoryItem ppdoc:boq-concrete-placement-001 .
+
+ppdoc:category-rebar-material
+    a ppdoc:RebarMaterial ;
+    rdfs:label "철근 재료"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-rebar ;
+    ppdoc:hasCategoryItem ppdoc:boq-rebar-material-001 .
+
+ppdoc:category-rebar-assembly
+    a ppdoc:RebarAssembly ;
+    rdfs:label "철근 조립"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-rebar ;
+    ppdoc:hasCategoryItem ppdoc:boq-rebar-assembly-001 .
+
+ppdoc:category-formwork-installation
+    a ppdoc:FormworkInstallation ;
+    rdfs:label "거푸집 설치"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasCategoryItem ppdoc:boq-formwork-installation-001 .
+
+ppdoc:category-shoring-support-material
+    a ppdoc:ShoringSupportMaterial ;
+    rdfs:label "동바리 지지재"@ko ;
+    ppdoc:isPartOf ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasCategoryItem ppdoc:boq-shoring-support-001 .
+
+#################################################################
+# Summary amounts
+#################################################################
 
 ppdoc:summary-rc-work-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "철근콘크리트공사 집계금액"@ko ;
-    ppdoc:hasAmount "350000000"^^xsd:decimal ;
+    ppdoc:hasWorkType ppdoc:worktype-rc ;
+    ppdoc:hasSummaryLevel "상위 공종 집계" ;
+    ppdoc:hasContractAmount "600000000"^^xsd:decimal ;
+    ppdoc:hasPreviousAmount "180000000"^^xsd:decimal ;
+    ppdoc:hasCurrentAmount "235670000"^^xsd:decimal ;
+    ppdoc:hasCumulativeAmount "415670000"^^xsd:decimal ;
+    ppdoc:hasProgressRate "69.28"^^xsd:decimal ;
+    ppdoc:hasAmount "235670000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" .
-
-ppdoc:summary-rebar-work-sample
-    a ppdoc:SummaryAmount ;
-    rdfs:label "철근공사 집계금액"@ko ;
-    ppdoc:hasAmount "120000000"^^xsd:decimal ;
-    ppdoc:hasCurrency "KRW" ;
-    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
 ppdoc:summary-concrete-work-sample
     a ppdoc:SummaryAmount ;
     rdfs:label "콘크리트공사 집계금액"@ko ;
-    ppdoc:hasAmount "150000000"^^xsd:decimal ;
+    ppdoc:hasWorkType ppdoc:worktype-concrete ;
+    ppdoc:hasSummaryLevel "하위 공종 집계" ;
+    ppdoc:hasContractAmount "200000000"^^xsd:decimal ;
+    ppdoc:hasPreviousAmount "54000000"^^xsd:decimal ;
+    ppdoc:hasCurrentAmount "73450000"^^xsd:decimal ;
+    ppdoc:hasCumulativeAmount "127450000"^^xsd:decimal ;
+    ppdoc:hasProgressRate "63.73"^^xsd:decimal ;
+    ppdoc:hasAmount "73450000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
     ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:summary-formwork-sample
+ppdoc:summary-rebar-work-sample
     a ppdoc:SummaryAmount ;
-    rdfs:label "거푸집공사 집계금액"@ko ;
-    ppdoc:hasAmount "80000000"^^xsd:decimal ;
+    rdfs:label "철근공사 집계금액"@ko ;
+    ppdoc:hasWorkType ppdoc:worktype-rebar ;
+    ppdoc:hasSummaryLevel "하위 공종 집계" ;
+    ppdoc:hasContractAmount "240000000"^^xsd:decimal ;
+    ppdoc:hasPreviousAmount "70000000"^^xsd:decimal ;
+    ppdoc:hasCurrentAmount "93420000"^^xsd:decimal ;
+    ppdoc:hasCumulativeAmount "163420000"^^xsd:decimal ;
+    ppdoc:hasProgressRate "68.09"^^xsd:decimal ;
+    ppdoc:hasAmount "93420000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
     ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:rebar-detail-sample-001
-    a ppdoc:RebarWorkDetailGroup ;
-    rdfs:label "철근공사 내역 행 001"@ko ;
-    ppdoc:hasWorkType ppdoc:rebar-work-type ;
-    ppdoc:hasSourceSheetName "기성 세부내역" ;
-    ppdoc:hasSourceCellAddress "A12:I12" ;
-    ppdoc:hasItemName "철근 가공 및 조립" ;
-    ppdoc:hasSpecification "SD400 D16" ;
-    ppdoc:hasQuantityUnit "ton" ;
-    ppdoc:hasContractQuantity "100.0"^^xsd:decimal ;
-    ppdoc:hasPreviousQuantity "40.0"^^xsd:decimal ;
-    ppdoc:hasCurrentQuantity "15.0"^^xsd:decimal ;
-    ppdoc:hasCumulativeQuantity "55.0"^^xsd:decimal ;
-    ppdoc:hasUnitPrice "800000"^^xsd:decimal ;
-    ppdoc:hasAmount "12000000"^^xsd:decimal ;
+ppdoc:summary-formwork-shoring-work-sample
+    a ppdoc:SummaryAmount ;
+    rdfs:label "거푸집 및 동바리공사 집계금액"@ko ;
+    ppdoc:hasWorkType ppdoc:worktype-formwork-shoring ;
+    ppdoc:hasSummaryLevel "하위 공종 집계" ;
+    ppdoc:hasContractAmount "160000000"^^xsd:decimal ;
+    ppdoc:hasPreviousAmount "56000000"^^xsd:decimal ;
+    ppdoc:hasCurrentAmount "68700000"^^xsd:decimal ;
+    ppdoc:hasCumulativeAmount "124700000"^^xsd:decimal ;
+    ppdoc:hasProgressRate "77.94"^^xsd:decimal ;
+    ppdoc:hasAmount "68700000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:hasInformationField ppdoc:field-item-name ,
-        ppdoc:field-specification ,
-        ppdoc:field-quantity-unit ,
-        ppdoc:field-contract-quantity ,
-        ppdoc:field-previous-quantity ,
-        ppdoc:field-current-quantity ,
-        ppdoc:field-cumulative-quantity ,
-        ppdoc:field-unit-price ,
-        ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:summary-rebar-work-sample ;
-    ppdoc:hasQuantityBasis ppdoc:rebar-quantity-item-sample-001 ;
-    ppdoc:hasEvidence ppdoc:rebar-test-report-sample ;
-    ppdoc:hasInspectionBasis ppdoc:rebar-inspection-checklist-sample .
+    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample .
 
-ppdoc:concrete-detail-sample-001
-    a ppdoc:ConcreteWorkDetailGroup ;
-    rdfs:label "콘크리트공사 내역 행 001"@ko ;
-    ppdoc:hasWorkType ppdoc:concrete-work-type ;
+#################################################################
+# Specification objects
+#################################################################
+
+ppdoc:concrete-mix-25-24-150
+    a ppdoc:ConcreteMix ;
+    rdfs:label "콘크리트 배합 25-24-150"@ko ;
+    ppdoc:hasMixCode "25-24-150" ;
+    ppdoc:hasMaxAggregateSize "25"^^xsd:decimal ;
+    ppdoc:hasAggregateSizeUnit "mm" ;
+    ppdoc:hasDesignStrength "24"^^xsd:decimal ;
+    ppdoc:hasStrengthUnit "MPa" ;
+    ppdoc:hasSlump "150"^^xsd:decimal ;
+    ppdoc:hasSlumpUnit "mm" .
+
+ppdoc:rebar-spec-sd400-hd13
+    a ppdoc:RebarSpec ;
+    rdfs:label "철근 규격 SD400 HD13"@ko ;
+    ppdoc:hasSteelGrade "SD400" ;
+    ppdoc:hasBarDiameter "HD13" ;
+    ppdoc:hasNominalDiameter "13"^^xsd:decimal ;
+    ppdoc:hasYieldStrength "400"^^xsd:decimal ;
+    ppdoc:hasYieldStrengthUnit "MPa" ;
+    ppdoc:hasBarType "이형철근" ;
+    ppdoc:hasProcessingType "현장가공" .
+
+ppdoc:formwork-spec-euroform
+    a ppdoc:FormworkSpec ;
+    rdfs:label "유로폼 거푸집"@ko ;
+    ppdoc:hasFormworkType "유로폼" ;
+    ppdoc:hasMaterialGrade "일반 합판 및 강재 프레임" .
+
+ppdoc:steel-shape-spec-h200
+    a ppdoc:SteelShapeSpec ;
+    rdfs:label "H형강 H-200x200x8x12"@ko ;
+    ppdoc:hasSteelShape "H형" ;
+    ppdoc:hasSectionSize "H-200x200x8x12" ;
+    ppdoc:hasMaterialGrade "SS275" ;
+    ppdoc:hasIntendedUse "동바리 지지재" ;
+    ppdoc:hasSupportMethod "형강 지지" .
+
+#################################################################
+# BoQ items
+#################################################################
+
+ppdoc:boq-concrete-ready-mix-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 레미콘 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
     ppdoc:hasSourceSheetName "기성 세부내역" ;
-    ppdoc:hasSourceCellAddress "A20:I20" ;
-    ppdoc:hasItemName "레미콘 타설" ;
-    ppdoc:hasSpecification "24MPa" ;
+    ppdoc:hasSourceRowNumber "120"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A120:I120" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 콘크리트공사" ;
+    ppdoc:hasWorkTypeLabel "콘크리트공사" ;
+    ppdoc:hasDetailCategoryLabel "레미콘" ;
+    ppdoc:hasItemName "레미콘" ;
+    ppdoc:hasSpecification "25-24-150" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-ready-mixed-concrete ;
+    ppdoc:hasConcreteMix ppdoc:concrete-mix-25-24-150 ;
     ppdoc:hasQuantityUnit "m3" ;
-    ppdoc:hasContractQuantity "500.0"^^xsd:decimal ;
-    ppdoc:hasPreviousQuantity "200.0"^^xsd:decimal ;
-    ppdoc:hasCurrentQuantity "50.0"^^xsd:decimal ;
-    ppdoc:hasCumulativeQuantity "250.0"^^xsd:decimal ;
-    ppdoc:hasUnitPrice "110000"^^xsd:decimal ;
-    ppdoc:hasAmount "5500000"^^xsd:decimal ;
+    ppdoc:hasContractQuantity "650.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "240.0"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "120.5"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "360.5"^^xsd:decimal ;
+    ppdoc:hasUnitPrice "85000"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "85000"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasAmount "10242500"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "10242500"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "0"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "0"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:hasInformationField ppdoc:field-item-name ,
-        ppdoc:field-specification ,
-        ppdoc:field-quantity-unit ,
-        ppdoc:field-contract-quantity ,
-        ppdoc:field-previous-quantity ,
-        ppdoc:field-current-quantity ,
-        ppdoc:field-cumulative-quantity ,
-        ppdoc:field-unit-price ,
-        ppdoc:field-amount ;
     ppdoc:aggregatesTo ppdoc:summary-concrete-work-sample ;
-    ppdoc:hasQuantityBasis ppdoc:concrete-quantity-item-sample-001 ;
-    ppdoc:hasEvidence ppdoc:ready-mixed-concrete-delivery-note-sample ;
-    ppdoc:hasInspectionBasis ppdoc:concrete-pouring-daily-report-sample .
+    ppdoc:hasQuantityBasis ppdoc:quantity-concrete-slab-001 .
 
-ppdoc:formwork-detail-sample-001
-    a ppdoc:FormworkDetailGroup ;
-    rdfs:label "거푸집공사 내역 행 001"@ko ;
-    ppdoc:hasWorkType ppdoc:formwork-type ;
+ppdoc:boq-concrete-placement-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 콘크리트 타설 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
     ppdoc:hasSourceSheetName "기성 세부내역" ;
-    ppdoc:hasSourceCellAddress "A28:I28" ;
+    ppdoc:hasSourceRowNumber "121"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A121:I121" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 콘크리트공사" ;
+    ppdoc:hasWorkTypeLabel "콘크리트공사" ;
+    ppdoc:hasDetailCategoryLabel "콘크리트 타설" ;
+    ppdoc:hasItemName "콘크리트 펌프카 타설" ;
+    ppdoc:hasSpecification "슬래브, 펌프카" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-concrete-placement ;
+    ppdoc:hasConcreteMix ppdoc:concrete-mix-25-24-150 ;
+    ppdoc:hasPlacementMethod "펌프카" ;
+    ppdoc:hasQuantityUnit "m3" ;
+    ppdoc:hasContractQuantity "650.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "240.0"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "120.5"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "360.5"^^xsd:decimal ;
+    ppdoc:hasUnitPrice "18500"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "12000"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "6500"^^xsd:decimal ;
+    ppdoc:hasAmount "2229250"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "0"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "1446000"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "783250"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:aggregatesTo ppdoc:summary-concrete-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:quantity-concrete-slab-001 .
+
+ppdoc:boq-rebar-material-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 철근 재료 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasSourceSheetName "기성 세부내역" ;
+    ppdoc:hasSourceRowNumber "210"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A210:I210" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 철근공사" ;
+    ppdoc:hasWorkTypeLabel "철근공사" ;
+    ppdoc:hasDetailCategoryLabel "철근 재료" ;
+    ppdoc:hasItemName "철근콘크리트용 봉강" ;
+    ppdoc:hasSpecification "SD400, HD13" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-rebar-material ;
+    ppdoc:hasRebarSpec ppdoc:rebar-spec-sd400-hd13 ;
+    ppdoc:hasQuantityUnit "ton" ;
+    ppdoc:hasContractQuantity "80.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "32.4"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "18.6"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "51.0"^^xsd:decimal ;
+    ppdoc:hasUnitPrice "950000"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "950000"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasAmount "17670000"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "17670000"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "0"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "0"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:aggregatesTo ppdoc:summary-rebar-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:quantity-rebar-beam-001 .
+
+ppdoc:boq-rebar-assembly-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 철근 조립 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasSourceSheetName "기성 세부내역" ;
+    ppdoc:hasSourceRowNumber "211"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A211:I211" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 철근공사" ;
+    ppdoc:hasWorkTypeLabel "철근공사" ;
+    ppdoc:hasDetailCategoryLabel "철근 조립" ;
+    ppdoc:hasItemName "철근 가공 및 조립" ;
+    ppdoc:hasSpecification "SD400, HD13" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-rebar-assembly ;
+    ppdoc:hasRebarSpec ppdoc:rebar-spec-sd400-hd13 ;
+    ppdoc:hasQuantityUnit "ton" ;
+    ppdoc:hasContractQuantity "80.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "32.4"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "18.6"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "51.0"^^xsd:decimal ;
+    ppdoc:hasUnitPrice "320000"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "280000"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "40000"^^xsd:decimal ;
+    ppdoc:hasAmount "5952000"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "0"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "5208000"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "744000"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:aggregatesTo ppdoc:summary-rebar-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:quantity-rebar-beam-001 .
+
+ppdoc:boq-formwork-installation-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 거푸집 설치 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasSourceSheetName "기성 세부내역" ;
+    ppdoc:hasSourceRowNumber "330"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A330:I330" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 거푸집 및 동바리공사" ;
+    ppdoc:hasWorkTypeLabel "거푸집 및 동바리공사" ;
+    ppdoc:hasDetailCategoryLabel "거푸집 설치" ;
     ppdoc:hasItemName "거푸집 설치" ;
     ppdoc:hasSpecification "유로폼" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-formwork-installation ;
+    ppdoc:hasFormworkSpec ppdoc:formwork-spec-euroform ;
     ppdoc:hasQuantityUnit "m2" ;
-    ppdoc:hasContractQuantity "1200.0"^^xsd:decimal ;
-    ppdoc:hasPreviousQuantity "500.0"^^xsd:decimal ;
-    ppdoc:hasCurrentQuantity "180.0"^^xsd:decimal ;
-    ppdoc:hasCumulativeQuantity "680.0"^^xsd:decimal ;
+    ppdoc:hasContractQuantity "1600.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "620.0"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "260.0"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "880.0"^^xsd:decimal ;
     ppdoc:hasUnitPrice "45000"^^xsd:decimal ;
-    ppdoc:hasAmount "8100000"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "15000"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "25000"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "5000"^^xsd:decimal ;
+    ppdoc:hasAmount "11700000"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "3900000"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "6500000"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "1300000"^^xsd:decimal ;
     ppdoc:hasCurrency "KRW" ;
-    ppdoc:hasInformationField ppdoc:field-item-name ,
-        ppdoc:field-specification ,
-        ppdoc:field-quantity-unit ,
-        ppdoc:field-contract-quantity ,
-        ppdoc:field-previous-quantity ,
-        ppdoc:field-current-quantity ,
-        ppdoc:field-cumulative-quantity ,
-        ppdoc:field-unit-price ,
-        ppdoc:field-amount ;
-    ppdoc:aggregatesTo ppdoc:summary-formwork-sample ;
-    ppdoc:hasQuantityBasis ppdoc:formwork-quantity-item-sample-001 ;
-    ppdoc:hasEvidence ppdoc:formwork-material-inspection-record-sample ;
-    ppdoc:hasInspectionBasis ppdoc:formwork-installation-checklist-sample .
+    ppdoc:aggregatesTo ppdoc:summary-formwork-shoring-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:quantity-formwork-wall-001 .
 
-ppdoc:rebar-work-type
-    a ppdoc:RebarWork ;
-    rdfs:label "철근공사"@ko .
-
-ppdoc:concrete-work-type
-    a ppdoc:ConcreteWork ;
-    rdfs:label "콘크리트공사"@ko .
-
-ppdoc:formwork-type
-    a ppdoc:Formwork ;
-    rdfs:label "거푸집공사"@ko .
-
-#################################################################
-# Information field definitions from Progress Payment Structure
-#################################################################
-
-ppdoc:field-item-name
-    a ppdoc:InformationField ;
-    rdfs:label "품명"@ko .
-
-ppdoc:field-specification
-    a ppdoc:InformationField ;
-    rdfs:label "규격"@ko .
-
-ppdoc:field-quantity-unit
-    a ppdoc:InformationField ;
-    rdfs:label "단위"@ko .
-
-ppdoc:field-contract-quantity
-    a ppdoc:InformationField ;
-    rdfs:label "계약수량"@ko .
-
-ppdoc:field-previous-quantity
-    a ppdoc:InformationField ;
-    rdfs:label "전회수량"@ko .
-
-ppdoc:field-current-quantity
-    a ppdoc:InformationField ;
-    rdfs:label "금회수량"@ko .
-
-ppdoc:field-cumulative-quantity
-    a ppdoc:InformationField ;
-    rdfs:label "누계수량"@ko .
-
-ppdoc:field-unit-price
-    a ppdoc:InformationField ;
-    rdfs:label "단가"@ko ;
-    ppdoc:hasUnitSymbol "KRW" .
-
-ppdoc:field-amount
-    a ppdoc:InformationField ;
-    rdfs:label "금액"@ko ;
-    ppdoc:hasUnitSymbol "KRW" .
-
-ppdoc:field-location
-    a ppdoc:InformationField ;
-    rdfs:label "위치"@ko .
-
-ppdoc:field-member-name
-    a ppdoc:InformationField ;
-    rdfs:label "부재명"@ko .
-
-ppdoc:field-rebar-specification
-    a ppdoc:InformationField ;
-    rdfs:label "철근 규격"@ko .
-
-ppdoc:field-rebar-diameter
-    a ppdoc:InformationField ;
-    rdfs:label "철근 직경"@ko ;
-    ppdoc:hasUnitSymbol "mm" .
-
-ppdoc:field-length
-    a ppdoc:InformationField ;
-    rdfs:label "길이"@ko ;
-    ppdoc:hasUnitSymbol "m" .
-
-ppdoc:field-count
-    a ppdoc:InformationField ;
-    rdfs:label "개수"@ko .
-
-ppdoc:field-unit-weight
-    a ppdoc:InformationField ;
-    rdfs:label "단위중량"@ko ;
-    ppdoc:hasUnitSymbol "kg/m" .
-
-ppdoc:field-calculated-weight
-    a ppdoc:InformationField ;
-    rdfs:label "산출중량"@ko ;
-    ppdoc:hasUnitSymbol "kg" .
-
-ppdoc:field-concrete-strength
-    a ppdoc:InformationField ;
-    rdfs:label "콘크리트 강도"@ko ;
-    ppdoc:hasUnitSymbol "MPa" .
-
-ppdoc:field-width
-    a ppdoc:InformationField ;
-    rdfs:label "폭"@ko ;
-    ppdoc:hasUnitSymbol "m" .
-
-ppdoc:field-height
-    a ppdoc:InformationField ;
-    rdfs:label "높이"@ko ;
-    ppdoc:hasUnitSymbol "m" .
-
-ppdoc:field-calculated-volume
-    a ppdoc:InformationField ;
-    rdfs:label "산출체적"@ko ;
-    ppdoc:hasUnitSymbol "m3" .
-
-ppdoc:field-formwork-type
-    a ppdoc:InformationField ;
-    rdfs:label "거푸집 종류"@ko .
-
-ppdoc:field-calculated-area
-    a ppdoc:InformationField ;
-    rdfs:label "산출면적"@ko ;
-    ppdoc:hasUnitSymbol "m2" .
+ppdoc:boq-shoring-support-001
+    a ppdoc:BoQItem ;
+    rdfs:label "BoQ 동바리 H형강 지지재 001"@ko ;
+    ppdoc:isPartOf ppdoc:work-type-detail-sheet-sample ;
+    ppdoc:hasSourceSheetName "기성 세부내역" ;
+    ppdoc:hasSourceRowNumber "370"^^xsd:integer ;
+    ppdoc:hasSourceCellAddress "A370:I370" ;
+    ppdoc:hasHierarchyPath "공사기성부분 내역서 > 공종별내역서 > 철근콘크리트공사 > 거푸집 및 동바리공사" ;
+    ppdoc:hasWorkTypeLabel "거푸집 및 동바리공사" ;
+    ppdoc:hasDetailCategoryLabel "동바리 지지재" ;
+    ppdoc:hasItemName "H형강 지지재" ;
+    ppdoc:hasSpecification "H-200x200x8x12" ;
+    ppdoc:belongsToDetailCategory ppdoc:category-shoring-support-material ;
+    ppdoc:hasSteelShapeSpec ppdoc:steel-shape-spec-h200 ;
+    ppdoc:hasQuantityUnit "ton" ;
+    ppdoc:hasContractQuantity "12.0"^^xsd:decimal ;
+    ppdoc:hasPreviousQuantity "3.0"^^xsd:decimal ;
+    ppdoc:hasCurrentQuantity "2.5"^^xsd:decimal ;
+    ppdoc:hasCumulativeQuantity "5.5"^^xsd:decimal ;
+    ppdoc:hasUnitPrice "1250000"^^xsd:decimal ;
+    ppdoc:hasMaterialUnitPrice "1100000"^^xsd:decimal ;
+    ppdoc:hasLaborUnitPrice "0"^^xsd:decimal ;
+    ppdoc:hasExpenseUnitPrice "150000"^^xsd:decimal ;
+    ppdoc:hasAmount "3125000"^^xsd:decimal ;
+    ppdoc:hasMaterialAmount "2750000"^^xsd:decimal ;
+    ppdoc:hasLaborAmount "0"^^xsd:decimal ;
+    ppdoc:hasExpenseAmount "375000"^^xsd:decimal ;
+    ppdoc:hasCurrency "KRW" ;
+    ppdoc:aggregatesTo ppdoc:summary-formwork-shoring-work-sample ;
+    ppdoc:hasQuantityBasis ppdoc:quantity-shoring-support-001 .
 
 #################################################################
 # Quantity calculation basis
 #################################################################
 
-ppdoc:quantity-calculation-sheet-sample
-    a ppdoc:QuantityCalculationSheet ;
-    rdfs:label "수량산출서"@ko ;
-    ppdoc:hasPart ppdoc:rebar-quantity-sheet-sample ,
-        ppdoc:concrete-quantity-sheet-sample ,
-        ppdoc:formwork-quantity-sheet-sample .
-
-ppdoc:rebar-quantity-sheet-sample
-    a ppdoc:RebarQuantityCalculationSheet ;
-    rdfs:label "철근 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
-    ppdoc:hasInformationField ppdoc:field-location ,
-        ppdoc:field-member-name ,
-        ppdoc:field-rebar-specification ,
-        ppdoc:field-rebar-diameter ,
-        ppdoc:field-length ,
-        ppdoc:field-count ,
-        ppdoc:field-unit-weight ,
-        ppdoc:field-calculated-weight ;
-    ppdoc:hasPart ppdoc:rebar-quantity-item-sample-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-sample-001 .
-
-ppdoc:concrete-quantity-sheet-sample
-    a ppdoc:ConcreteQuantityCalculationSheet ;
-    rdfs:label "콘크리트 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
-    ppdoc:hasInformationField ppdoc:field-location ,
-        ppdoc:field-member-name ,
-        ppdoc:field-concrete-strength ,
-        ppdoc:field-length ,
-        ppdoc:field-width ,
-        ppdoc:field-height ,
-        ppdoc:field-calculated-volume ;
-    ppdoc:hasPart ppdoc:concrete-quantity-item-sample-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-sample-001 .
-
-ppdoc:formwork-quantity-sheet-sample
-    a ppdoc:FormworkQuantityCalculationSheet ;
-    rdfs:label "거푸집 수량산출서"@ko ;
-    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
-    ppdoc:hasInformationField ppdoc:field-location ,
-        ppdoc:field-member-name ,
-        ppdoc:field-formwork-type ,
-        ppdoc:field-length ,
-        ppdoc:field-height ,
-        ppdoc:field-calculated-area ;
-    ppdoc:hasPart ppdoc:formwork-quantity-item-sample-001 ;
-    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-sample-001 .
-
-ppdoc:rebar-quantity-item-sample-001
-    a ppdoc:RebarQuantityCalculationItem ;
-    rdfs:label "철근 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:rebar-quantity-sheet-sample ;
-    ppdoc:hasLocation "A동 3층 보" ;
-    ppdoc:hasMemberName "보 B3-01" ;
-    ppdoc:hasRebarSpecification "SD400" ;
-    ppdoc:hasRebarDiameter "16"^^xsd:decimal ;
-    ppdoc:hasLength "6.2"^^xsd:decimal ;
-    ppdoc:hasCount "120"^^xsd:integer ;
-    ppdoc:hasUnitWeight "1.56"^^xsd:decimal ;
-    ppdoc:hasCalculatedWeight "1160.64"^^xsd:decimal ;
-    ppdoc:hasUnitSymbol "kg" ;
-    ppdoc:isQuantityBasisFor ppdoc:rebar-detail-sample-001 .
-
-ppdoc:concrete-quantity-item-sample-001
+ppdoc:quantity-concrete-slab-001
     a ppdoc:ConcreteQuantityCalculationItem ;
     rdfs:label "콘크리트 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:concrete-quantity-sheet-sample ;
-    ppdoc:hasLocation "A동 3층 슬래브" ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasTakeoffItemName "슬래브 콘크리트 수량산출" ;
+    ppdoc:hasLocation "A동 3층" ;
     ppdoc:hasMemberName "슬래브 S3" ;
-    ppdoc:hasConcreteStrength "24"^^xsd:decimal ;
+    ppdoc:hasMemberType "슬래브" ;
     ppdoc:hasLength "20.0"^^xsd:decimal ;
     ppdoc:hasWidth "10.0"^^xsd:decimal ;
-    ppdoc:hasHeight "0.2"^^xsd:decimal ;
-    ppdoc:hasCalculatedVolume "40.0"^^xsd:decimal ;
-    ppdoc:hasUnitSymbol "m3" ;
-    ppdoc:isQuantityBasisFor ppdoc:concrete-detail-sample-001 .
+    ppdoc:hasHeight "0.6025"^^xsd:decimal ;
+    ppdoc:hasCalculationFormula "길이 x 폭 x 두께" ;
+    ppdoc:hasCalculatedQuantity "120.5"^^xsd:decimal ;
+    ppdoc:hasCalculatedVolume "120.5"^^xsd:decimal ;
+    ppdoc:hasQuantityUnit "m3" ;
+    ppdoc:hasBasisDescription "A동 3층 슬래브 S3 체적 산출 결과가 콘크리트 내역 항목 수량의 근거가 된다." ;
+    ppdoc:hasConcreteMix ppdoc:concrete-mix-25-24-150 ;
+    ppdoc:isQuantityBasisFor ppdoc:boq-concrete-ready-mix-001 ,
+        ppdoc:boq-concrete-placement-001 .
 
-ppdoc:formwork-quantity-item-sample-001
+ppdoc:quantity-rebar-beam-001
+    a ppdoc:RebarQuantityCalculationItem ;
+    rdfs:label "철근 수량산출 항목 001"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasTakeoffItemName "보 철근 수량산출" ;
+    ppdoc:hasLocation "A동 3층" ;
+    ppdoc:hasMemberName "보 B3-01" ;
+    ppdoc:hasMemberType "보" ;
+    ppdoc:hasLength "6.2"^^xsd:decimal ;
+    ppdoc:hasCount "1920"^^xsd:integer ;
+    ppdoc:hasUnitWeight "0.995"^^xsd:decimal ;
+    ppdoc:hasCalculationFormula "철근 길이 x 개수 x 단위중량" ;
+    ppdoc:hasCalculatedQuantity "18600"^^xsd:decimal ;
+    ppdoc:hasCalculatedWeight "18600"^^xsd:decimal ;
+    ppdoc:hasQuantityUnit "kg" ;
+    ppdoc:hasBasisDescription "A동 3층 보 B3-01 철근 중량 산출 결과가 철근 재료 및 조립 내역 항목 수량의 근거가 된다." ;
+    ppdoc:hasRebarSpec ppdoc:rebar-spec-sd400-hd13 ;
+    ppdoc:isQuantityBasisFor ppdoc:boq-rebar-material-001 ,
+        ppdoc:boq-rebar-assembly-001 .
+
+ppdoc:quantity-formwork-wall-001
     a ppdoc:FormworkQuantityCalculationItem ;
     rdfs:label "거푸집 수량산출 항목 001"@ko ;
-    ppdoc:isPartOf ppdoc:formwork-quantity-sheet-sample ;
-    ppdoc:hasLocation "A동 3층 보" ;
-    ppdoc:hasMemberName "보 B3-01" ;
-    ppdoc:hasFormworkType "유로폼" ;
-    ppdoc:hasLength "6.2"^^xsd:decimal ;
-    ppdoc:hasHeight "0.6"^^xsd:decimal ;
-    ppdoc:hasCalculatedArea "7.44"^^xsd:decimal ;
-    ppdoc:hasUnitSymbol "m2" ;
-    ppdoc:isQuantityBasisFor ppdoc:formwork-detail-sample-001 .
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasTakeoffItemName "벽체 거푸집 수량산출" ;
+    ppdoc:hasLocation "A동 3층" ;
+    ppdoc:hasMemberName "벽체 W3" ;
+    ppdoc:hasMemberType "벽체" ;
+    ppdoc:hasLength "52.0"^^xsd:decimal ;
+    ppdoc:hasHeight "5.0"^^xsd:decimal ;
+    ppdoc:hasCalculationFormula "길이 x 높이" ;
+    ppdoc:hasCalculatedQuantity "260.0"^^xsd:decimal ;
+    ppdoc:hasCalculatedArea "260.0"^^xsd:decimal ;
+    ppdoc:hasQuantityUnit "m2" ;
+    ppdoc:hasBasisDescription "A동 3층 벽체 W3 면적 산출 결과가 거푸집 설치 내역 항목 수량의 근거가 된다." ;
+    ppdoc:hasFormworkSpec ppdoc:formwork-spec-euroform ;
+    ppdoc:isQuantityBasisFor ppdoc:boq-formwork-installation-001 .
+
+ppdoc:quantity-shoring-support-001
+    a ppdoc:FormworkQuantityCalculationItem ;
+    rdfs:label "동바리 지지재 수량산출 항목 001"@ko ;
+    ppdoc:isPartOf ppdoc:quantity-calculation-sheet-sample ;
+    ppdoc:hasTakeoffItemName "동바리 지지재 수량산출" ;
+    ppdoc:hasLocation "A동 지하층" ;
+    ppdoc:hasMemberName "동바리 지지 프레임" ;
+    ppdoc:hasMemberType "동바리 지지재" ;
+    ppdoc:hasCalculationFormula "형강 부재별 중량 합계" ;
+    ppdoc:hasCalculatedQuantity "2500"^^xsd:decimal ;
+    ppdoc:hasCalculatedWeight "2500"^^xsd:decimal ;
+    ppdoc:hasQuantityUnit "kg" ;
+    ppdoc:hasBasisDescription "A동 지하층 동바리 지지 프레임의 형강 중량 산출 결과가 동바리 지지재 내역 항목 수량의 근거가 된다." ;
+    ppdoc:hasSteelShapeSpec ppdoc:steel-shape-spec-h200 ;
+    ppdoc:isQuantityBasisFor ppdoc:boq-shoring-support-001 .
 
 #################################################################
-# Evidence and inspection documents
+# Information fields
 #################################################################
 
-ppdoc:material-ledger-sample
-    a ppdoc:MaterialReceiptAndInspectionLedger ;
-    rdfs:label "주요자재 검수 및 수불부"@ko ;
-    ppdoc:hasPart ppdoc:rebar-test-report-sample ,
-        ppdoc:ready-mixed-concrete-delivery-note-sample ,
-        ppdoc:formwork-material-inspection-record-sample .
+ppdoc:field-item-name
+    a ppdoc:InformationField ;
+    rdfs:label "품명"@ko ;
+    ppdoc:hasSourceFieldName "품명" ;
+    ppdoc:hasCanonicalFieldName "item_name" ;
+    ppdoc:hasDatatypeHint "xsd:string" ;
+    ppdoc:isRequiredField "true"^^xsd:boolean .
 
-ppdoc:rebar-test-report-sample
-    a ppdoc:MaterialEvidenceDocument ;
-    rdfs:label "철근 시험성적서"@ko ;
-    ppdoc:hasSourceFileName "철근 시험성적서.pdf" ;
-    ppdoc:evidences ppdoc:rebar-detail-sample-001 .
+ppdoc:field-specification
+    a ppdoc:InformationField ;
+    rdfs:label "규격"@ko ;
+    ppdoc:hasSourceFieldName "규격" ;
+    ppdoc:hasCanonicalFieldName "specification_text" ;
+    ppdoc:hasDatatypeHint "xsd:string" ;
+    ppdoc:isRequiredField "true"^^xsd:boolean .
 
-ppdoc:ready-mixed-concrete-delivery-note-sample
-    a ppdoc:MaterialEvidenceDocument ;
-    rdfs:label "레미콘 납품서"@ko ;
-    ppdoc:hasSourceFileName "레미콘 납품서.pdf" ;
-    ppdoc:evidences ppdoc:concrete-detail-sample-001 .
+ppdoc:field-quantity-unit
+    a ppdoc:InformationField ;
+    rdfs:label "단위"@ko ;
+    ppdoc:hasSourceFieldName "단위" ;
+    ppdoc:hasCanonicalFieldName "quantity_unit" ;
+    ppdoc:hasDatatypeHint "xsd:string" ;
+    ppdoc:isRequiredField "true"^^xsd:boolean .
 
-ppdoc:formwork-material-inspection-record-sample
-    a ppdoc:MaterialEvidenceDocument ;
-    rdfs:label "거푸집 검수자료"@ko ;
-    ppdoc:hasSourceFileName "거푸집 검수자료.pdf" ;
-    ppdoc:evidences ppdoc:formwork-detail-sample-001 .
+ppdoc:field-source-row-number
+    a ppdoc:InformationField ;
+    rdfs:label "원본 행 번호"@ko ;
+    ppdoc:hasSourceFieldName "행 번호" ;
+    ppdoc:hasCanonicalFieldName "source_row_number" ;
+    ppdoc:hasDatatypeHint "xsd:integer" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean .
 
-ppdoc:inspection-photo-group-sample
-    a ppdoc:InspectionAndPhotoDocumentGroup ;
-    rdfs:label "검측서류 및 사진대지"@ko ;
-    ppdoc:hasPart ppdoc:rebar-inspection-checklist-sample ,
-        ppdoc:concrete-pouring-daily-report-sample ,
-        ppdoc:formwork-installation-checklist-sample ,
-        ppdoc:rebar-photo-sheet-sample ,
-        ppdoc:concrete-photo-sheet-sample ,
-        ppdoc:formwork-photo-sheet-sample .
+ppdoc:field-hierarchy-path
+    a ppdoc:InformationField ;
+    rdfs:label "원본 계층 경로"@ko ;
+    ppdoc:hasSourceFieldName "상위 목차/헤딩" ;
+    ppdoc:hasCanonicalFieldName "hierarchy_path" ;
+    ppdoc:hasDatatypeHint "xsd:string" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean .
 
-ppdoc:rebar-inspection-checklist-sample
-    a ppdoc:InspectionDocument ;
-    rdfs:label "철근 배근 검측체크리스트"@ko ;
-    ppdoc:hasInspectionItem ppdoc:rebar-spacing-check-sample ,
-        ppdoc:rebar-diameter-check-sample ,
-        ppdoc:anchorage-length-check-sample ;
-    ppdoc:isInspectionBasisFor ppdoc:rebar-detail-sample-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:rebar-photo-sheet-sample .
+ppdoc:field-contract-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "계약수량"@ko ;
+    ppdoc:hasSourceFieldName "계약수량" ;
+    ppdoc:hasCanonicalFieldName "contract_quantity" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean .
 
-ppdoc:concrete-pouring-daily-report-sample
-    a ppdoc:InspectionDocument ;
-    rdfs:label "콘크리트 타설일보"@ko ;
-    ppdoc:hasInspectionItem ppdoc:pouring-location-check-sample ,
-        ppdoc:pouring-quantity-check-sample ,
-        ppdoc:curing-condition-check-sample ;
-    ppdoc:isInspectionBasisFor ppdoc:concrete-detail-sample-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:concrete-photo-sheet-sample .
+ppdoc:field-previous-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "전회수량"@ko ;
+    ppdoc:hasSourceFieldName "전회수량" ;
+    ppdoc:hasCanonicalFieldName "previous_quantity" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean .
 
-ppdoc:formwork-installation-checklist-sample
-    a ppdoc:InspectionDocument ;
-    rdfs:label "거푸집 설치 검측체크리스트"@ko ;
-    ppdoc:hasInspectionItem ppdoc:formwork-dimension-check-sample ,
-        ppdoc:support-installation-check-sample ,
-        ppdoc:vertical-horizontal-check-sample ;
-    ppdoc:isInspectionBasisFor ppdoc:formwork-detail-sample-001 ;
-    ppdoc:hasPhotoEvidence ppdoc:formwork-photo-sheet-sample .
+ppdoc:field-current-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "금회수량"@ko ;
+    ppdoc:hasSourceFieldName "금회수량" ;
+    ppdoc:hasCanonicalFieldName "current_quantity" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "true"^^xsd:boolean .
 
-ppdoc:rebar-spacing-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "철근 간격 확인"@ko .
+ppdoc:field-cumulative-quantity
+    a ppdoc:InformationField ;
+    rdfs:label "누계수량"@ko ;
+    ppdoc:hasSourceFieldName "누계수량" ;
+    ppdoc:hasCanonicalFieldName "cumulative_quantity" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean .
 
-ppdoc:rebar-diameter-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "철근 직경 확인"@ko .
+ppdoc:field-unit-price
+    a ppdoc:InformationField ;
+    rdfs:label "단가"@ko ;
+    ppdoc:hasSourceFieldName "단가" ;
+    ppdoc:hasCanonicalFieldName "unit_price" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean ;
+    ppdoc:hasUnitSymbol "KRW" .
 
-ppdoc:anchorage-length-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "정착길이 확인"@ko .
+ppdoc:field-amount
+    a ppdoc:InformationField ;
+    rdfs:label "금액"@ko ;
+    ppdoc:hasSourceFieldName "금액" ;
+    ppdoc:hasCanonicalFieldName "amount" ;
+    ppdoc:hasDatatypeHint "xsd:decimal" ;
+    ppdoc:isRequiredField "true"^^xsd:boolean ;
+    ppdoc:hasUnitSymbol "KRW" .
 
-ppdoc:pouring-location-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "타설 위치 확인"@ko .
-
-ppdoc:pouring-quantity-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "타설 물량 확인"@ko .
-
-ppdoc:curing-condition-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "양생 상태 확인"@ko .
-
-ppdoc:formwork-dimension-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "거푸집 치수 확인"@ko .
-
-ppdoc:support-installation-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "동바리 설치 확인"@ko .
-
-ppdoc:vertical-horizontal-check-sample
-    a ppdoc:InspectionItem ;
-    rdfs:label "수직도 및 수평도 확인"@ko .
-
-ppdoc:rebar-photo-sheet-sample
-    a ppdoc:PhotoSheet ;
-    rdfs:label "철근 배근 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:rebar-inspection-checklist-sample .
-
-ppdoc:concrete-photo-sheet-sample
-    a ppdoc:PhotoSheet ;
-    rdfs:label "콘크리트 타설 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:concrete-pouring-daily-report-sample .
-
-ppdoc:formwork-photo-sheet-sample
-    a ppdoc:PhotoSheet ;
-    rdfs:label "거푸집 설치 사진대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:formwork-installation-checklist-sample .
-
-#################################################################
-# Review, inspection, approval flow
-#################################################################
-
-ppdoc:site-to-supervision-package-sample
-    a ppdoc:SiteToSupervisionSubmissionPackage ;
-    rdfs:label "현장-감리본사 공문발송 문서군"@ko ;
-    ppdoc:forwardedBy ppdoc:site-office-sample ;
-    ppdoc:forwardedTo ppdoc:supervision-head-office-sample ;
-    ppdoc:hasPart ppdoc:supervision-report-sample ,
-        ppdoc:inspection-plan-sample ,
-        ppdoc:inspection-request-sample .
-
-ppdoc:supervision-report-sample
-    a ppdoc:SupervisionProgressPaymentReport ;
-    rdfs:label "기성부분 감리조서"@ko ;
-    ppdoc:reviewedBy ppdoc:supervision-head-office-sample .
-
-ppdoc:inspection-plan-sample
-    a ppdoc:InspectionExecutionPlan ;
-    rdfs:label "공사 기성검사 수행계획서"@ko ;
-    ppdoc:hasPart ppdoc:detailed-execution-plan-sample ,
-        ppdoc:prior-review-opinion-sample .
-
-ppdoc:detailed-execution-plan-sample
-    a ppdoc:DetailedExecutionPlan ;
-    rdfs:label "세부 수행계획서"@ko .
-
-ppdoc:prior-review-opinion-sample
-    a ppdoc:PriorReviewOpinion ;
-    rdfs:label "기성검사원에 대한 사전검토 의견서"@ko .
-
-ppdoc:head-office-to-owner-package-sample
-    a ppdoc:HeadOfficeToOwnerSubmissionPackage ;
-    rdfs:label "본사-발주처 공문발송 문서군"@ko ;
-    ppdoc:forwardedBy ppdoc:head-office-sample ;
-    ppdoc:submittedTo ppdoc:owner-sample ;
-    ppdoc:hasPart ppdoc:inspector-appointment-notice-sample ;
-    ppdoc:attaches ppdoc:site-to-supervision-package-sample .
-
-ppdoc:inspector-appointment-notice-sample
-    a ppdoc:InspectorAppointmentNotice ;
-    rdfs:label "검사자 임명 및 검사일자 통보"@ko .
-
-ppdoc:progress-payment-inspection-sample
-    a ppdoc:ProgressPaymentInspection ;
-    rdfs:label "기성검사"@ko ;
-    ppdoc:inspectedBy ppdoc:inspector-sample ;
-    ppdoc:hasPart ppdoc:document-inspection-sample ,
-        ppdoc:site-inspection-sample ,
-        ppdoc:inspection-photo-sheet-sample ;
-    ppdoc:precedes ppdoc:inspection-result-report-sample .
-
-ppdoc:document-inspection-sample
-    a ppdoc:DocumentInspection ;
-    rdfs:label "서류검사"@ko .
-
-ppdoc:site-inspection-sample
-    a ppdoc:SiteInspection ;
-    rdfs:label "현장검사"@ko .
-
-ppdoc:inspection-photo-sheet-sample
-    a ppdoc:PhotoSheet ;
-    rdfs:label "검사사진 대지"@ko ;
-    ppdoc:isPhotoEvidenceFor ppdoc:progress-payment-inspection-sample .
-
-ppdoc:inspection-result-report-sample
-    a ppdoc:InspectionResultReportPackage ;
-    rdfs:label "기성검사 결과 보고"@ko ;
-    ppdoc:submittedTo ppdoc:owner-sample ;
-    ppdoc:hasPart ppdoc:inspection-record-sample ,
-        ppdoc:review-opinion-sample ,
-        ppdoc:attendance-confirmation-sample ,
-        ppdoc:result-photo-attachment-sample ;
-    ppdoc:precedes ppdoc:owner-approval-sample .
-
-ppdoc:inspection-record-sample
-    a ppdoc:ProgressPaymentInspectionRecord ;
-    rdfs:label "기성검사 조서"@ko ;
-    ppdoc:hasSourceFileName "검증용 실제 사례 문서: 기성검사조서 PDF" .
-
-ppdoc:review-opinion-sample
-    a ppdoc:ProgressPaymentReviewOpinion ;
-    rdfs:label "기성검토의견서"@ko .
-
-ppdoc:attendance-confirmation-sample
-    a ppdoc:ConstructionManagerAttendanceConfirmation ;
-    rdfs:label "공사관리관 입회확인서"@ko .
-
-ppdoc:result-photo-attachment-sample
-    a ppdoc:PhotoSheet ;
-    rdfs:label "사진첨부"@ko .
-
-ppdoc:owner-approval-sample
-    a ppdoc:OwnerApproval ;
-    rdfs:label "발주처 승인"@ko ;
-    ppdoc:approvedBy ppdoc:owner-sample ;
-    ppdoc:precedes ppdoc:bound-statement-submission-sample .
-
-ppdoc:bound-statement-submission-sample
-    a ppdoc:BoundStatementSubmission ;
-    rdfs:label "기성서류 내역서 제본 제출"@ko .
+ppdoc:field-currency
+    a ppdoc:InformationField ;
+    rdfs:label "통화"@ko ;
+    ppdoc:hasSourceFieldName "통화" ;
+    ppdoc:hasCanonicalFieldName "currency" ;
+    ppdoc:hasDatatypeHint "xsd:string" ;
+    ppdoc:isRequiredField "false"^^xsd:boolean ;
+    ppdoc:hasUnitSymbol "KRW" .

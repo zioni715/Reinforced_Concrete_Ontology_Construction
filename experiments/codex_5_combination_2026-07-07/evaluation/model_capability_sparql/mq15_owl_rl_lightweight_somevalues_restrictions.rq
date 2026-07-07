@@ -1,0 +1,18 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+ASK {
+  ppdoc:BoQItem rdfs:subClassOf ?quantityRestriction .
+  ?quantityRestriction a owl:Restriction ;
+      owl:onProperty ppdoc:hasQuantityBasis ;
+      owl:someValuesFrom ppdoc:QuantityCalculationItem .
+  ppdoc:BoQItem rdfs:subClassOf ?summaryRestriction .
+  ?summaryRestriction a owl:Restriction ;
+      owl:onProperty ppdoc:aggregatesTo ;
+      owl:someValuesFrom ppdoc:SummaryAmount .
+  ppdoc:BoQItem rdfs:subClassOf ?specRestriction .
+  ?specRestriction a owl:Restriction ;
+      owl:onProperty ppdoc:hasSpecificationObject ;
+      owl:someValuesFrom ppdoc:Specification .
+}

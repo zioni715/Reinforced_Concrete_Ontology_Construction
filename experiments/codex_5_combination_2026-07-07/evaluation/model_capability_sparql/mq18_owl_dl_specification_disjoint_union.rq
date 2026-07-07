@@ -1,0 +1,11 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ASK {
+  ppdoc:Specification owl:disjointUnionOf ?specList .
+  ?specList rdf:rest*/rdf:first ppdoc:ConcreteMix .
+  ?specList rdf:rest*/rdf:first ppdoc:RebarSpec .
+  ?specList rdf:rest*/rdf:first ppdoc:FormworkSpec .
+  ?specList rdf:rest*/rdf:first ppdoc:SteelShapeSpec .
+}

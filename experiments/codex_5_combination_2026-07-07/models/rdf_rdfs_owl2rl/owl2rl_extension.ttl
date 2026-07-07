@@ -1,0 +1,111 @@
+@prefix ppdoc: <https://example.org/rc-progress-payment#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ppdoc:OWL2RLExtension
+    a owl:Ontology ;
+    dcterms:title "공사기성부분 내역서 OWL 2 RL 확장 모델"@ko ;
+    dcterms:description "규칙 기반 추론에 적합한 inverse property, transitive property, property chain, lightweight restriction 중심의 확장 모델."@ko .
+
+ppdoc:ProgressPaymentEntity a owl:Class .
+ppdoc:DocumentResource a owl:Class .
+ppdoc:ProgressPaymentStatement a owl:Class .
+ppdoc:BoQItem a owl:Class .
+ppdoc:QuantityCalculationItem a owl:Class .
+ppdoc:SummaryAmount a owl:Class .
+ppdoc:CostItem a owl:Class .
+ppdoc:Specification a owl:Class .
+ppdoc:ConcreteMix a owl:Class .
+ppdoc:RebarSpec a owl:Class .
+ppdoc:FormworkSpec a owl:Class .
+ppdoc:SteelShapeSpec a owl:Class .
+
+ppdoc:hasPart
+    a owl:ObjectProperty ;
+    owl:inverseOf ppdoc:isPartOf .
+
+ppdoc:isPartOf
+    a owl:ObjectProperty .
+
+ppdoc:hasSubWorkType
+    a owl:ObjectProperty ,
+        owl:TransitiveProperty .
+
+ppdoc:hasWorkTypeSection a owl:ObjectProperty .
+ppdoc:hasWorkType a owl:ObjectProperty .
+ppdoc:hasSpecificationObject a owl:ObjectProperty .
+ppdoc:hasConcreteMix a owl:ObjectProperty .
+ppdoc:hasRebarSpec a owl:ObjectProperty .
+ppdoc:hasFormworkSpec a owl:ObjectProperty .
+ppdoc:hasSteelShapeSpec a owl:ObjectProperty .
+ppdoc:hasQuantityBasis
+    a owl:ObjectProperty ;
+    owl:inverseOf ppdoc:isQuantityBasisFor .
+
+ppdoc:isQuantityBasisFor
+    a owl:ObjectProperty .
+
+ppdoc:aggregatesTo
+    a owl:ObjectProperty ;
+    owl:inverseOf ppdoc:aggregates .
+
+ppdoc:aggregates
+    a owl:ObjectProperty .
+
+ppdoc:hasCostBasis
+    a owl:ObjectProperty ,
+        owl:TransitiveProperty .
+
+ppdoc:hasTraceableSummary
+    a owl:ObjectProperty ;
+    rdfs:label "추적 가능한 집계금액을 가진다"@ko ;
+    owl:propertyChainAxiom ( ppdoc:hasQuantityBasis ppdoc:isQuantityBasisFor ppdoc:aggregatesTo ) .
+
+ppdoc:BoQItem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasQuantityBasis ;
+        owl:someValuesFrom ppdoc:QuantityCalculationItem
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:aggregatesTo ;
+        owl:someValuesFrom ppdoc:SummaryAmount
+    ] ,
+    [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasSpecificationObject ;
+        owl:someValuesFrom ppdoc:Specification
+    ] .
+
+ppdoc:QuantityCalculationItem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:isQuantityBasisFor ;
+        owl:someValuesFrom ppdoc:BoQItem
+    ] .
+
+ppdoc:CostItem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ppdoc:hasCostBasis ;
+        owl:someValuesFrom ppdoc:ProgressPaymentEntity
+    ] .
+
+ppdoc:ConcreteMix owl:disjointWith ppdoc:RebarSpec .
+ppdoc:ConcreteMix owl:disjointWith ppdoc:FormworkSpec .
+ppdoc:ConcreteMix owl:disjointWith ppdoc:SteelShapeSpec .
+ppdoc:RebarSpec owl:disjointWith ppdoc:FormworkSpec .
+ppdoc:RebarSpec owl:disjointWith ppdoc:SteelShapeSpec .
+ppdoc:FormworkSpec owl:disjointWith ppdoc:SteelShapeSpec .
+
+ppdoc:hasAmount a owl:DatatypeProperty .
+ppdoc:hasCurrentQuantity a owl:DatatypeProperty .
+ppdoc:hasUnitPrice a owl:DatatypeProperty .
+ppdoc:hasQuantityUnit a owl:DatatypeProperty .
+ppdoc:hasDesignStrength a owl:DatatypeProperty .
+ppdoc:hasSteelGrade a owl:DatatypeProperty .
+ppdoc:hasFormworkType a owl:DatatypeProperty .

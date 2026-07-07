@@ -1,0 +1,17 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?rcSummary ?rcCurrentAmount ?childCurrentTotal ?difference
+WHERE {
+  ?rcSummary a ppdoc:SummaryAmount ;
+             ppdoc:hasWorkType ppdoc:worktype-rc ;
+             ppdoc:hasCurrentAmount ?rcCurrentAmount .
+  {
+    SELECT (SUM(?childCurrentAmount) AS ?childCurrentTotal)
+    WHERE {
+      ?childSummary a ppdoc:SummaryAmount ;
+                    ppdoc:aggregatesTo ppdoc:summary-rc-work-sample ;
+                    ppdoc:hasCurrentAmount ?childCurrentAmount .
+    }
+  }
+  BIND(?rcCurrentAmount - ?childCurrentTotal AS ?difference)
+}

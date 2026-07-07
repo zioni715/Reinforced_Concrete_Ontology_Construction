@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?quantityItem ?mix ?strength ?slump ?aggregateSize
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasConcreteMix ?mix ;
+           ppdoc:hasQuantityBasis ?quantityItem .
+  ?quantityItem ppdoc:hasConcreteMix ?mix .
+  ?mix ppdoc:hasDesignStrength ?strength ;
+       ppdoc:hasSlump ?slump ;
+       ppdoc:hasMaxAggregateSize ?aggregateSize .
+}
+ORDER BY ?boqItem

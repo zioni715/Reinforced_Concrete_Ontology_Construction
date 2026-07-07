@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?costItem ?category ?name ?amount ?formula ?basis
+WHERE {
+  ppdoc:cost-section-rc-work ppdoc:hasCostItem ?costItem .
+  ?costItem ppdoc:hasCostCategory ?category ;
+            ppdoc:hasCostItemName ?name ;
+            ppdoc:hasAmount ?amount ;
+            ppdoc:hasCalculationFormula ?formula ;
+            ppdoc:hasCostBasis ?basis .
+}
+ORDER BY ?category ?name

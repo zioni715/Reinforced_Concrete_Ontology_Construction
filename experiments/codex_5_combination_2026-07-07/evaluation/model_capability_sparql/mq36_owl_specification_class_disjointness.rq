@@ -1,0 +1,23 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ASK {
+  {
+    ppdoc:ConcreteMix owl:disjointWith ppdoc:RebarSpec .
+    ppdoc:ConcreteMix owl:disjointWith ppdoc:FormworkSpec .
+    ppdoc:ConcreteMix owl:disjointWith ppdoc:SteelShapeSpec .
+    ppdoc:RebarSpec owl:disjointWith ppdoc:FormworkSpec .
+    ppdoc:RebarSpec owl:disjointWith ppdoc:SteelShapeSpec .
+    ppdoc:FormworkSpec owl:disjointWith ppdoc:SteelShapeSpec .
+  }
+  UNION
+  {
+    ?allDisjoint a owl:AllDisjointClasses ;
+        owl:members ?members .
+    ?members rdf:rest*/rdf:first ppdoc:ConcreteMix .
+    ?members rdf:rest*/rdf:first ppdoc:RebarSpec .
+    ?members rdf:rest*/rdf:first ppdoc:FormworkSpec .
+    ?members rdf:rest*/rdf:first ppdoc:SteelShapeSpec .
+  }
+}

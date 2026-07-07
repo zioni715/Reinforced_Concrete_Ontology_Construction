@@ -1,0 +1,333 @@
+{
+  "experiment_id": "codex_5_combination_2026-07-07",
+  "description": "Answer key for SPARQL-based capability inspection of five RDF-based representation combinations.",
+  "models": [
+    "rdf_rdfs",
+    "rdf_rdfs_skos",
+    "rdf_rdfs_owl2rl",
+    "rdf_rdfs_owl2dl",
+    "rdf_rdfs_shacl"
+  ],
+  "queries": [
+    {
+      "id": "mq01",
+      "file": "mq01_core_rdfs_document_class_hierarchy.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model preserve the RDFS document class hierarchy from progress-payment documents down to the progress-payment statement?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq02",
+      "file": "mq02_core_statement_four_subdocuments.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model represent the four subdocuments of the progress-payment statement?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq03",
+      "file": "mq03_core_cross_document_worktype_sections.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model preserve concrete, rebar, and formwork/shoring work-type sections across summary, detail, and quantity sheets?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq04",
+      "file": "mq04_core_shared_specification_trace.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model connect BoQ items and quantity-calculation items through shared specification objects?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq05",
+      "file": "mq05_core_cost_basis_path.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model expose a cost-basis path from cost items to the reinforced-concrete summary amount?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq06",
+      "file": "mq06_skos_concept_scheme_top_concepts.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the model include a SKOS concept scheme with top concepts for documents, work types, detail categories, and specifications?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq07",
+      "file": "mq07_skos_worktype_broader_narrower.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the model manage reinforced-concrete work-type vocabulary using SKOS broader/narrower relations?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq08",
+      "file": "mq08_skos_document_type_mapping.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the model map document-type concepts to ontology classes using SKOS mapping properties?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq09",
+      "file": "mq09_skos_specification_alt_labels.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the model provide controlled labels and alternative labels for specification concepts?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq10",
+      "file": "mq10_skos_instance_concept_mapping.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the model connect work-type and specification instances to SKOS concepts?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq11",
+      "file": "mq11_owl_ontology_declaration.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the model declare an OWL ontology extension?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq12",
+      "file": "mq12_owl_inverse_properties.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the model define inverse properties for containment, quantity basis, and aggregation relations?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq13",
+      "file": "mq13_owl_transitive_properties.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the model define transitive properties for work-type hierarchy and cost-basis dependency?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq14",
+      "file": "mq14_owl_property_chain_trace.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the model include a property chain axiom for traceable summary evidence?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq15",
+      "file": "mq15_owl_rl_lightweight_somevalues_restrictions.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the model use lightweight OWL someValuesFrom restrictions suitable for OWL 2 RL-style inference?",
+      "expected_true_models": ["rdf_rdfs_owl2rl"]
+    },
+    {
+      "id": "mq16",
+      "file": "mq16_owl_dl_equivalent_traceable_boq_item.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model define TraceableBoQItem as an equivalent class using an intersection of BoQ, quantity-basis, aggregation, and specification restrictions?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq17",
+      "file": "mq17_owl_dl_boq_key.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model define an OWL key for BoQ item identity based on source file, sheet, and row number?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq18",
+      "file": "mq18_owl_dl_specification_disjoint_union.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model define Specification as a disjoint union of concrete, rebar, formwork, and steel-shape specifications?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq19",
+      "file": "mq19_owl_dl_concrete_mix_cardinality.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model express exact datatype cardinalities for concrete mix strength, slump, and aggregate size?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq20",
+      "file": "mq20_owl_dl_rebar_spec_cardinality.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model express exact datatype cardinalities for rebar steel grade and bar diameter?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq21",
+      "file": "mq21_owl_dl_statement_subdocument_restrictions.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the model express OWL restrictions that a progress-payment statement contains the four required subdocument types?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq22",
+      "file": "mq22_shacl_statement_metadata_shape.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model define a SHACL shape for required progress-payment statement metadata?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq23",
+      "file": "mq23_shacl_boq_required_literal_fields.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model define SHACL required field and datatype checks for BoQ item literals?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq24",
+      "file": "mq24_shacl_boq_traceability_shapes.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model require BoQ items to have specification objects, quantity basis, and summary aggregation targets?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq25",
+      "file": "mq25_shacl_quantity_item_shape.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model define required fields for quantity-calculation items?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq26",
+      "file": "mq26_shacl_specification_shapes.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model define SHACL shapes for concrete mix, rebar specification, and formwork specification objects?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq27",
+      "file": "mq27_shacl_boq_amount_arithmetic_constraint.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model include a SHACL SPARQL constraint for current quantity times unit price equals amount?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq28",
+      "file": "mq28_shacl_cost_component_reconciliation_constraint.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model include a SHACL SPARQL constraint for material, labor, and expense amount reconciliation?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq29",
+      "file": "mq29_shacl_quantity_basis_unit_conversion_constraint.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model include a SHACL SPARQL constraint for quantity-basis unit conversion such as kg to ton?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq30",
+      "file": "mq30_shacl_direct_cost_reconciliation_constraint.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the model include a SHACL SPARQL constraint that direct cost matches the reinforced-concrete summary basis?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq31",
+      "file": "mq31_core_boq_table_format_required_fields.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Does the model define a BoQ table format with required item name, specification, unit, current quantity, unit price, and amount fields?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq32",
+      "file": "mq32_core_boq_source_traceability_completeness.rq",
+      "criterion": "core_rdf_rdfs_structure",
+      "weight": 2.0,
+      "question": "Do all BoQ items preserve source sheet, source row, source cell address, hierarchy path, work-type label, and detail-category label?",
+      "expected_true_models": ["rdf_rdfs", "rdf_rdfs_skos", "rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl", "rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq33",
+      "file": "mq33_skos_detail_category_concept_coverage.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the SKOS extension cover detail-category concepts and map them to ontology classes?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq34",
+      "file": "mq34_skos_multilingual_and_synonym_labels.rq",
+      "criterion": "skos_vocabulary_control",
+      "weight": 2.0,
+      "question": "Does the SKOS extension provide Korean preferred labels and synonym or multilingual alternative labels for key work and detail concepts?",
+      "expected_true_models": ["rdf_rdfs_skos"]
+    },
+    {
+      "id": "mq35",
+      "file": "mq35_owl_property_typing_for_core_relations.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the OWL extension type core traceability relations as object properties and value fields as datatype properties?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq36",
+      "file": "mq36_owl_specification_class_disjointness.rq",
+      "criterion": "owl_reasoning_constructs",
+      "weight": 3.0,
+      "question": "Does the OWL extension express disjointness among concrete, rebar, formwork, and steel-shape specification classes?",
+      "expected_true_models": ["rdf_rdfs_owl2rl", "rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq37",
+      "file": "mq37_owl_dl_boq_literal_cardinality.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the OWL 2 DL extension express exact datatype cardinalities for BoQ unit, current quantity, and amount?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq38",
+      "file": "mq38_owl_dl_quantity_basis_inverse_cardinality.rq",
+      "criterion": "owl_dl_expressive_semantics",
+      "weight": 4.0,
+      "question": "Does the OWL 2 DL extension require each quantity-calculation item to be a basis for at least one BoQ item?",
+      "expected_true_models": ["rdf_rdfs_owl2dl"]
+    },
+    {
+      "id": "mq39",
+      "file": "mq39_shacl_statement_subdocument_qualified_shapes.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the SHACL extension validate that the progress-payment statement contains one cost sheet, one summary sheet, one detail sheet, and one quantity sheet?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    },
+    {
+      "id": "mq40",
+      "file": "mq40_shacl_summary_amount_required_fields.rq",
+      "criterion": "shacl_data_quality_validation",
+      "weight": 3.0,
+      "question": "Does the SHACL extension validate required current amount, cumulative amount, and progress rate fields for summary amounts?",
+      "expected_true_models": ["rdf_rdfs_shacl"]
+    }
+  ]
+}

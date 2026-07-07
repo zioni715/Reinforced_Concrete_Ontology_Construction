@@ -1,0 +1,8 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ASK {
+  ?costItem a ?costClass .
+  ?costClass rdfs:subClassOf* ppdoc:CostItem .
+  ?costItem ppdoc:hasCostBasis+ ppdoc:summary-rc-work-sample .
+}

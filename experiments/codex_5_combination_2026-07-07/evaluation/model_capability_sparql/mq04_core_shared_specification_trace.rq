@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ASK {
+  ?boq a ppdoc:BoQItem ;
+       ppdoc:hasQuantityBasis ?quantityItem ;
+       ?specProperty ?spec .
+  ?quantityItem ?specProperty ?spec .
+  ?specProperty rdfs:subPropertyOf ppdoc:hasSpecificationObject .
+  ?spec a ?specClass .
+  ?specClass rdfs:subClassOf* ppdoc:Specification .
+}

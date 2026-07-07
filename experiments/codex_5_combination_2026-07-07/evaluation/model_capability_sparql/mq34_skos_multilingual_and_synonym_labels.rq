@@ -1,0 +1,17 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:concept-ready-mixed-concrete skos:prefLabel ?readyMixedConcreteLabel ;
+      skos:altLabel ?readyMixedConcreteAlt .
+  ppdoc:concept-rebar-work skos:prefLabel ?rebarWorkLabel ;
+      skos:altLabel ?rebarWorkAlt .
+  ppdoc:concept-formwork-shoring-work skos:prefLabel ?formworkShoringLabel ;
+      skos:altLabel ?formworkShoringAlt .
+  FILTER(LANG(?readyMixedConcreteLabel) = "ko")
+  FILTER(LANG(?readyMixedConcreteAlt) = "en")
+  FILTER(LANG(?rebarWorkLabel) = "ko")
+  FILTER(LANG(?rebarWorkAlt) = "ko")
+  FILTER(LANG(?formworkShoringLabel) = "ko")
+  FILTER(LANG(?formworkShoringAlt) = "ko")
+}

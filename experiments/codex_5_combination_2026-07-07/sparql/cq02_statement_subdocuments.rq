@@ -1,0 +1,16 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?subDocument ?type ?label
+WHERE {
+  ppdoc:progress-payment-statement-sample ppdoc:hasPart ?subDocument .
+  ?subDocument a ?type ;
+               rdfs:label ?label .
+  FILTER(?type IN (
+    ppdoc:CostCalculationSheet,
+    ppdoc:WorkTypeSummarySheet,
+    ppdoc:WorkTypeDetailSheet,
+    ppdoc:QuantityCalculationSheet
+  ))
+}
+ORDER BY ?label

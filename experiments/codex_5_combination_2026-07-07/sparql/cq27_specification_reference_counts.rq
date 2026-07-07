@@ -1,0 +1,27 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?specObject ?specClass (COUNT(DISTINCT ?boqItem) AS ?boqRefCount) (COUNT(DISTINCT ?quantityItem) AS ?quantityRefCount)
+WHERE {
+  VALUES ?specClass { ppdoc:ConcreteMix ppdoc:RebarSpec ppdoc:FormworkSpec ppdoc:SteelShapeSpec }
+  ?specObject a ?specClass .
+  OPTIONAL {
+    ?boqItem a ppdoc:BoQItem .
+    {
+      ?boqItem ppdoc:hasConcreteMix ?specObject .
+    }
+    UNION { ?boqItem ppdoc:hasRebarSpec ?specObject . }
+    UNION { ?boqItem ppdoc:hasFormworkSpec ?specObject . }
+    UNION { ?boqItem ppdoc:hasSteelShapeSpec ?specObject . }
+  }
+  OPTIONAL {
+    ?quantityItem a ppdoc:QuantityCalculationItem .
+    {
+      ?quantityItem ppdoc:hasConcreteMix ?specObject .
+    }
+    UNION { ?quantityItem ppdoc:hasRebarSpec ?specObject . }
+    UNION { ?quantityItem ppdoc:hasFormworkSpec ?specObject . }
+    UNION { ?quantityItem ppdoc:hasSteelShapeSpec ?specObject . }
+  }
+}
+GROUP BY ?specObject ?specClass
+ORDER BY ?specClass ?specObject

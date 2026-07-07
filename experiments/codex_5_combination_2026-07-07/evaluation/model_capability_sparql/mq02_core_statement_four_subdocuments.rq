@@ -1,0 +1,12 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+ASK {
+  ppdoc:progress-payment-statement-sample ppdoc:hasPart ?costSheet, ?summarySheet, ?detailSheet, ?quantitySheet .
+  ?costSheet a ppdoc:CostCalculationSheet .
+  ?summarySheet a ppdoc:WorkTypeSummarySheet .
+  ?detailSheet a ppdoc:WorkTypeDetailSheet .
+  ?quantitySheet a ppdoc:QuantityCalculationSheet .
+  FILTER(?costSheet != ?summarySheet && ?costSheet != ?detailSheet && ?costSheet != ?quantitySheet)
+  FILTER(?summarySheet != ?detailSheet && ?summarySheet != ?quantitySheet)
+  FILTER(?detailSheet != ?quantitySheet)
+}

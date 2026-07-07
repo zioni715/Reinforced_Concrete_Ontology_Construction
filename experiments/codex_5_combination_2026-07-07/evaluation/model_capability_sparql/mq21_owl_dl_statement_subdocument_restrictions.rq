@@ -1,0 +1,18 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+ASK {
+  ppdoc:ProgressPaymentStatement rdfs:subClassOf ?costRestriction .
+  ?costRestriction owl:onProperty ppdoc:hasPart ;
+      owl:someValuesFrom ppdoc:CostCalculationSheet .
+  ppdoc:ProgressPaymentStatement rdfs:subClassOf ?summaryRestriction .
+  ?summaryRestriction owl:onProperty ppdoc:hasPart ;
+      owl:someValuesFrom ppdoc:WorkTypeSummarySheet .
+  ppdoc:ProgressPaymentStatement rdfs:subClassOf ?detailRestriction .
+  ?detailRestriction owl:onProperty ppdoc:hasPart ;
+      owl:someValuesFrom ppdoc:WorkTypeDetailSheet .
+  ppdoc:ProgressPaymentStatement rdfs:subClassOf ?quantityRestriction .
+  ?quantityRestriction owl:onProperty ppdoc:hasPart ;
+      owl:someValuesFrom ppdoc:QuantityCalculationSheet .
+}

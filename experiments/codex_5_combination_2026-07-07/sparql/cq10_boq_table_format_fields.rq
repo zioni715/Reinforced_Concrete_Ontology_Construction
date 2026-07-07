@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?field ?label ?sourceField ?canonicalField ?datatypeHint ?required
+WHERE {
+  ppdoc:boq-item-table-format-sample ppdoc:definesField ?field .
+  ?field rdfs:label ?label ;
+         ppdoc:hasSourceFieldName ?sourceField ;
+         ppdoc:hasCanonicalFieldName ?canonicalField ;
+         ppdoc:hasDatatypeHint ?datatypeHint ;
+         ppdoc:isRequiredField ?required .
+}
+ORDER BY ?canonicalField

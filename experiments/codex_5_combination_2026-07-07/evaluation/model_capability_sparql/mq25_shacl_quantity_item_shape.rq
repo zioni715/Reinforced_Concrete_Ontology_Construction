@@ -1,0 +1,43 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ASK {
+  ppdoc:QuantityCalculationItemShape a sh:NodeShape ;
+      sh:targetClass ppdoc:QuantityCalculationItem .
+  FILTER EXISTS {
+    ppdoc:QuantityCalculationItemShape sh:property [
+      sh:path ppdoc:hasTakeoffItemName ;
+      sh:minCount 1 ;
+      sh:datatype xsd:string
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:QuantityCalculationItemShape sh:property [
+      sh:path ppdoc:hasLocation ;
+      sh:minCount 1 ;
+      sh:datatype xsd:string
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:QuantityCalculationItemShape sh:property [
+      sh:path ppdoc:hasMemberName ;
+      sh:minCount 1 ;
+      sh:datatype xsd:string
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:QuantityCalculationItemShape sh:property [
+      sh:path ppdoc:hasCalculatedQuantity ;
+      sh:minCount 1 ;
+      sh:datatype xsd:decimal
+    ] .
+  }
+  FILTER EXISTS {
+    ppdoc:QuantityCalculationItemShape sh:property [
+      sh:path ppdoc:isQuantityBasisFor ;
+      sh:minCount 1 ;
+      sh:class ppdoc:BoQItem
+    ] .
+  }
+}

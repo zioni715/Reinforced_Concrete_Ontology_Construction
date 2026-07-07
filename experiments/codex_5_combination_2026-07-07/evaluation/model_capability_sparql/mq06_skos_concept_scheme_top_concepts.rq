@@ -1,0 +1,10 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:SKOSExtension a skos:ConceptScheme ;
+      skos:hasTopConcept ppdoc:concept-document-type ,
+          ppdoc:concept-work-type ,
+          ppdoc:concept-detail-category ,
+          ppdoc:concept-specification-type .
+}

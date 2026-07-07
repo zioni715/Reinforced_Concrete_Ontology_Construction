@@ -1,0 +1,14 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+ASK {
+  ppdoc:QuantityBasisUnitConversionShape a sh:NodeShape ;
+      sh:targetClass ppdoc:BoQItem ;
+      sh:sparql ?constraint .
+  ?constraint sh:message ?message ;
+      sh:select ?selectText .
+  FILTER(CONTAINS(STR(?message), "단위 변환"))
+  FILTER(CONTAINS(?selectText, "hasQuantityBasis"))
+  FILTER(CONTAINS(?selectText, "kg"))
+  FILTER(CONTAINS(?selectText, "ton"))
+}

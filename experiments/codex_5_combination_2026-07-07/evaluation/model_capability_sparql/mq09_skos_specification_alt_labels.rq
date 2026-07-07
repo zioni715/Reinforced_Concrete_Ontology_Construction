@@ -1,0 +1,15 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  ppdoc:concept-concrete-mix skos:prefLabel ?concreteLabel ;
+      skos:altLabel ?concreteAlt ;
+      skos:exactMatch ppdoc:ConcreteMix .
+  ppdoc:concept-rebar-spec skos:prefLabel ?rebarLabel ;
+      skos:altLabel ?rebarAlt ;
+      skos:exactMatch ppdoc:RebarSpec .
+  ppdoc:concept-formwork-spec skos:prefLabel ?formworkLabel ;
+      skos:altLabel ?formworkAlt ;
+      skos:exactMatch ppdoc:FormworkSpec .
+  FILTER(LANG(?concreteLabel) = "ko" && LANG(?rebarLabel) = "ko" && LANG(?formworkLabel) = "ko")
+}

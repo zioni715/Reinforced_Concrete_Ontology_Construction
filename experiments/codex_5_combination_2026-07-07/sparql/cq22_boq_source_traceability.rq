@@ -1,0 +1,13 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+
+SELECT ?boqItem ?rowNumber ?cellAddress ?sheetName ?workTypeLabel ?categoryLabel ?hierarchyPath
+WHERE {
+  ?boqItem a ppdoc:BoQItem ;
+           ppdoc:hasSourceRowNumber ?rowNumber ;
+           ppdoc:hasSourceCellAddress ?cellAddress ;
+           ppdoc:hasSourceSheetName ?sheetName ;
+           ppdoc:hasWorkTypeLabel ?workTypeLabel ;
+           ppdoc:hasDetailCategoryLabel ?categoryLabel ;
+           ppdoc:hasHierarchyPath ?hierarchyPath .
+}
+ORDER BY ?rowNumber

@@ -1,0 +1,8 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+ASK {
+  ppdoc:hasPart owl:inverseOf ppdoc:isPartOf .
+  ppdoc:hasQuantityBasis owl:inverseOf ppdoc:isQuantityBasisFor .
+  ppdoc:aggregatesTo owl:inverseOf ppdoc:aggregates .
+}

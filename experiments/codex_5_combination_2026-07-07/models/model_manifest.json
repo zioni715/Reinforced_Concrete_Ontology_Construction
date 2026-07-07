@@ -1,0 +1,47 @@
+{
+  "experiment_id": "codex_5_combination_2026-07-07",
+  "base_data_files": [
+    "ontology/ontology.ttl",
+    "ontology/sample_data.ttl"
+  ],
+  "combinations": [
+    {
+      "id": "rdf_rdfs",
+      "label": "RDF/RDFS",
+      "description": "Baseline model using the current RDF/RDFS schema and sample graph only.",
+      "extension_files": []
+    },
+    {
+      "id": "rdf_rdfs_skos",
+      "label": "RDF/RDFS + SKOS",
+      "description": "Adds controlled vocabulary, concept hierarchy, labels, alternative labels, and concept mappings for documents, work types, detail categories, and specifications.",
+      "extension_files": [
+        "experiments/codex_5_combination_2026-07-07/models/rdf_rdfs_skos/skos_extension.ttl"
+      ]
+    },
+    {
+      "id": "rdf_rdfs_owl2rl",
+      "label": "RDF/RDFS + OWL 2 RL",
+      "description": "Adds lightweight OWL axioms that are suitable for rule-oriented inference, including inverse properties, transitive hierarchy, property chain evidence, and lightweight class restrictions.",
+      "extension_files": [
+        "experiments/codex_5_combination_2026-07-07/models/rdf_rdfs_owl2rl/owl2rl_extension.ttl"
+      ]
+    },
+    {
+      "id": "rdf_rdfs_owl2dl",
+      "label": "RDF/RDFS + OWL 2 DL",
+      "description": "Adds expressive OWL 2 DL axioms for qualified cardinality, disjoint union, equivalent classes, keys, and explicit object/datatype property semantics.",
+      "extension_files": [
+        "experiments/codex_5_combination_2026-07-07/models/rdf_rdfs_owl2dl/owl2dl_extension.ttl"
+      ]
+    },
+    {
+      "id": "rdf_rdfs_shacl",
+      "label": "RDF/RDFS + SHACL",
+      "description": "Adds SHACL node shapes and SPARQL constraints for required fields, datatypes, document composition, quantity basis, amount arithmetic, unit conversion, and cost reconciliation.",
+      "extension_files": [
+        "experiments/codex_5_combination_2026-07-07/models/rdf_rdfs_shacl/shacl_shapes.ttl"
+      ]
+    }
+  ]
+}

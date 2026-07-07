@@ -1,0 +1,37 @@
+PREFIX ppdoc: <https://example.org/rc-progress-payment#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?specObject ?specType
+WHERE {
+  {
+    ?specObject a ppdoc:ConcreteMix ;
+                ppdoc:hasDesignStrength ?designStrength ;
+                ppdoc:hasSlump ?slump ;
+                ppdoc:hasMaxAggregateSize ?maxAggregateSize .
+    BIND("ConcreteMix" AS ?specType)
+  }
+  UNION
+  {
+    ?specObject a ppdoc:RebarSpec ;
+                ppdoc:hasSteelGrade ?steelGrade ;
+                ppdoc:hasBarDiameter ?barDiameter ;
+                ppdoc:hasYieldStrength ?yieldStrength .
+    BIND("RebarSpec" AS ?specType)
+  }
+  UNION
+  {
+    ?specObject a ppdoc:FormworkSpec ;
+                ppdoc:hasFormworkType ?formworkType ;
+                ppdoc:hasMaterialGrade ?materialGrade .
+    BIND("FormworkSpec" AS ?specType)
+  }
+  UNION
+  {
+    ?specObject a ppdoc:SteelShapeSpec ;
+                ppdoc:hasSteelShape ?steelShape ;
+                ppdoc:hasSectionSize ?sectionSize ;
+                ppdoc:hasMaterialGrade ?materialGrade .
+    BIND("SteelShapeSpec" AS ?specType)
+  }
+}
+ORDER BY ?specType ?specObject
